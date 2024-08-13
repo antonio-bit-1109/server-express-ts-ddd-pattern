@@ -1,0 +1,29 @@
+
+
+
+ENTITA:
+le entità solo gli elementi fondamentali che sono presenti all interno dell applicazione.
+es. ECOMMERCE entità sono utente, prodotto , ordine , carrello , pagamento , spedizione 
+ognuno di questi  elementi possiede delle proprietà e dei metodi che lo descrivono.
+
+VALUE OBJECT:
+i value object sono elementi importanti della mia applicazione : email , prezzo , quantità , indirizzo , metodo di pagamento che a loro volta possono avere dei metodi di validazione (comportamenti)
+
+I Value Objects aiutano a modellare concetti che hanno significato per il dominio, mantenendo coerenza e semplificando il codice. Ad esempio, invece di trattare email, indirizzi, o prezzi come semplici stringhe o numeri, li rappresenti con Value Objects che incapsulano la logica e i comportamenti rilevanti.
+
+REPOSITORY : 
+le repository sono quelle interfacce che mettono in relazione gli elementi del dominio con il database. 
+servono in sostanza per salvare le informazioni delle entità sul db e per riprenderle quando servono.
+nel caso dello user: 
+-salvare uno user
+-ricavare uno user by id 
+-eliminare uno user 
+
+SERVICES: 
+I services sono interfacce che racchiudono tutti i servizi/operazioni che è possibile fare su una determinata entità 
+
+Logica di Business Complessa: I Services incapsulano la logica di business che non può essere comodamente inserita in un'entità o in un Value Object. Questa logica può riguardare operazioni complesse, orchestrazioni tra più entità, o regole che si applicano a livello dell'applicazione.
+
+Stateless: Generalmente, i Services non mantengono uno stato proprio, il che significa che non dovrebbero avere attributi che memorizzano dati tra un'operazione e l'altra. In altre parole, un Service esegue operazioni ma non conserva dati tra le chiamate.
+
+Interazione con Repository: I Services interagiscono spesso con le repository per recuperare o persistere entità. La logica di business contenuta nei Services utilizza le entità e i Value Objects e li manipola per ottenere un risultato, che viene poi salvato o restituito.
