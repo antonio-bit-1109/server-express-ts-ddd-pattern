@@ -51,8 +51,8 @@ const editUser = async (req: Request, res: Response, next: NextFunction) => {
         // dati dal body per l'edit I CAMPI DA NON MODIFICARE DEVONO ESSERE STRINGHE VUOTE ("")
         const editData: DTO_Data_User_Edit = req.body;
         const esitoEdit = await userServices.EditUser(editData);
-
-        if (esitoEdit instanceof String) {
+        console.log(esitoEdit);
+        if (typeof esitoEdit === "string") {
             return res.status(200).json({ message: "mofiche salvate correttamente." });
         }
         if (esitoEdit instanceof Error) {

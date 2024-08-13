@@ -13,7 +13,8 @@ class CognomeUser {
 
         this.onlyLetters(cognome);
         this.maxLength(cognome);
-        return cognome;
+        const lowerChar = this.makeLower(cognome);
+        return lowerChar;
     }
 
     private onlyLetters(cognome: string) {
@@ -26,6 +27,10 @@ class CognomeUser {
         if (cognome.length > 20) {
             throw new Error("ERRORE VALIDAZIONE - COGNOME , il cognome fornito è più lungo di 20 caratteri.");
         }
+    }
+
+    private makeLower(cognome: string) {
+        return cognome.toLowerCase();
     }
 
     public getValue(): string {

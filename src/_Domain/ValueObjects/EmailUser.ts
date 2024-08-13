@@ -13,9 +13,14 @@ class EmailUser {
         }
 
         if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            return email;
+            const lowerChar = this.makeLower(email);
+            return lowerChar;
         }
         throw new Error("fallimento validazione email. email deve essere nel formato aaa@aaa.it/.com");
+    }
+
+    private makeLower(email: string) {
+        return email.toLowerCase();
     }
 
     public getValue(): string {

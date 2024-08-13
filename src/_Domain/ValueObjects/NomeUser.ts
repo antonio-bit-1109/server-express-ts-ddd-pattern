@@ -13,13 +13,18 @@ class NomeUser {
             }
         }
 
-        if (!/^[A-Za-z]+$/.test(nome)) {
+        const lowerName = this.makeLower(nome);
+        if (!/^[A-Za-z]+$/.test(lowerName)) {
             throw new Error("ERRORE VALIDAZIONE - NOME: Il nome deve contenere solo lettere.");
         }
-        if (nome.length > 10) {
+        if (lowerName.length > 10) {
             throw new Error("ERRORE VALIDAZIONE - NOME: Il nome non deve superare i 10 caratteri.");
         }
-        return nome;
+        return lowerName;
+    }
+
+    private makeLower(nome: string) {
+        return nome.toLowerCase();
     }
 
     public getValue(): string {

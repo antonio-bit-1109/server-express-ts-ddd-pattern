@@ -29,13 +29,14 @@ class UserRepository {
         }
     }
 
-    async checkForDuplicate(username: string, email: string): Promise<boolean | Error> {
+    async checkForDuplicate(username: string, email: string, id?: string): Promise<boolean | Error> {
         const duplicateUserByName = await this.UserModel.findOne({ Nome: username });
         const duplicateUserByEmail = await this.UserModel.findOne({ Email: email });
-        if (duplicateUserByName) {
+
+        if (duplicateUserByName && duplicateUserByName._id.toString() !== id) {
             throw new Error("esiste gia un utente con tale nome. cambialo.");
         }
-        if (duplicateUserByEmail) {
+        if (duplicateUserByEmail && duplicateUserByEmail._id.toString() !== id) {
             throw new Error("esiste gia un utente con questa email. modificala.");
         }
         return false;
@@ -59,7 +60,7 @@ class UserRepository {
 
     async saveUserChanges(data: IUser): Promise<string | Error> {
         try {
-            const user = await this.UserModel.findById({ _Id: data._id }).exec();
+            const user = await this.UserModel.findById({ _id: data._id }).exec();
             if (!user) {
                 throw new Error("utente non trovato nel database.");
             }

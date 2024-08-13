@@ -23,7 +23,8 @@ class PasswordUser {
         }
 
         if (this.minLength(password)) {
-            return this.hashPassword(password);
+            const lowerChar = this.makeLower(password);
+            return this.hashPassword(lowerChar);
         }
     }
 
@@ -40,6 +41,10 @@ class PasswordUser {
         } catch (err) {
             throw new Error("Errore durante l'hashing della password.");
         }
+    }
+
+    private makeLower(password: string) {
+        return password.toLowerCase();
     }
 
     public getValue(): string {

@@ -54,7 +54,7 @@ export interface DTO_Data_User_Edit {
 // // lo UserAppService riceve una user repository tipizzare in questo modo, ovvero contenente uesti metodi :
 //TIPIZZAZIONE DEI METODI DELLA USER REPOSITORY
 export interface IUserRepository {
-    checkForDuplicate(nome: string, email: string): Promise<boolean | Error>;
+    checkForDuplicate(nome: string, email: string, id?: string): Promise<boolean | Error>;
     Save(user: ICleanUser): Promise<IMongooseUser | null | Error>;
     getAllUsers(): Promise<IMongooseUser[] | Error>;
     saveUserChanges(data: IUser): Promise<string | Error>;
