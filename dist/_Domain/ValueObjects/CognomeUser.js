@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class CognomeUser {
+    cognome;
     constructor(cognome) {
         this.cognome = this.validate(cognome);
     }
@@ -18,6 +19,9 @@ class CognomeUser {
         if (cognome.length > 20) {
             throw new Error("ERRORE VALIDAZIONE - COGNOME , il cognome fornito è più lungo di 20 caratteri.");
         }
+    }
+    getValue() {
+        return this.cognome;
     }
 }
 exports.default = CognomeUser;

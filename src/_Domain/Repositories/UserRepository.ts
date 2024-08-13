@@ -1,6 +1,6 @@
 import { Model } from "mongoose";
 import { ICleanUser, IMongooseUser } from "../../interfaces/interfaces";
-import UserModel from "../../_Infrastructures/database/models/UserModel";
+// import UserModel from "../../_Infrastructures/database/models/UserModel";
 
 class UserRepository {
     private UserModel: Model<IMongooseUser>;
@@ -9,13 +9,13 @@ class UserRepository {
         this.UserModel = UserModel;
     }
 
-    async Save(user: ICleanUser): Promise<IMongooseUser | null> {
+    async Save(user: ICleanUser): Promise<IMongooseUser | Error> {
         try {
             const savedUser = await this.UserModel.create({
-                Nome: user.nome.toString(),
-                Cognome: user.cognome.toString(),
-                Email: user.email.toString(),
-                Password: user.password.toString(),
+                Nome: user.nome,
+                Cognome: user.cognome,
+                Email: user.email,
+                Password: user.password,
             });
             if (savedUser) {
                 console.log("utente creato con successo.");
@@ -25,7 +25,7 @@ class UserRepository {
             }
         } catch (err) {
             console.log(err);
-            return null;
+            throw new Error("errore nella creazione dell'utente.");
         }
     }
 

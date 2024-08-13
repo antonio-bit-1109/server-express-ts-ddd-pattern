@@ -1,5 +1,5 @@
 import express from "express";
-import UserController from "../controllers/UserController.js";
+import UserController from "../controllers/UserController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express.Router();

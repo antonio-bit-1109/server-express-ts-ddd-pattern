@@ -1,14 +1,6 @@
 // import { IUser } from "../_Infrastructures/database/models/UserModel";
 import { ObjectId } from "mongodb";
 
-// // interfaccia per dire a mongodb di che tipo è il documento user
-// export interface IUser extends Document {
-//     Nome: string;
-//     Cognome: string;
-//     Email: string;
-//     Password: string;
-// }
-
 // Interfaccia per rappresentare un utente nel database
 export interface IUser {
     _id: ObjectId;
@@ -46,5 +38,5 @@ export interface ICleanUser {
 // // lo UserAppService riceve una user repository tipizzare in questo modo, ovvero contenente uesti metodi :
 export interface IUserRepository {
     checkForDuplicate(nome: string, email: string): Promise<boolean | Error>;
-    Save(user: ICleanUser): Promise<IUser | null>;
+    Save(user: ICleanUser): Promise<IMongooseUser | null | Error>;
 }

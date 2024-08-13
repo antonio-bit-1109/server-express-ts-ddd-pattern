@@ -1,5 +1,6 @@
 import { CorsOptions } from "cors";
-import allowedOrigins from "./allowedOrigin.js";
+import allowedOrigins from "./allowedOrigin";
+// import allowedOrigins from "./allowedOrigin.js";
 
 interface params {
     callback: (err: Error | null, allow?: boolean) => void;

@@ -1,11 +1,11 @@
 // le entità sono sono i "modelli fondamentali dell applicazione"
 
 //USER - ENTITà FONDAMENTALE  E CON SPECIFICHE PROPRIETà
-import NomeUser from "../ValueObjects/NomeUser.js";
-import CognomeUser from "../ValueObjects/CognomeUser.js";
-import EmailUser from "../ValueObjects/EmailUser.js";
-import PasswordUser from "../ValueObjects/PasswordUser.js";
-import { ICleanUser } from "../../interfaces/interfaces.js";
+import NomeUser from "../ValueObjects/NomeUser";
+import CognomeUser from "../ValueObjects/CognomeUser";
+import EmailUser from "../ValueObjects/EmailUser";
+import PasswordUser from "../ValueObjects/PasswordUser";
+import { ICleanUser } from "../../interfaces/interfaces";
 
 class User {
     private nome: NomeUser;

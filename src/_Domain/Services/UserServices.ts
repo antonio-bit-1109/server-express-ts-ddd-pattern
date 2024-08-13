@@ -1,5 +1,5 @@
 import UserModel from "../../_Infrastructures/database/models/UserModel";
-import { DataCreateUser, ICleanUser, IMongooseUser, IUserRepository } from "../../interfaces/interfaces";
+import { DataCreateUser, ICleanUser, IMongooseUser, IUser, IUserRepository } from "../../interfaces/interfaces";
 import User from "../Entities/User";
 import UserRepository from "../Repositories/UserRepository";
 // import UserRepository from "../Repositories/UserRepository";
@@ -12,7 +12,7 @@ class UserServices {
         this.userRepository = userRepository; // Iniezione della dipendenza
     }
 
-    public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error> {
+    public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {
         try {
             //logica di creazione dell'utente
             const user = new User(data.nome, data.cognome, data.email, data.password);

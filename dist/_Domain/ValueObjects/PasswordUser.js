@@ -5,6 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 class PasswordUser {
+    // tipizzazione della proprietà della classe
+    password;
+    // tipizzazione del parametro passato al costruttore
     constructor(password) {
         const hashedPassword = this.validate(password);
         if (!hashedPassword) {
@@ -30,6 +33,9 @@ class PasswordUser {
         catch (err) {
             throw new Error("Errore durante l'hashing della password.");
         }
+    }
+    getValue() {
+        return this.password;
     }
 }
 exports.default = PasswordUser;

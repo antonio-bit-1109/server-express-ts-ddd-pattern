@@ -1,4 +1,4 @@
-import UserModel from "../database/models/UserModel.js";
+import UserModel from "../database/models/UserModel";
 
 async function Add_CampoPassword_to_User() {
     try {

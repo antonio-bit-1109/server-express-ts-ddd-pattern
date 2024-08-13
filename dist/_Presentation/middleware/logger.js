@@ -9,9 +9,8 @@ const uuid_1 = require("uuid");
 const fs_1 = __importDefault(require("fs"));
 const fs_2 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
-const url_1 = require("url");
-const __filename = (0, url_1.fileURLToPath)(import.meta.url);
-const __dirname = path_1.default.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 // funzione asincrona che registra gli eventi del server in un file di log.
 // In sintesi, questo codice definisce una funzione logEvents che registra eventi con un timestamp e un ID univoco in un file di log. Se la cartella logs o il file di log non esistono, li crea.
 const logEvents = async (message, logFileName) => {
