@@ -1,10 +1,16 @@
 class CognomeUser {
     private cognome: string;
-    constructor(cognome: string) {
-        this.cognome = this.validate(cognome);
+    constructor(cognome: string, method: string) {
+        this.cognome = this.validate(cognome, method);
     }
 
-    public validate(cognome: string) {
+    public validate(cognome: string, method: string) {
+        if (method === "EDIT") {
+            if (cognome === "") {
+                return "";
+            }
+        }
+
         this.onlyLetters(cognome);
         this.maxLength(cognome);
         return cognome;

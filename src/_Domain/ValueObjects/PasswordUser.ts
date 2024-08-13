@@ -5,16 +5,23 @@ class PasswordUser {
     private password: string;
 
     // tipizzazione del parametro passato al costruttore
-    constructor(password: string) {
-        const hashedPassword = this.validate(password);
-        if (!hashedPassword) {
-            throw new Error("errore durante la validazione della password.");
-        }
+    constructor(password: string, method: string) {
+        const hashedPassword = this.validate(password, method);
 
-        this.password = hashedPassword;
+        if (!hashedPassword && hashedPassword !== "") {
+            throw new Error("errore durante la validazione della password.");
+        } else {
+            this.password = hashedPassword;
+        }
     }
 
-    private validate(password: string) {
+    private validate(password: string, method: string) {
+        if (method === "EDIT") {
+            if (password === "") {
+                return "";
+            }
+        }
+
         if (this.minLength(password)) {
             return this.hashPassword(password);
         }

@@ -1,11 +1,18 @@
 class NomeUser {
     private nome: string;
 
-    constructor(nome: string) {
-        this.nome = this.validate(nome);
+    constructor(nome: string, method: string) {
+        this.nome = this.validate(nome, method);
     }
 
-    private validate(nome: string): string {
+    private validate(nome: string, method: string): string {
+        // se sto editando lo user ed il nome mi arriva "" perchè non sto modificando il nome con questa richiesta, ritorna semplicemente una stringa vuota.
+        if (method === "EDIT") {
+            if (nome === "") {
+                return "";
+            }
+        }
+
         if (!/^[A-Za-z]+$/.test(nome)) {
             throw new Error("ERRORE VALIDAZIONE - NOME: Il nome deve contenere solo lettere.");
         }
@@ -15,9 +22,6 @@ class NomeUser {
         return nome;
     }
 
-    // public getValue(): string {
-    //     return this.nome;
-    // }
     public getValue(): string {
         return this.nome;
     }

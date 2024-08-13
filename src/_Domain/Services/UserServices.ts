@@ -1,5 +1,13 @@
 import UserModel from "../../_Infrastructures/database/models/UserModel";
-import { DataCreateUser, ICleanUser, IMongooseUser, IUser, IUserRepository } from "../../interfaces/interfaces";
+import {
+    DataCreateUser,
+    DTO_Data_User_Edit,
+    EditUserData,
+    ICleanUser,
+    IMongooseUser,
+    IUser,
+    IUserRepository,
+} from "../../interfaces/interfaces";
 import User from "../Entities/User";
 import UserRepository from "../Repositories/UserRepository";
 // import UserRepository from "../Repositories/UserRepository";
@@ -15,7 +23,7 @@ class UserServices {
     public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {
         try {
             //logica di creazione dell'utente
-            const user = new User(data.nome, data.cognome, data.email, data.password);
+            const user = new User(data.nome, data.cognome, data.email, data.password, "CREATE");
             const cleanUser: ICleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {
@@ -23,6 +31,74 @@ class UserServices {
                 return savedUser;
             }
             throw new Error("trovato user duplicato. prova cambiando nome o email.") as Error;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
+            }
+            throw new Error("errore sconosciuto.");
+        }
+    }
+
+    public async takeAllUsers(): Promise<IMongooseUser[] | Error> {
+        try {
+            const allUsers = await this.userRepository.getAllUsers();
+            if (allUsers) {
+                return allUsers;
+            }
+            throw new Error("impossibile ricavare tutti gli utenti");
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
+            }
+            throw new Error("errore sconosciuto.");
+        }
+    }
+
+    public async EditUser(data: DTO_Data_User_Edit) {
+        try {
+            // passo il body ricevuto dal client alla classe User + valueObject dello user per la validazione dei dati
+            const editedUser = new User(data.nome, data.cognome, data.email, data.password, "EDIT");
+            console.log(editedUser);
+            const cleanObj: IUser = editedUser.CleanWithId(data._id);
+            console.log(cleanObj);
+            // se l oggetto ritornato con i dati dei campi che l utente vuole modificare contengono un nome e email valida, mi assicuro che non sia gia presente u utente con quei valori di nome ed email
+
+            // body inviato:
+            // {
+            //     "_id": "66bb5baa045529451521dec6",
+            // "nome": "marcello",
+            // "cognome": "",
+            // "email": "",
+            // "password": ""
+            //  }
+
+            //clean object validato :
+            // {
+            //     _id: new ObjectId('66bb5baa045529451521dec6'),
+            //     nome: 'marcello',
+            //     cognome: '',
+            //     email: '',
+            //     password: ''
+            //   }
+
+            // ---------------GESTISCI I CASI IN CUI MANCANO O SONO PRESENTI I CAMPI DI CLEANoBJ -------------------------
+            if (cleanObj.nome !== "" && cleanObj.email !== "") {
+                const duplicateFound: boolean | Error = await this.userRepository.checkForDuplicate(
+                    cleanObj.nome,
+                    cleanObj.email
+                );
+                if (!duplicateFound) {
+                    const esitoSave: Error | string = await this.userRepository.saveUserChanges(cleanObj);
+                    return esitoSave;
+                }
+
+                if (duplicateFound instanceof Error) {
+                    throw new Error(duplicateFound.message);
+                }
+                throw new Error("errore nel salvataggio delle modifiche.");
+            }
+            // ------------------------------------------------------------------------------------------------------------------------------
+            // passo i dati per la modifica sul db alla repository
         } catch (err) {
             if (err instanceof Error) {
                 throw new Error(err.message);

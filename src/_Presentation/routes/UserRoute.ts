@@ -5,6 +5,8 @@ import UserController from "../controllers/UserController";
 const router = express.Router();
 
 router.route("/").post(UserController.createUser);
+router.route("/").get(UserController.getAllUsers);
+router.route("/edit").post(UserController.editUser);
 // router.route("/").get(userController.GetAllUsers);
 // router.route("/").post(userController.CreateNewUser);
 // router.route("/editUsername").patch(verifyJWT, userController.editUserName);

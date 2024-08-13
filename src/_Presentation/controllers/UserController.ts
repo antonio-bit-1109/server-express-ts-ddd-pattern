@@ -1,10 +1,11 @@
 // import asyncHandler from "express-async-handler";
 // import UserAppService from "../../_Application/AppServices/UserAppServices.js";
 import { Response, Request, NextFunction } from "express";
-import { DataCreateUser } from "../../interfaces/interfaces";
+import { DataCreateUser, DTO_Data_User_Edit, EditUserData, IUser } from "../../interfaces/interfaces";
 import UserServices from "../../_Domain/Services/UserServices";
 import UserRepository from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
+import User from "../../_Domain/Entities/User";
 
 // Instanza i servizi e repository
 const userRepository = new UserRepository(UserModel);
@@ -35,4 +36,34 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-export default { createUser };
+const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // chiama il servizio per recuperare tutti gli utenti.
+        const allUsers = await userServices.takeAllUsers();
+        return res.status(200).json(allUsers);
+    } catch (err) {
+        next(err);
+    }
+};
+
+const editUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // dati dal body per l'edit I CAMPI DA NON MODIFICARE DEVONO ESSERE STRINGHE VUOTE ("")
+        const editData: DTO_Data_User_Edit = req.body;
+        const esitoEdit = await userServices.EditUser(editData);
+
+        if (esitoEdit instanceof String) {
+            return res.status(200).json({ message: "mofiche salvate correttamente." });
+        }
+        if (esitoEdit instanceof Error) {
+            return res.status(200).json({ message: esitoEdit });
+        }
+        return res.status(500).json({ message: "errore durante la modifica." });
+
+        // passoi dat da modificare al servizio dello user.
+    } catch (err) {
+        next(err);
+    }
+};
+
+export default { createUser, getAllUsers, editUser };

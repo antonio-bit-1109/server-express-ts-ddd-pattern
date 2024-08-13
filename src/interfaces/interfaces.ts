@@ -35,8 +35,27 @@ export interface ICleanUser {
     password: string;
 }
 
+// interfaccia in entrata su server per EDIT user
+export interface EditUserData {
+    nome: string;
+    cognome: string;
+    email: string;
+    password: string;
+}
+
+export interface DTO_Data_User_Edit {
+    _id: string;
+    nome: string;
+    cognome: string;
+    email: string;
+    password: string;
+}
+
 // // lo UserAppService riceve una user repository tipizzare in questo modo, ovvero contenente uesti metodi :
+//TIPIZZAZIONE DEI METODI DELLA USER REPOSITORY
 export interface IUserRepository {
     checkForDuplicate(nome: string, email: string): Promise<boolean | Error>;
     Save(user: ICleanUser): Promise<IMongooseUser | null | Error>;
+    getAllUsers(): Promise<IMongooseUser[] | Error>;
+    saveUserChanges(data: IUser): Promise<string | Error>;
 }
