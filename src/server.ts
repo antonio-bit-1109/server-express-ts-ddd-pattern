@@ -61,6 +61,7 @@ async function startServer() {
 
         // migrazioni e aggiornamento dei documenti
         await MigrationFunction.Add_CampoPassword_to_User();
+        await MigrationFunction.addCampoIsActive_To__User();
 
         serverIsListening(app, porta);
     }

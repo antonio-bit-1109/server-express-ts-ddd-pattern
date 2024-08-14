@@ -87,6 +87,33 @@ class UserRepository {
             throw new Error("errore imprevisto.");
         }
     }
+
+    async findById(idUser: string): Promise<IMongooseUser | Error> {
+        try {
+            const user = await this.UserModel.findById({ _id: idUser });
+            if (!user) {
+                throw new Error("utente non trovato con id fornito.");
+            }
+            return user;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
+            }
+            throw new Error("errore imprevisto.");
+        }
+    }
+
+    async changeStatus(user: IUser): Promise<Error | string> {
+        const userDb = await this.UserModel.findById({ _id: user._id });
+        if (!userDb) {
+            throw new Error("impossibile trovare l'utente per modificarne lo status...");
+        }
+
+        userDb.IsActive = user.isActive;
+        await userDb.save();
+        const msg = "status utente modificato con successo.";
+        return msg;
+    }
 }
 
 export default UserRepository;

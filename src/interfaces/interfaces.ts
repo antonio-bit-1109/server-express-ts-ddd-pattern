@@ -8,6 +8,7 @@ export interface IUser {
     cognome: string;
     email: string;
     password: string;
+    isActive: boolean;
 }
 
 // Definisci l'interfaccia IMongooseUser peril modello che si interfaccia con mongoose
@@ -17,6 +18,7 @@ export interface IMongooseUser extends Document {
     Cognome: string;
     Email: string;
     Password: string;
+    IsActive: boolean;
 }
 
 // tipo dati ricevuti al controller User per la creazione
@@ -33,6 +35,7 @@ export interface ICleanUser {
     cognome: string;
     email: string;
     password: string;
+    status: boolean;
 }
 
 // interfaccia in entrata su server per EDIT user
@@ -41,6 +44,10 @@ export interface EditUserData {
     cognome: string;
     email: string;
     password: string;
+}
+export interface DTO_user_change_status {
+    status: boolean;
+    idUser: string;
 }
 
 export interface DTO_Data_User_Edit {
@@ -58,4 +65,6 @@ export interface IUserRepository {
     Save(user: ICleanUser): Promise<IMongooseUser | null | Error>;
     getAllUsers(): Promise<IMongooseUser[] | Error>;
     saveUserChanges(data: IUser): Promise<string | Error>;
+    findById(id: string): Promise<IMongooseUser | Error>;
+    changeStatus(user: IUser): Promise<Error | string>;
 }

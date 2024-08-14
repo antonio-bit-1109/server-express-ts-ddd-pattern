@@ -81,6 +81,36 @@ class UserServices {
             throw new Error("errore sconosciuto.");
         }
     }
+
+    public async changeStatus(status: boolean, id: string): Promise<string | Error> {
+        try {
+            const userFromDb: IMongooseUser | Error = await this.userRepository.findById(id);
+            if (userFromDb instanceof Error) {
+                throw new Error("errore durante il reperimento dell'utente dal database.");
+            }
+            if (userFromDb.IsActive === status) {
+                throw new Error("lo status fornito è uguale a quello corrente.");
+            }
+            const user = new User(
+                userFromDb.Nome,
+                userFromDb.Cognome,
+                userFromDb.Email,
+                userFromDb.Password,
+                "STATUS",
+                status
+            );
+            const cleanedUser: IUser = user.CleanWithId(id);
+            console.log(cleanedUser);
+            const changeStatusDb = await this.userRepository.changeStatus(cleanedUser);
+            return changeStatusDb;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
+            }
+
+            throw new Error("errore sconosciuto");
+        }
+    }
 }
 
 // export default UserServices;

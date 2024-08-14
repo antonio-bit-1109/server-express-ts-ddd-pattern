@@ -1,7 +1,13 @@
 // import asyncHandler from "express-async-handler";
 // import UserAppService from "../../_Application/AppServices/UserAppServices.js";
 import { Response, Request, NextFunction } from "express";
-import { DataCreateUser, DTO_Data_User_Edit, EditUserData, IUser } from "../../interfaces/interfaces";
+import {
+    DataCreateUser,
+    DTO_Data_User_Edit,
+    DTO_user_change_status,
+    EditUserData,
+    IUser,
+} from "../../interfaces/interfaces";
 import UserServices from "../../_Domain/Services/UserServices";
 import UserRepository from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
@@ -56,14 +62,29 @@ const editUser = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(200).json({ message: "mofiche salvate correttamente." });
         }
         if (esitoEdit instanceof Error) {
-            return res.status(200).json({ message: esitoEdit });
+            return res.status(400).json({ message: esitoEdit });
         }
         return res.status(500).json({ message: "errore durante la modifica." });
-
-        // passoi dat da modificare al servizio dello user.
     } catch (err) {
         next(err);
     }
 };
 
-export default { createUser, getAllUsers, editUser };
+const changeStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { status, idUser }: DTO_user_change_status = req.body;
+        const result = await userServices.changeStatus(status, idUser);
+        if (result instanceof Error) {
+            // throw new Error(result.message)
+            return res.status(400).json({ message: result });
+        }
+        if (typeof result === "string") {
+            return res.status(200).json({ message: result });
+        }
+        return res.status(500).json({ message: "errore durante la modifica dello status account." });
+    } catch (err) {
+        next(err);
+    }
+};
+
+export default { createUser, getAllUsers, editUser, changeStatus };
