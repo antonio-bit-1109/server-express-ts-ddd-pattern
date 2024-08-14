@@ -8,16 +8,24 @@ class PasswordUser {
     // tipizzazione della proprietà della classe
     password;
     // tipizzazione del parametro passato al costruttore
-    constructor(password) {
-        const hashedPassword = this.validate(password);
-        if (!hashedPassword) {
+    constructor(password, method) {
+        const hashedPassword = this.validate(password, method);
+        if (!hashedPassword && hashedPassword !== "") {
             throw new Error("errore durante la validazione della password.");
         }
-        this.password = hashedPassword;
+        else {
+            this.password = hashedPassword;
+        }
     }
-    validate(password) {
+    validate(password, method) {
+        if (method === "EDIT") {
+            if (password === "") {
+                return "";
+            }
+        }
         if (this.minLength(password)) {
-            return this.hashPassword(password);
+            const lowerChar = this.makeLower(password);
+            return this.hashPassword(lowerChar);
         }
     }
     minLength(password) {
@@ -33,6 +41,9 @@ class PasswordUser {
         catch (err) {
             throw new Error("Errore durante l'hashing della password.");
         }
+    }
+    makeLower(password) {
+        return password.toLowerCase();
     }
     getValue() {
         return this.password;

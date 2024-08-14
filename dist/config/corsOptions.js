@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.corsOptions = void 0;
-const allowedOrigin_js_1 = __importDefault(require("./allowedOrigin.js"));
+const allowedOrigin_1 = __importDefault(require("./allowedOrigin"));
 exports.corsOptions = {
     origin: (origin, callback) => {
-        if (origin === undefined || allowedOrigin_js_1.default.indexOf(origin) !== -1 || !origin) {
+        if (origin === undefined || allowedOrigin_1.default.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         }
         else {

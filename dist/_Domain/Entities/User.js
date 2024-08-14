@@ -5,21 +5,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //USER - ENTITà FONDAMENTALE  E CON SPECIFICHE PROPRIETà
-const NomeUser_js_1 = __importDefault(require("../ValueObjects/NomeUser.js"));
-const CognomeUser_js_1 = __importDefault(require("../ValueObjects/CognomeUser.js"));
-const EmailUser_js_1 = __importDefault(require("../ValueObjects/EmailUser.js"));
-const PasswordUser_js_1 = __importDefault(require("../ValueObjects/PasswordUser.js"));
+const NomeUser_1 = __importDefault(require("../ValueObjects/NomeUser"));
+const CognomeUser_1 = __importDefault(require("../ValueObjects/CognomeUser"));
+const EmailUser_1 = __importDefault(require("../ValueObjects/EmailUser"));
+const PasswordUser_1 = __importDefault(require("../ValueObjects/PasswordUser"));
+const mongodb_1 = require("mongodb");
 class User {
     nome;
     cognome;
     email;
     password;
-    constructor(nome, cognome, email, password) {
+    constructor(nome, cognome, email, password, method) {
         try {
-            this.nome = new NomeUser_js_1.default(nome);
-            this.cognome = new CognomeUser_js_1.default(cognome);
-            this.email = new EmailUser_js_1.default(email);
-            this.password = new PasswordUser_js_1.default(password);
+            this.nome = new NomeUser_1.default(nome, method);
+            this.cognome = new CognomeUser_1.default(cognome, method);
+            this.email = new EmailUser_1.default(email, method);
+            this.password = new PasswordUser_1.default(password, method);
         }
         catch (err) {
             if (err instanceof Error) {
@@ -32,6 +33,15 @@ class User {
     }
     Clean() {
         return {
+            nome: this.nome.getValue(),
+            cognome: this.cognome.getValue(),
+            email: this.email.getValue(),
+            password: this.password.getValue(),
+        };
+    }
+    CleanWithId(id) {
+        return {
+            _id: new mongodb_1.ObjectId(id),
             nome: this.nome.getValue(),
             cognome: this.cognome.getValue(),
             email: this.email.getValue(),

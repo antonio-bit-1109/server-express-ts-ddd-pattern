@@ -4,11 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const UserController_js_1 = __importDefault(require("../controllers/UserController.js"));
+const UserController_1 = __importDefault(require("../controllers/UserController"));
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express_1.default.Router();
-router.route("/").post(UserController_js_1.default.createUser);
+router.route("/").post(UserController_1.default.createUser);
+router.route("/").get(UserController_1.default.getAllUsers);
+router.route("/edit").post(UserController_1.default.editUser);
 // router.route("/").get(userController.GetAllUsers);
 // router.route("/").post(userController.CreateNewUser);
 // router.route("/editUsername").patch(verifyJWT, userController.editUserName);

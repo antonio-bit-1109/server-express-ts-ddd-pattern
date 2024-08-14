@@ -2,13 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class CognomeUser {
     cognome;
-    constructor(cognome) {
-        this.cognome = this.validate(cognome);
+    constructor(cognome, method) {
+        this.cognome = this.validate(cognome, method);
     }
-    validate(cognome) {
+    validate(cognome, method) {
+        if (method === "EDIT") {
+            if (cognome === "") {
+                return "";
+            }
+        }
         this.onlyLetters(cognome);
         this.maxLength(cognome);
-        return cognome;
+        const lowerChar = this.makeLower(cognome);
+        return lowerChar;
     }
     onlyLetters(cognome) {
         if (!/^[A-Za-z]+$/.test(cognome)) {
@@ -19,6 +25,9 @@ class CognomeUser {
         if (cognome.length > 20) {
             throw new Error("ERRORE VALIDAZIONE - COGNOME , il cognome fornito è più lungo di 20 caratteri.");
         }
+    }
+    makeLower(cognome) {
+        return cognome.toLowerCase();
     }
     getValue() {
         return this.cognome;
