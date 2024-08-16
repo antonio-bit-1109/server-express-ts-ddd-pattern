@@ -10,17 +10,20 @@ const CognomeUser_1 = __importDefault(require("../ValueObjects/CognomeUser"));
 const EmailUser_1 = __importDefault(require("../ValueObjects/EmailUser"));
 const PasswordUser_1 = __importDefault(require("../ValueObjects/PasswordUser"));
 const mongodb_1 = require("mongodb");
+const StatusUser_1 = __importDefault(require("../ValueObjects/StatusUser"));
 class User {
     nome;
     cognome;
     email;
     password;
-    constructor(nome, cognome, email, password, method) {
+    status;
+    constructor(nome, cognome, email, password, method, status = true) {
         try {
             this.nome = new NomeUser_1.default(nome, method);
             this.cognome = new CognomeUser_1.default(cognome, method);
             this.email = new EmailUser_1.default(email, method);
             this.password = new PasswordUser_1.default(password, method);
+            this.status = new StatusUser_1.default(status);
         }
         catch (err) {
             if (err instanceof Error) {
@@ -37,6 +40,7 @@ class User {
             cognome: this.cognome.getValue(),
             email: this.email.getValue(),
             password: this.password.getValue(),
+            status: this.status.getValue(),
         };
     }
     CleanWithId(id) {
@@ -46,6 +50,7 @@ class User {
             cognome: this.cognome.getValue(),
             email: this.email.getValue(),
             password: this.password.getValue(),
+            isActive: this.status.getValue(),
         };
     }
 }

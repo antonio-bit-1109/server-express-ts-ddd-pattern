@@ -11,6 +11,8 @@ const router = express_1.default.Router();
 router.route("/").post(UserController_1.default.createUser);
 router.route("/").get(UserController_1.default.getAllUsers);
 router.route("/edit").post(UserController_1.default.editUser);
+router.route("/status").post(UserController_1.default.changeStatus);
+// router.route("/")
 // router.route("/").get(userController.GetAllUsers);
 // router.route("/").post(userController.CreateNewUser);
 // router.route("/editUsername").patch(verifyJWT, userController.editUserName);
