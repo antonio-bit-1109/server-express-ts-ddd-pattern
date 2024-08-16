@@ -12,8 +12,8 @@ import MigrationFunction from "./_Infrastructures/migrationsDb/Migrations";
 import cors from "cors";
 import RootRoute from "./_Presentation/routes/root";
 import UserRoute from "./_Presentation/routes/UserRoute";
+import BookRoute from "./_Presentation/routes/BookRoute";
 import { getConnectionString } from "./config/GetConnectionString";
-
 dotenv.config();
 const app = express();
 
@@ -30,7 +30,7 @@ app.use(cookieParser());
 // -------------------------------------------------------- redirect alle routes ----------------------------------------------------
 app.use("/", RootRoute);
 app.use("/users", UserRoute);
-
+app.use("/product", BookRoute);
 //-----------------------------------------------------------------------------------------------------------------------------------
 app.all("*", (req, res) => {
     res.status(404);
