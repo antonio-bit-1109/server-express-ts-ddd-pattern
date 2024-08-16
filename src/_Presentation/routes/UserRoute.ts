@@ -8,6 +8,8 @@ router.route("/").post(UserController.createUser);
 router.route("/").get(UserController.getAllUsers);
 router.route("/edit").post(UserController.editUser);
 router.route("/status").post(UserController.changeStatus);
+//
+
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);
 // router.route("/").post(userController.CreateNewUser);
