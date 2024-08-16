@@ -1,4 +1,4 @@
-export const checkBodyStructure = (bodyFromRequest: object, expectedBody: object): boolean => {
+export function checkBodyStructure(bodyFromRequest: object, expectedBody: object): boolean {
     const receivedKeys = Object.keys(bodyFromRequest);
     console.log(receivedKeys);
     const expectedkeys = Object.keys(expectedBody);
@@ -16,4 +16,9 @@ export const checkBodyStructure = (bodyFromRequest: object, expectedBody: object
     }
 
     return true;
-};
+}
+
+// funzione che accetta una funzione , che sarà checkBodyStructure , il body in arrivo dal client e la struttura attesa del body , se il body in entrata supera i controlli, si procede con l'esecuzione del codice all'interno del controller stesso.
+export function isBodyAsExpected(myFunction: Function, bodyFromRequest: object, expectedBody: object): boolean {
+    return myFunction(bodyFromRequest, expectedBody);
+}

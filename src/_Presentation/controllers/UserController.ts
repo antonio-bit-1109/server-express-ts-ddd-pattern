@@ -12,7 +12,7 @@ import UserServices from "../../_Domain/Services/UserServices";
 import UserRepository from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
 import User from "../../_Domain/Entities/User";
-import { checkBodyStructure } from "../../utils/utilityFunctions";
+import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
 // import { checkBodyStructure } from "../../utils/utilityFunctions";
 
 // Instanza i servizi e repository
@@ -32,6 +32,11 @@ const userServices = new UserServices(userRepository);
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         //BODY : // {nome, cognome,email ,password}
+        const { nome, cognome, email, password } = req.body;
+        const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, { nome, cognome, email, password });
+        if (!BodyasExpected) {
+            return res.status(400).json({ message: `body fornito non corretto.` });
+        }
         const userData: DataCreateUser = req.body;
         const newUser = await userServices.createUser(userData);
         if (newUser) {
@@ -57,12 +62,16 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 const editUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // dati dal body per l'edit I CAMPI DA NON MODIFICARE DEVONO ESSERE STRINGHE VUOTE ("")
-        const editData: DTO_Data_User_Edit = req.body;
+        const { nome, cognome, email, password } = req.body;
 
-        // const isGoodObj = checkBodyStructure(req.body, {});
-        // if (!isGoodObj) {
-        //     return res.status(400).json({ message: `body fornito non corretto.` });
-        // }
+        // funzione per controllare che la struttura del body in arrivo dal client sia come si aspetta il controller.
+
+        const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, { nome, cognome, email, password });
+        if (!BodyasExpected) {
+            return res.status(400).json({ message: `body fornito non corretto.` });
+        }
+
+        const editData: DTO_Data_User_Edit = req.body;
 
         const esitoEdit = await userServices.EditUser(editData);
         console.log(esitoEdit);
@@ -83,10 +92,11 @@ const changeStatus = async (req: Request, res: Response, next: NextFunction) => 
         const { status, idUser }: DTO_user_change_status = req.body;
         //controllo che il body inviato del client abbia la struttura che si aspetta il controller
 
-        const isGoodObj = checkBodyStructure(req.body, { status, idUser });
-        if (!isGoodObj) {
+        const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, { status, idUser });
+        if (!BodyasExpected) {
             return res.status(400).json({ message: `body fornito non corretto.` });
         }
+
         const result = await userServices.changeStatus(status, idUser);
         if (result instanceof Error) {
             // throw new Error(result.message)

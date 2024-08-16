@@ -59,8 +59,6 @@ class User {
             isActive: this.status.getValue(),
         };
     }
-
-    // checkEqualStatus(status: boolean) {}
 }
 
 export default User;
