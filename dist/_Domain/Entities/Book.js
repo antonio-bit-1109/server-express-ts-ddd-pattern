@@ -3,12 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const AutoreBook_1 = __importDefault(require("../ValueObjects/Book/AutoreBook"));
-const CopertinaRiginaBook_1 = __importDefault(require("../ValueObjects/Book/CopertinaRiginaBook"));
-const NomeBook_1 = __importDefault(require("../ValueObjects/Book/NomeBook"));
-const PagineBook_1 = __importDefault(require("../ValueObjects/Book/PagineBook"));
-const PrezzoBook_1 = __importDefault(require("../ValueObjects/Book/PrezzoBook"));
-const TematicaBook_1 = __importDefault(require("../ValueObjects/Book/TematicaBook"));
+const AutoreBook_1 = __importDefault(require("../ValueObjects/BookObjs/AutoreBook"));
+const CopertinaRiginaBook_1 = __importDefault(require("../ValueObjects/BookObjs/CopertinaRiginaBook"));
+const NomeBook_1 = __importDefault(require("../ValueObjects/BookObjs/NomeBook"));
+const PagineBook_1 = __importDefault(require("../ValueObjects/BookObjs/PagineBook"));
+const PrezzoBook_1 = __importDefault(require("../ValueObjects/BookObjs/PrezzoBook"));
+const TematicaBook_1 = __importDefault(require("../ValueObjects/BookObjs/TematicaBook"));
 class Book {
     // private autore : AutoreBook
     nomeBook;

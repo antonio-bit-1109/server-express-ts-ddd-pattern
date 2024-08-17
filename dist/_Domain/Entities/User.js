@@ -5,12 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 //USER - ENTITà FONDAMENTALE  E CON SPECIFICHE PROPRIETà
-const NomeUser_1 = __importDefault(require("../ValueObjects/NomeUser"));
-const CognomeUser_1 = __importDefault(require("../ValueObjects/CognomeUser"));
-const EmailUser_1 = __importDefault(require("../ValueObjects/EmailUser"));
-const PasswordUser_1 = __importDefault(require("../ValueObjects/PasswordUser"));
+const NomeUser_1 = __importDefault(require("../ValueObjects/UserObjs/NomeUser"));
+const CognomeUser_1 = __importDefault(require("../ValueObjects/UserObjs/CognomeUser"));
+const EmailUser_1 = __importDefault(require("../ValueObjects/UserObjs/EmailUser"));
+const PasswordUser_1 = __importDefault(require("../ValueObjects/UserObjs/PasswordUser"));
 const mongodb_1 = require("mongodb");
-const StatusUser_1 = __importDefault(require("../ValueObjects/StatusUser"));
+const StatusUser_1 = __importDefault(require("../ValueObjects/UserObjs/StatusUser"));
 class User {
     nome;
     cognome;
