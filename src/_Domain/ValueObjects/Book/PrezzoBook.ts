@@ -11,6 +11,10 @@ class PrezzoBook {
             throw new Error("il valore fornito per prezzo non è un numero.");
         }
     }
+
+    public getValue() {
+        return this.prezzo;
+    }
 }
 
 export default PrezzoBook;

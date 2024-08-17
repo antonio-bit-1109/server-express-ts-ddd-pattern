@@ -6,6 +6,10 @@ class CopertinaRigida {
         }
         this.copertinaRigida = copertinaRigida;
     }
+
+    public getValue() {
+        return this.copertinaRigida;
+    }
 }
 
 export default CopertinaRigida;

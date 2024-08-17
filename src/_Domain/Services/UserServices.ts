@@ -1,15 +1,14 @@
-import UserModel from "../../_Infrastructures/database/models/UserModel";
+// import UserModel from "../../_Infrastructures/database/models/UserModel";
 import {
     DataCreateUser,
     DTO_Data_User_Edit,
-    EditUserData,
     ICleanUser,
     IMongooseUser,
     IUser,
     IUserRepository,
 } from "../../interfaces/interfaces";
 import User from "../Entities/User";
-import UserRepository from "../Repositories/UserRepository";
+// import UserRepository from "../Repositories/UserRepository";
 
 class UserServices {
     private userRepository: IUserRepository; // Attributo della classe
@@ -26,7 +25,7 @@ class UserServices {
             const cleanUser: ICleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {
-                const savedUser = await this.userRepository.Save(cleanUser);
+                const savedUser = await this.userRepository.create(cleanUser);
                 return savedUser;
             }
             throw new Error("trovato user duplicato. prova cambiando nome o email.") as Error;
@@ -113,6 +112,4 @@ class UserServices {
     }
 }
 
-// export default UserServices;
-//  export const userServices = new UserServices(userRepository);
 export default UserServices;

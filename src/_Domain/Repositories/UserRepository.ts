@@ -9,7 +9,8 @@ class UserRepository {
         this.UserModel = UserModel;
     }
 
-    async Save(user: ICleanUser): Promise<IMongooseUser | Error> {
+    // creation new user
+    async create(user: ICleanUser): Promise<IMongooseUser | Error> {
         try {
             const savedUser = await this.UserModel.create({
                 Nome: user.nome,
@@ -29,6 +30,7 @@ class UserRepository {
         }
     }
 
+    // check for duplicate in the DB
     async checkForDuplicate(username: string, email: string, id?: string): Promise<boolean | Error> {
         const duplicateUserByName = await this.UserModel.findOne({ Nome: username });
         const duplicateUserByEmail = await this.UserModel.findOne({ Email: email });
@@ -42,6 +44,7 @@ class UserRepository {
         return false;
     }
 
+    // get all users
     async getAllUsers(): Promise<IMongooseUser[] | Error> {
         try {
             const allUsers = await this.UserModel.find().exec();
@@ -58,6 +61,7 @@ class UserRepository {
         }
     }
 
+    //save edit to user
     async saveUserChanges(data: IUser): Promise<string | Error> {
         try {
             const user = await this.UserModel.findById({ _id: data._id }).exec();
@@ -88,6 +92,7 @@ class UserRepository {
         }
     }
 
+    //find a user by given id
     async findById(idUser: string): Promise<IMongooseUser | Error> {
         try {
             const user = await this.UserModel.findById({ _id: idUser });
@@ -103,6 +108,7 @@ class UserRepository {
         }
     }
 
+    // change status user (IsActive) : boolean
     async changeStatus(user: IUser): Promise<Error | string> {
         const userDb = await this.UserModel.findById({ _id: user._id });
         if (!userDb) {

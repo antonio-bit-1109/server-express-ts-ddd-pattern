@@ -5,14 +5,14 @@ import PagineBook from "../ValueObjects/Book/PagineBook";
 import PrezzoBook from "../ValueObjects/Book/PrezzoBook";
 import TematicaBook from "../ValueObjects/Book/TematicaBook";
 
-class book {
+class Book {
     // private autore : AutoreBook
-    private nome: NomeBook;
-    private prezzo: PrezzoBook;
-    private autore: AutoreBook;
-    private pagine: PagineBook;
+    private nomeBook: NomeBook;
+    private prezzoBook: PrezzoBook;
+    private autoreBook: AutoreBook;
+    private pagineBook: PagineBook;
     private copertinaRigida: CopertinaRigida;
-    private tematica: TematicaBook;
+    private tematicaBook: TematicaBook;
     constructor(
         nome: string,
         prezzo: number,
@@ -21,13 +21,24 @@ class book {
         copertinaRigida: boolean,
         tematica: string
     ) {
-        this.nome = new NomeBook(nome);
-        this.prezzo = new PrezzoBook(prezzo);
-        this.autore = new AutoreBook(autore);
-        this.pagine = new PagineBook(pagine);
+        this.nomeBook = new NomeBook(nome);
+        this.prezzoBook = new PrezzoBook(prezzo);
+        this.autoreBook = new AutoreBook(autore);
+        this.pagineBook = new PagineBook(pagine);
         this.copertinaRigida = new CopertinaRigida(copertinaRigida);
-        this.tematica = new TematicaBook(tematica);
+        this.tematicaBook = new TematicaBook(tematica);
+    }
+
+    clean() {
+        return {
+            nomeBook: this.nomeBook.getValue(),
+            prezzoBook: this.prezzoBook.getValue(),
+            autoreBook: this.autoreBook.getValue(),
+            pagineBook: this.pagineBook.getValue(),
+            isCopertinaRigida: this.copertinaRigida.getValue(),
+            tematica: this.tematicaBook.getValue(),
+        };
     }
 }
 
-export default book;
+export default Book;

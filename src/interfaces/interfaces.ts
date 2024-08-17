@@ -1,5 +1,7 @@
 // import { IUser } from "../_Infrastructures/database/models/UserModel";
-import { ObjectId } from "mongodb";
+import { NumericType, ObjectId } from "mongodb";
+
+//----------------------------------------------USER INTERFACES--------------------------------------------------------------------------------------------------------------------------
 
 // Interfaccia per rappresentare un utente nel database
 export interface IUser {
@@ -62,9 +64,42 @@ export interface DTO_Data_User_Edit {
 //TIPIZZAZIONE DEI METODI DELLA USER REPOSITORY
 export interface IUserRepository {
     checkForDuplicate(nome: string, email: string, id?: string): Promise<boolean | Error>;
-    Save(user: ICleanUser): Promise<IMongooseUser | null | Error>;
+    create(user: ICleanUser): Promise<IMongooseUser | null | Error>;
     getAllUsers(): Promise<IMongooseUser[] | Error>;
     saveUserChanges(data: IUser): Promise<string | Error>;
     findById(id: string): Promise<IMongooseUser | Error>;
     changeStatus(user: IUser): Promise<Error | string>;
+}
+
+//----------------------------------------------BOOK INTERFACES--------------------------------------------------------------------------------------------------------------------------
+
+export interface IMoongooseBook extends Document {
+    NomeLibro: string;
+    PrezzoLibro: number;
+    Autore: string;
+    PagineLibro: number;
+    CopertinaRigida: boolean;
+    TematicaLibro: string;
+}
+
+export interface DTO_create_book {
+    nomeLibro: string;
+    prezzoLibro: number;
+    autoreLibro: string;
+    pagine: number;
+    isCopertinaRigida: boolean;
+    tematica: string;
+}
+
+export interface IBookRepository {
+    createBook(data: IcleanBook): Promise<Error | IMoongooseBook>;
+}
+
+export interface IcleanBook {
+    nomeBook: string;
+    prezzoBook: number;
+    autoreBook: string;
+    pagineBook: number;
+    isCopertinaRigida: boolean;
+    tematica: string;
 }

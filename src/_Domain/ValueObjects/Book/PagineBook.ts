@@ -11,6 +11,10 @@ class PagineBook {
             throw new Error("il valore fornito per pagine non è un numero.");
         }
     }
+
+    public getValue() {
+        return this.pagine;
+    }
 }
 
 export default PagineBook;
