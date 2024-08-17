@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.checkBodyStructure = void 0;
-const checkBodyStructure = (bodyFromRequest, expectedBody) => {
+exports.checkBodyStructure = checkBodyStructure;
+exports.isBodyAsExpected = isBodyAsExpected;
+function checkBodyStructure(bodyFromRequest, expectedBody) {
     const receivedKeys = Object.keys(bodyFromRequest);
     console.log(receivedKeys);
     const expectedkeys = Object.keys(expectedBody);
@@ -16,5 +17,8 @@ const checkBodyStructure = (bodyFromRequest, expectedBody) => {
         }
     }
     return true;
-};
-exports.checkBodyStructure = checkBodyStructure;
+}
+// funzione che accetta una funzione , che sarà checkBodyStructure , il body in arrivo dal client e la struttura attesa del body , se il body in entrata supera i controlli, si procede con l'esecuzione del codice all'interno del controller stesso.
+function isBodyAsExpected(myFunction, bodyFromRequest, expectedBody) {
+    return myFunction(bodyFromRequest, expectedBody);
+}

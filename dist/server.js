@@ -17,6 +17,7 @@ const Migrations_1 = __importDefault(require("./_Infrastructures/migrationsDb/Mi
 const cors_1 = __importDefault(require("cors"));
 const root_1 = __importDefault(require("./_Presentation/routes/root"));
 const UserRoute_1 = __importDefault(require("./_Presentation/routes/UserRoute"));
+const BookRoute_1 = __importDefault(require("./_Presentation/routes/BookRoute"));
 const GetConnectionString_1 = require("./config/GetConnectionString");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -31,6 +32,7 @@ app.use((0, cookie_parser_1.default)());
 // -------------------------------------------------------- redirect alle routes ----------------------------------------------------
 app.use("/", root_1.default);
 app.use("/users", UserRoute_1.default);
+app.use("/product", BookRoute_1.default);
 //-----------------------------------------------------------------------------------------------------------------------------------
 app.all("*", (req, res) => {
     res.status(404);
