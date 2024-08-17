@@ -1,8 +1,8 @@
 export function checkBodyStructure(bodyFromRequest: object, expectedBody: object): boolean {
     const receivedKeys = Object.keys(bodyFromRequest);
-    console.log(receivedKeys);
+    console.log("OGGETTO RICEVUTO DAL CLIENT", receivedKeys);
     const expectedkeys = Object.keys(expectedBody);
-    console.log(expectedkeys);
+    console.log("OGGETTO ATTESO DAL CLIENT", expectedkeys);
 
     // i due arr contenenti il body atteso e ricevuto non hanno stessa lunghezza, sicuro non sono uguali.
     if (receivedKeys.length !== expectedkeys.length) {

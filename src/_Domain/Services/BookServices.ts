@@ -35,16 +35,20 @@ class BookServices {
                 data.tematica
             );
             const cleanBook: IcleanBook = book.clean();
+            const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
+            if (isDuplicate instanceof Error) {
+                throw isDuplicate;
+            }
             const esito = await this.bookRepository.createBook(cleanBook);
             if (esito instanceof Error) {
-                throw new Error(esito.message);
+                throw esito;
             } else {
                 const msg = "libro creato con successo.";
                 return msg;
             }
         } catch (err) {
             if (err instanceof Error) {
-                throw new Error(err.message);
+                throw err;
             }
             throw new Error("errore nel servizio Book Services");
         }

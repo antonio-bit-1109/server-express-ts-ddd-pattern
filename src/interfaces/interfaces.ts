@@ -93,6 +93,7 @@ export interface DTO_create_book {
 
 export interface IBookRepository {
     createBook(data: IcleanBook): Promise<Error | IMoongooseBook>;
+    checkForDuplicate(titoloLibro: string, autore: string): Promise<Error | void>;
 }
 
 export interface IcleanBook {
