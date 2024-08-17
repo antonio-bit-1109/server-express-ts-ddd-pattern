@@ -6,7 +6,8 @@ class UserRepository {
     constructor(UserModel) {
         this.UserModel = UserModel;
     }
-    async Save(user) {
+    // creation new user
+    async create(user) {
         try {
             const savedUser = await this.UserModel.create({
                 Nome: user.nome,
@@ -27,6 +28,7 @@ class UserRepository {
             throw new Error("errore nella creazione dell'utente.");
         }
     }
+    // check for duplicate in the DB
     async checkForDuplicate(username, email, id) {
         const duplicateUserByName = await this.UserModel.findOne({ Nome: username });
         const duplicateUserByEmail = await this.UserModel.findOne({ Email: email });
@@ -38,6 +40,7 @@ class UserRepository {
         }
         return false;
     }
+    // get all users
     async getAllUsers() {
         try {
             const allUsers = await this.UserModel.find().exec();
@@ -53,6 +56,7 @@ class UserRepository {
             throw new Error("errore imprevisto.");
         }
     }
+    //save edit to user
     async saveUserChanges(data) {
         try {
             const user = await this.UserModel.findById({ _id: data._id }).exec();
@@ -82,6 +86,7 @@ class UserRepository {
             throw new Error("errore imprevisto.");
         }
     }
+    //find a user by given id
     async findById(idUser) {
         try {
             const user = await this.UserModel.findById({ _id: idUser });
@@ -97,6 +102,7 @@ class UserRepository {
             throw new Error("errore imprevisto.");
         }
     }
+    // change status user (IsActive) : boolean
     async changeStatus(user) {
         const userDb = await this.UserModel.findById({ _id: user._id });
         if (!userDb) {

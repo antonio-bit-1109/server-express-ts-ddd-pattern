@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const User_1 = __importDefault(require("../Entities/User"));
+// import UserRepository from "../Repositories/UserRepository";
 class UserServices {
     userRepository; // Attributo della classe
     constructor(userRepository) {
@@ -17,7 +18,7 @@ class UserServices {
             const cleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {
-                const savedUser = await this.userRepository.Save(cleanUser);
+                const savedUser = await this.userRepository.create(cleanUser);
                 return savedUser;
             }
             throw new Error("trovato user duplicato. prova cambiando nome o email.");
@@ -91,6 +92,4 @@ class UserServices {
         }
     }
 }
-// export default UserServices;
-//  export const userServices = new UserServices(userRepository);
 exports.default = UserServices;

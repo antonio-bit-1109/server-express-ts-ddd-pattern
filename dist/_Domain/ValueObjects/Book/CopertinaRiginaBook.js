@@ -8,5 +8,8 @@ class CopertinaRigida {
         }
         this.copertinaRigida = copertinaRigida;
     }
+    getValue() {
+        return this.copertinaRigida;
+    }
 }
 exports.default = CopertinaRigida;

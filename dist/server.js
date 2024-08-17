@@ -32,7 +32,7 @@ app.use((0, cookie_parser_1.default)());
 // -------------------------------------------------------- redirect alle routes ----------------------------------------------------
 app.use("/", root_1.default);
 app.use("/users", UserRoute_1.default);
-app.use("/product", BookRoute_1.default);
+app.use("/book", BookRoute_1.default);
 //-----------------------------------------------------------------------------------------------------------------------------------
 app.all("*", (req, res) => {
     res.status(404);

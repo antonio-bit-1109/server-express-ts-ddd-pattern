@@ -14,5 +14,8 @@ class AutoreBook {
         // controllo che stringa in input contenga solo "parola" + spazio + "parola"
         return /^[A-Za-z]+\s[A-Za-z]+$/.test(autore);
     }
+    getValue() {
+        return this.autore;
+    }
 }
 exports.default = AutoreBook;

@@ -14,5 +14,8 @@ class TematicaBook {
         }
         return value;
     }
+    getValue() {
+        return this.tematica;
+    }
 }
 exports.default = TematicaBook;

@@ -13,5 +13,8 @@ class PagineBook {
             throw new Error("il valore fornito per pagine non è un numero.");
         }
     }
+    getValue() {
+        return this.pagine;
+    }
 }
 exports.default = PagineBook;

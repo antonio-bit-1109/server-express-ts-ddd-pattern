@@ -13,5 +13,8 @@ class NomeBook {
     validate(nomeBook) {
         return /^[A-Za-z0-9.,!?;:()\-]+$/.test(nomeBook);
     }
+    getValue() {
+        return this.nomeBook;
+    }
 }
 exports.default = NomeBook;
