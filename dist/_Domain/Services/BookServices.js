@@ -27,9 +27,13 @@ class BookServices {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
             const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica);
             const cleanBook = book.clean();
+            const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
+            if (isDuplicate instanceof Error) {
+                throw isDuplicate;
+            }
             const esito = await this.bookRepository.createBook(cleanBook);
             if (esito instanceof Error) {
-                throw new Error(esito.message);
+                throw esito;
             }
             else {
                 const msg = "libro creato con successo.";
@@ -38,7 +42,7 @@ class BookServices {
         }
         catch (err) {
             if (err instanceof Error) {
-                throw new Error(err.message);
+                throw err;
             }
             throw new Error("errore nel servizio Book Services");
         }

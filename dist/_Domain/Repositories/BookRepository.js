@@ -26,5 +26,19 @@ class BookRepository {
             return new Error(`Errore nel repository durante la creazione del libro: ${err}`);
         }
     }
+    async checkForDuplicate(titoloLibro, autore) {
+        try {
+            const duplicateBook = await this.BookModel.findOne({
+                NomeLibro: { $regex: new RegExp(`^${titoloLibro}$`, "i") },
+                Autore: { $regex: new RegExp(`^${autore}$`, "i") },
+            }).exec();
+            if (duplicateBook) {
+                return new Error("esiste gia un libro con questo titolo e autore del database.");
+            }
+        }
+        catch (err) {
+            throw new Error("errore durante il controllo del duplicato nel db. Book Repository");
+        }
+    }
 }
 exports.default = BookRepository;
