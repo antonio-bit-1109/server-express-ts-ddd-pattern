@@ -1,13 +1,13 @@
 // le entità sono sono i "modelli fondamentali dell applicazione"
 
 //USER - ENTITà FONDAMENTALE  E CON SPECIFICHE PROPRIETà
-import NomeUser from "../ValueObjects/NomeUser";
-import CognomeUser from "../ValueObjects/CognomeUser";
-import EmailUser from "../ValueObjects/EmailUser";
-import PasswordUser from "../ValueObjects/PasswordUser";
+import NomeUser from "../ValueObjects/UserObjs/NomeUser";
+import CognomeUser from "../ValueObjects/UserObjs/CognomeUser";
+import EmailUser from "../ValueObjects/UserObjs/EmailUser";
+import PasswordUser from "../ValueObjects/UserObjs/PasswordUser";
 import { ICleanUser, IUser } from "../../interfaces/interfaces";
 import { ObjectId } from "mongodb";
-import StatusUser from "../ValueObjects/StatusUser";
+import StatusUser from "../ValueObjects/UserObjs/StatusUser";
 
 class User {
     private nome: NomeUser;

@@ -11,7 +11,7 @@ class NomeBook {
     }
 
     private validate(nomeBook: string): boolean {
-        return /^[A-Za-z0-9.,!?;:()\-]+$/.test(nomeBook);
+        return /^[A-Za-z0-9.,! ?;:()\-]+$/.test(nomeBook);
     }
 
     public getValue() {

@@ -1,9 +1,9 @@
-import AutoreBook from "../ValueObjects/Book/AutoreBook";
-import CopertinaRigida from "../ValueObjects/Book/CopertinaRiginaBook";
-import NomeBook from "../ValueObjects/Book/NomeBook";
-import PagineBook from "../ValueObjects/Book/PagineBook";
-import PrezzoBook from "../ValueObjects/Book/PrezzoBook";
-import TematicaBook from "../ValueObjects/Book/TematicaBook";
+import AutoreBook from "../ValueObjects/BookObjs/AutoreBook";
+import CopertinaRigida from "../ValueObjects/BookObjs/CopertinaRiginaBook";
+import NomeBook from "../ValueObjects/BookObjs/NomeBook";
+import PagineBook from "../ValueObjects/BookObjs/PagineBook";
+import PrezzoBook from "../ValueObjects/BookObjs/PrezzoBook";
+import TematicaBook from "../ValueObjects/BookObjs/TematicaBook";
 
 class Book {
     // private autore : AutoreBook
