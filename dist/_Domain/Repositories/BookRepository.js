@@ -7,7 +7,7 @@ class BookRepository {
         this.BookModel = BookModel;
     }
     //prettier-ignore
-    async createBook(data) {
+    async save(data) {
         try {
             const savedBook = await this.BookModel.create({
                 NomeLibro: data.nomeBook,

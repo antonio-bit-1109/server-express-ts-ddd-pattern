@@ -4,11 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const BookController_1 = __importDefault(require("../controllers/BookController"));
+const AuthController_1 = __importDefault(require("../controllers/AuthController"));
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express_1.default.Router();
-router.route("/").post(BookController_1.default.createBook);
+router.route("/").post(AuthController_1.default.autenticate);
+router.route("/").get(AuthController_1.default.refresh);
+router.route("/").post(AuthController_1.default.logout);
+// router.route("/").post(BookController.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);

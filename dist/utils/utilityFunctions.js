@@ -22,3 +22,15 @@ function checkBodyStructure(bodyFromRequest, expectedBody) {
 function isBodyAsExpected(myFunction, bodyFromRequest, expectedBody) {
     return myFunction(bodyFromRequest, expectedBody);
 }
+// export function takeSecretKey(): string | Error | unknown {
+//     try {
+//         dotenv.config();
+//         const secretKey = process.env.ACCESS_TOKEN_SECRET;
+//         if (!secretKey) {
+//             throw new Error("errore durante il reperimento della chiave segreta.");
+//         }
+//         return secretKey;
+//     } catch (err) {
+//         return err;
+//     }
+// }

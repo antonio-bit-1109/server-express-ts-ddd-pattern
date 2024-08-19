@@ -18,6 +18,7 @@ const cors_1 = __importDefault(require("cors"));
 const root_1 = __importDefault(require("./_Presentation/routes/root"));
 const UserRoute_1 = __importDefault(require("./_Presentation/routes/UserRoute"));
 const BookRoute_1 = __importDefault(require("./_Presentation/routes/BookRoute"));
+const AuthRoute_1 = __importDefault(require("./_Presentation/routes/AuthRoute"));
 const GetConnectionString_1 = require("./config/GetConnectionString");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
@@ -31,6 +32,7 @@ app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 // -------------------------------------------------------- redirect alle routes ----------------------------------------------------
 app.use("/", root_1.default);
+app.use("/auth", AuthRoute_1.default);
 app.use("/users", UserRoute_1.default);
 app.use("/book", BookRoute_1.default);
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -50,7 +52,7 @@ app.use(errorHandler_1.default);
 //
 async function startServer() {
     if (process.env.NODE_ENV === "dev") {
-        const porta = process.env.PORT_DEV || "4000";
+        const porta = process.env.PORT_DEV || "3500";
         const connString = (0, GetConnectionString_1.getConnectionString)();
         if (connString.startsWith("mongodb+srv:")) {
             await (0, connectDb_1.connectDB)(connString);

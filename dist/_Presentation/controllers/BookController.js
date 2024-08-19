@@ -36,4 +36,15 @@ const createBook = async (req, res, next) => {
         next(err);
     }
 };
-exports.default = { createBook };
+// const EditBook = async (req: Request, res: Response, next: NextFunction) => {
+//     const { idBook } = req.params;
+//     const { nomeLibro, prezzoLibro, isCopertinaRigida, autoreLibro, pagine, tematica } = req.body;
+//     // per fare edit del libro non è obbligatorio inviare tutte le "proprietà che compongono l'oggetto libro, posso anche voler modificare solo il nome, o solo il prezzo ecc ecc"
+//     //i campi non da modificare devono arrivare come stringhe vuote: ""
+//     if (!idBook) {
+//         return res.status(400).json({ message: "body fornito manca di proprietà fondamentali." });
+//     }
+//     const dataEditBook: DTO_BOOK = req.body;
+//     await bookServices.editBookServ(dataEditBook, idBook);
+// };
+exports.default = { createBook /* EditBook */ };

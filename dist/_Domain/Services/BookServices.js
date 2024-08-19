@@ -31,7 +31,7 @@ class BookServices {
             if (isDuplicate instanceof Error) {
                 throw isDuplicate;
             }
-            const esito = await this.bookRepository.createBook(cleanBook);
+            const esito = await this.bookRepository.save(cleanBook);
             if (esito instanceof Error) {
                 throw esito;
             }
