@@ -18,24 +18,17 @@ class PasswordUser {
         }
     }
     validate(password, method) {
-        if (method === "EDIT") {
-            if (password === "") {
-                return "";
-            }
+        if (method === "EDIT" && password === "") {
+            return "";
         }
         // se la password risulta gia hashata la ritorno immediatamente
-        if (this.IsHashed(password)) {
-            return password;
-        }
+        // if (this.IsHashed(password)) {
+        //     return password;
+        // }
         if (this.minLength(password)) {
             const lowerChar = this.makeLower(password);
             return this.hashPassword(lowerChar);
         }
-    }
-    IsHashed(password) {
-        // controlla se la password in input ha i caratteri tipici di una psw hashata con bcrypt
-        const bcryptHashRegex = /^\$2[aby]\$.{56}$/;
-        return bcryptHashRegex.test(password);
     }
     minLength(password) {
         if (password.length >= 10) {

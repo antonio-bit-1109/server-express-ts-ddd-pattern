@@ -11,16 +11,38 @@ const authServices = new AuthServices_1.default(userRepository);
 const autenticate = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        const token = await authServices.autenticate(email, password);
-        if (typeof token !== "string") {
-            throw token;
+        if (!email || !password) {
+            return res.status(400).json({ message: "email o password mancante." });
         }
-        return res.status(200).json(token);
+        const tokensObj = await authServices.autenticate(email, password);
+        if (tokensObj instanceof Error) {
+            throw tokensObj;
+        }
+        const { token, refreshToken } = tokensObj;
+        res.cookie("jwt", { refreshToken }, {
+            httpOnly: true,
+            // secure: true,
+            // sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        return res.status(200).json({ accessToken: { token } });
     }
     catch (err) {
         next(err);
     }
 };
 const refresh = async (req, res, next) => { };
-const logout = async (req, res, next) => { };
+const logout = async (req, res, next) => {
+    try {
+        const cookie = req.cookies;
+        if (!cookie.jwt) {
+            return res.sendStatus(204); // no content
+        }
+        res.clearCookie("jwt", { httpOnly: true /*sameSite: "none", secure: true*/ });
+        return res.status(200).json({ message: "cookie cleared" });
+    }
+    catch (err) {
+        next(err);
+    }
+};
 exports.default = { autenticate, refresh, logout };

@@ -10,7 +10,7 @@ const AuthController_1 = __importDefault(require("../controllers/AuthController"
 const router = express_1.default.Router();
 router.route("/").post(AuthController_1.default.autenticate);
 router.route("/").get(AuthController_1.default.refresh);
-router.route("/").post(AuthController_1.default.logout);
+router.route("/logout").post(AuthController_1.default.logout);
 // router.route("/").post(BookController.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
