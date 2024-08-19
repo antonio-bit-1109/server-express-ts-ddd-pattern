@@ -140,7 +140,6 @@ class UserRepository {
             if (!user) {
                 throw new Error("nessun utente trovato.");
             }
-
             return user;
         } catch (err) {
             if (err instanceof Error) {

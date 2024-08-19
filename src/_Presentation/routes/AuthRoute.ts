@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route("/").post(AuthController.autenticate);
 router.route("/").get(AuthController.refresh);
-router.route("/").post(AuthController.logout);
+router.route("/logout").post(AuthController.logout);
 // router.route("/").post(BookController.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")

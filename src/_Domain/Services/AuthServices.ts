@@ -11,18 +11,19 @@ class AuthServices {
 
     async autenticate(email: string, password: string) {
         try {
+            console.log(email, password);
             // trovo lo ser a partire dalla mail
             const user = await this.userRepository.findByEmail(email);
             if (user instanceof Error) {
                 throw user;
             }
+
             //confronto che la psw criptata e quella inviata dal client combacino
-            const isPswMatching = await bcrypt.compare(user.Password, password);
+            const isPswMatching = bcrypt.compareSync(password, user.Password);
             if (!isPswMatching) {
                 throw new Error("Errore : Le password non corrispondono AuthServices - autenticate");
             }
 
-            process.env.SECRET_FIRMA_TOKEN;
             // se tutto ok uso le info dello user per creare un token
             const token = jwt.sign(
                 {
@@ -36,7 +37,14 @@ class AuthServices {
                 { expiresIn: "10m" }
             );
 
-            return token;
+            const refreshToken = jwt.sign(
+                { username: user.Nome },
+                process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
+                {
+                    expiresIn: "7d",
+                }
+            );
+            return { token, refreshToken };
         } catch (err) {
             return err;
         }

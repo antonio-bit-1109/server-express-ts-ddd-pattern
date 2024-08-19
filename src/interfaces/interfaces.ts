@@ -114,3 +114,8 @@ export interface IcleanBook {
     isCopertinaRigida: boolean;
     tematica: string;
 }
+
+export interface IObjTokens {
+    token: string;
+    refreshToken: string;
+}
