@@ -13,6 +13,7 @@ import cors from "cors";
 import RootRoute from "./_Presentation/routes/root";
 import UserRoute from "./_Presentation/routes/UserRoute";
 import BookRoute from "./_Presentation/routes/BookRoute";
+import AuthRoute from "./_Presentation/routes/AuthRoute";
 import { getConnectionString } from "./config/GetConnectionString";
 dotenv.config();
 const app = express();
@@ -29,6 +30,7 @@ app.use(cookieParser());
 
 // -------------------------------------------------------- redirect alle routes ----------------------------------------------------
 app.use("/", RootRoute);
+app.use("/auth", AuthRoute);
 app.use("/users", UserRoute);
 app.use("/book", BookRoute);
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -49,7 +51,7 @@ app.use(errorHandler);
 
 async function startServer() {
     if (process.env.NODE_ENV === "dev") {
-        const porta = process.env.PORT_DEV || "4000";
+        const porta = process.env.PORT_DEV || "3500";
 
         const connString: string = getConnectionString();
 

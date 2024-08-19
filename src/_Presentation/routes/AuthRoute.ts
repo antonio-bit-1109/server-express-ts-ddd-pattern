@@ -1,10 +1,13 @@
 import express from "express";
-import BookController from "../controllers/BookController";
+import AuthController from "../controllers/AuthController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express.Router();
 
-router.route("/").post(BookController.createBook);
+router.route("/").post(AuthController.autenticate);
+router.route("/").get(AuthController.refresh);
+router.route("/").post(AuthController.logout);
+// router.route("/").post(BookController.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);

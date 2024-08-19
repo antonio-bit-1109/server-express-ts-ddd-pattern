@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+
 export function checkBodyStructure(bodyFromRequest: object, expectedBody: object): boolean {
     const receivedKeys = Object.keys(bodyFromRequest);
     console.log("OGGETTO RICEVUTO DAL CLIENT", receivedKeys);
@@ -22,3 +24,16 @@ export function checkBodyStructure(bodyFromRequest: object, expectedBody: object
 export function isBodyAsExpected(myFunction: Function, bodyFromRequest: object, expectedBody: object): boolean {
     return myFunction(bodyFromRequest, expectedBody);
 }
+
+// export function takeSecretKey(): string | Error | unknown {
+//     try {
+//         dotenv.config();
+//         const secretKey = process.env.ACCESS_TOKEN_SECRET;
+//         if (!secretKey) {
+//             throw new Error("errore durante il reperimento della chiave segreta.");
+//         }
+//         return secretKey;
+//     } catch (err) {
+//         return err;
+//     }
+// }

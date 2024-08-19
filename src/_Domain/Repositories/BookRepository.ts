@@ -10,7 +10,7 @@ class BookRepository {
     }
 
     //prettier-ignore
-    async createBook(data :IcleanBook) :  Promise<Error | IMoongooseBook> {
+    async save(data :IcleanBook) :  Promise<Error | IMoongooseBook> {
 
         try {
           const savedBook = await this.BookModel.create({

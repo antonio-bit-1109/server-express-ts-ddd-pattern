@@ -22,6 +22,14 @@ export interface IMongooseUser extends Document {
     Password: string;
     IsActive: boolean;
 }
+export interface IMongooseUserId {
+    _id: ObjectId;
+    Nome: string;
+    Cognome: string;
+    Email: string;
+    Password: string;
+    IsActive: boolean;
+}
 
 // tipo dati ricevuti al controller User per la creazione
 export interface DataCreateUser {
@@ -69,6 +77,8 @@ export interface IUserRepository {
     saveUserChanges(data: IUser): Promise<string | Error>;
     findById(id: string): Promise<IMongooseUser | Error>;
     changeStatus(user: IUser): Promise<Error | string>;
+    // autenticateUser(username: string, password: string): Promise<Error | IMongooseUser>;
+    findByEmail(email: string): Promise<Error | IMongooseUserId>;
 }
 
 //----------------------------------------------BOOK INTERFACES--------------------------------------------------------------------------------------------------------------------------
@@ -82,7 +92,7 @@ export interface IMoongooseBook extends Document {
     TematicaLibro: string;
 }
 
-export interface DTO_create_book {
+export interface DTO_BOOK {
     nomeLibro: string;
     prezzoLibro: number;
     autoreLibro: string;
@@ -92,7 +102,7 @@ export interface DTO_create_book {
 }
 
 export interface IBookRepository {
-    createBook(data: IcleanBook): Promise<Error | IMoongooseBook>;
+    save(data: IcleanBook): Promise<Error | IMoongooseBook>;
     checkForDuplicate(titoloLibro: string, autore: string): Promise<Error | void>;
 }
 

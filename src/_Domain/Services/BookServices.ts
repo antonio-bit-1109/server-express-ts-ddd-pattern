@@ -10,7 +10,7 @@
 // import User from "../Entities/User";
 // import UserRepository from "../Repositories/UserRepository";
 
-import { DTO_create_book, IBookRepository, IcleanBook } from "../../interfaces/interfaces";
+import { DTO_BOOK, IBookRepository, IcleanBook } from "../../interfaces/interfaces";
 import Book from "../Entities/Book";
 
 class BookServices {
@@ -22,7 +22,7 @@ class BookServices {
     }
 
     // tutta la logica di business scritta qui dentro
-    async createBook(data: DTO_create_book) {
+    async createBook(data: DTO_BOOK) {
         try {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
 
@@ -39,7 +39,7 @@ class BookServices {
             if (isDuplicate instanceof Error) {
                 throw isDuplicate;
             }
-            const esito = await this.bookRepository.createBook(cleanBook);
+            const esito = await this.bookRepository.save(cleanBook);
             if (esito instanceof Error) {
                 throw esito;
             } else {
@@ -54,6 +54,8 @@ class BookServices {
         }
         //logica per la creazione di un book
     }
+
+    // async editBookServ(data: DTO_BOOK, idBook: string) {}
 }
 
 export default BookServices;
