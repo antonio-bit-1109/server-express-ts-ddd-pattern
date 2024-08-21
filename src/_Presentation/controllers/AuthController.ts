@@ -14,6 +14,7 @@ const autenticate = async (req: Request, res: Response, next: NextFunction) => {
         if (!email || !password) {
             return res.status(400).json({ message: "email o password mancante." });
         }
+
         const tokensObj = await authServices.autenticate(email, password);
         if (tokensObj instanceof Error) {
             throw tokensObj;
