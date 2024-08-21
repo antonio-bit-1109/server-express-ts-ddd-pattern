@@ -2,7 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import AuthServices from "../../_Domain/Services/AuthServices";
 import UserRepository from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
-import { IObjTokens } from "../../interfaces/interfaces";
+import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
+// import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";
 
 const userRepository = new UserRepository(UserModel);
 const authServices = new AuthServices(userRepository);
@@ -15,7 +16,7 @@ const autenticate = async (req: Request, res: Response, next: NextFunction) => {
             return res.status(400).json({ message: "email o password mancante." });
         }
 
-        const tokensObj = await authServices.autenticate(email, password);
+        const tokensObj = await authServices.autenticateHandler(email, password);
         if (tokensObj instanceof Error) {
             throw tokensObj;
         }
@@ -38,7 +39,26 @@ const autenticate = async (req: Request, res: Response, next: NextFunction) => {
     }
 };
 
-const refresh = async (req: Request, res: Response, next: NextFunction) => {};
+const refresh = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const cookie = req.cookies;
+
+        if (!cookie?.jwt)
+            return res.status(401).json({ message: "Unauthorized. non stai fornendo il cookie per il refresh ? " });
+
+        const refreshToken: string = cookie.jwt;
+
+        const resultRefreshAction = await authServices.refreshTokenHandler(refreshToken);
+
+        if (typeof resultRefreshAction !== "string") {
+            throw resultRefreshAction;
+        }
+
+        return res.json({ accessToken: resultRefreshAction });
+    } catch (err) {
+        next(err);
+    }
+};
 
 const logout = async (req: Request, res: Response, next: NextFunction) => {
     try {

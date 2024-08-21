@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const AuthServices_1 = __importDefault(require("../../_Domain/Services/AuthServices"));
 const UserRepository_1 = __importDefault(require("../../_Domain/Repositories/UserRepository"));
 const UserModel_1 = __importDefault(require("../../_Infrastructures/database/models/UserModel"));
+// import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";
 const userRepository = new UserRepository_1.default(UserModel_1.default);
 const authServices = new AuthServices_1.default(userRepository);
 const autenticate = async (req, res, next) => {
@@ -14,7 +15,7 @@ const autenticate = async (req, res, next) => {
         if (!email || !password) {
             return res.status(400).json({ message: "email o password mancante." });
         }
-        const tokensObj = await authServices.autenticate(email, password);
+        const tokensObj = await authServices.autenticateHandler(email, password);
         if (tokensObj instanceof Error) {
             throw tokensObj;
         }
@@ -31,7 +32,22 @@ const autenticate = async (req, res, next) => {
         next(err);
     }
 };
-const refresh = async (req, res, next) => { };
+const refresh = async (req, res, next) => {
+    try {
+        const cookie = req.cookies;
+        if (!cookie?.jwt)
+            return res.status(401).json({ message: "Unauthorized. non stai fornendo il cookie per il refresh ? " });
+        const refreshToken = cookie.jwt;
+        const resultRefreshAction = await authServices.refreshTokenHandler(refreshToken);
+        if (typeof resultRefreshAction !== "string") {
+            throw resultRefreshAction;
+        }
+        return res.json({ accessToken: resultRefreshAction });
+    }
+    catch (err) {
+        next(err);
+    }
+};
 const logout = async (req, res, next) => {
     try {
         const cookie = req.cookies;

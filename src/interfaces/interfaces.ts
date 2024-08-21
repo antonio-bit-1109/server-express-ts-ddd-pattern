@@ -1,4 +1,5 @@
 // import { IUser } from "../_Infrastructures/database/models/UserModel";
+import { JwtPayload } from "jsonwebtoken";
 import { NumericType, ObjectId } from "mongodb";
 
 //----------------------------------------------USER INTERFACES--------------------------------------------------------------------------------------------------------------------------
@@ -75,7 +76,7 @@ export interface IUserRepository {
     create(user: ICleanUser): Promise<IMongooseUser | null | Error>;
     getAllUsers(): Promise<IMongooseUser[] | Error>;
     saveUserChanges(data: IUser): Promise<string | Error>;
-    findById(id: string): Promise<IMongooseUser | Error>;
+    findById(id: string): Promise<IMongooseUserId | Error>;
     changeStatus(user: IUser): Promise<Error | string>;
     // autenticateUser(username: string, password: string): Promise<Error | IMongooseUser>;
     findByEmail(email: string): Promise<Error | IMongooseUserId>;
@@ -118,4 +119,14 @@ export interface IcleanBook {
 export interface IObjTokens {
     token: string;
     refreshToken: string;
+}
+
+export interface IDecodedToken extends JwtPayload {
+    UserInfo: {
+        userId: string;
+        nomeUser: string;
+        isActive: boolean;
+    };
+    iat: number;
+    exp: number;
 }

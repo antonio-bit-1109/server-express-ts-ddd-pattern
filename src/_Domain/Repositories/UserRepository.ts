@@ -93,7 +93,7 @@ class UserRepository {
     }
 
     //find a user by given id
-    async findById(idUser: string): Promise<IMongooseUser | Error> {
+    async findById(idUser: string): Promise<IMongooseUserId | Error> {
         try {
             const user = await this.UserModel.findById({ _id: idUser });
             if (!user) {
@@ -120,19 +120,6 @@ class UserRepository {
         const msg = "status utente modificato con successo.";
         return msg;
     }
-
-    // async autenticateUser(username: string, password: string) : Promise<Error | IMongooseUser>{
-    //     try {
-    //         const checkPsw =
-    //         const user = await this.UserModel.findOne({ Nome: username, Password: password }).exec();
-    //         if (!user) {
-    //             throw new Error("nessuno user trovato durante l'autenticazione. Auth_services");
-    //         }
-    //         return user;
-    //     } catch (err) {
-    //         throw new Error("errore durante l'autenticazione");
-    //     }
-    // }
 
     async findByEmail(email: string): Promise<Error | IMongooseUserId> {
         try {

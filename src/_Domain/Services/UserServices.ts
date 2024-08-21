@@ -4,6 +4,7 @@ import {
     DTO_Data_User_Edit,
     ICleanUser,
     IMongooseUser,
+    IMongooseUserId,
     IUser,
     IUserRepository,
 } from "../../interfaces/interfaces";
@@ -83,7 +84,7 @@ class UserServices {
 
     public async changeStatus(status: boolean, id: string): Promise<string | Error> {
         try {
-            const userFromDb: IMongooseUser | Error = await this.userRepository.findById(id);
+            const userFromDb: IMongooseUserId | Error = await this.userRepository.findById(id);
             if (userFromDb instanceof Error) {
                 throw new Error("errore durante il reperimento dell'utente dal database.");
             }

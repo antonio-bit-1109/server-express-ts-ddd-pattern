@@ -11,7 +11,7 @@ class AuthServices {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
-    async autenticate(email, password) {
+    async autenticateHandler(email, password) {
         try {
             console.log(email, password);
             // trovo lo ser a partire dalla mail
@@ -41,6 +41,48 @@ class AuthServices {
             return err;
         }
         //   const user = await this.userRepository.autenticateUser(username, password);
+    }
+    async refreshTokenHandler(refreshToken) {
+        try {
+            jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET || "default_secret", async (err, decoded) => {
+                try {
+                    if (err) {
+                        console.log("si è verificato un errore...");
+                        throw err;
+                    }
+                    if (decoded) {
+                        console.log("token decodificato...");
+                        const user = await this.userRepository.findById(decoded.UserInfo.userId);
+                        if (!user) {
+                            throw new Error("utente non trovato al momento della verifica del token di refresh");
+                        }
+                        if (user instanceof Error) {
+                            throw user;
+                        }
+                        const newAccessToken = jsonwebtoken_1.default.sign({
+                            UserInfo: {
+                                userId: user._id,
+                                nomeUser: user.Nome,
+                                isActive: user.IsActive,
+                            },
+                        }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "10m" });
+                        return newAccessToken;
+                    }
+                }
+                catch (err) {
+                    if (err instanceof Error) {
+                        throw err;
+                    }
+                    throw new Error("errore durante la verifica del token - Auth Services");
+                }
+            });
+        }
+        catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante il refresh del token - Auth Services");
+        }
     }
 }
 exports.default = AuthServices;

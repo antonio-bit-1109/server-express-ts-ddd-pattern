@@ -1,6 +1,6 @@
-import { IUserRepository } from "../../interfaces/interfaces";
+import { IDecodedToken, IMongooseUser, IMongooseUserId, IUserRepository } from "../../interfaces/interfaces";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 // import { takeSecretKey } from "../../utils/utilityFunctions";
 
 class AuthServices {
@@ -9,7 +9,7 @@ class AuthServices {
         this.userRepository = userRepository;
     }
 
-    async autenticate(email: string, password: string) {
+    public async autenticateHandler(email: string, password: string) {
         try {
             console.log(email, password);
             // trovo lo ser a partire dalla mail
@@ -49,6 +49,61 @@ class AuthServices {
             return err;
         }
         //   const user = await this.userRepository.autenticateUser(username, password);
+    }
+
+    public async refreshTokenHandler(refreshToken: string): Promise<any> {
+        try {
+            jwt.verify(
+                refreshToken,
+                process.env.REFRESH_TOKEN_SECRET || "default_secret",
+                async (err: VerifyErrors | null, decoded: any | undefined) => {
+                    try {
+                        if (err) {
+                            console.log("si è verificato un errore...");
+                            throw err;
+                        }
+
+                        if (decoded) {
+                            console.log("token decodificato...");
+                            const user: IMongooseUserId | Error = await this.userRepository.findById(
+                                decoded.UserInfo.userId
+                            );
+
+                            if (!user) {
+                                throw new Error("utente non trovato al momento della verifica del token di refresh");
+                            }
+                            if (user instanceof Error) {
+                                throw user;
+                            }
+
+                            const newAccessToken = jwt.sign(
+                                {
+                                    UserInfo: {
+                                        userId: user._id,
+                                        nomeUser: user.Nome,
+                                        isActive: user.IsActive,
+                                    },
+                                },
+                                process.env.SECRET_FIRMA_TOKEN || "default_secret",
+                                { expiresIn: "10m" }
+                            );
+
+                            return newAccessToken;
+                        }
+                    } catch (err) {
+                        if (err instanceof Error) {
+                            throw err;
+                        }
+                        throw new Error("errore durante la verifica del token - Auth Services");
+                    }
+                }
+            );
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante il refresh del token - Auth Services");
+        }
     }
 }
 
