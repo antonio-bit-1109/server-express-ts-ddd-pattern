@@ -11,10 +11,22 @@ const BookServices_1 = __importDefault(require("../../_Domain/Services/BookServi
 //bookModel --> bookRepository --> bookServices --> bookController
 const bookRepository = new BookRepository_1.default(BookModel_1.default);
 const bookServices = new BookServices_1.default(bookRepository);
+const getAllBooks = async (req, res, next) => {
+    try {
+        const Books = await bookServices.handleGetAllBooks();
+        if (Books instanceof Error) {
+            throw Books;
+        }
+        return res.status(200).json({ Books });
+    }
+    catch (err) {
+        next(err);
+    }
+};
 const createBook = async (req, res, next) => {
     try {
         // attendo i valori del body dal client
-        const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica } = req.body;
+        const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica, imgCopertina } = req.body;
         // se il body rispecchia il formato atteso
         const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
             nomeLibro,
@@ -23,6 +35,7 @@ const createBook = async (req, res, next) => {
             pagine,
             isCopertinaRigida,
             tematica,
+            imgCopertina,
         });
         if (!BodyasExpected) {
             return res.status(400).json({ message: `body fornito non corretto.` });
@@ -30,6 +43,7 @@ const createBook = async (req, res, next) => {
         //imposto una variabile per racchiudere il body inviato dal client
         const dataCreateBook = req.body;
         const esito = await bookServices.createBook(dataCreateBook);
+        // await bookServices.SaveImgOn_Server()
         return res.status(200).json({ message: esito });
     }
     catch (err) {
@@ -47,4 +61,4 @@ const createBook = async (req, res, next) => {
 //     const dataEditBook: DTO_BOOK = req.body;
 //     await bookServices.editBookServ(dataEditBook, idBook);
 // };
-exports.default = { createBook /* EditBook */ };
+exports.default = { createBook, getAllBooks /* EditBook */ };

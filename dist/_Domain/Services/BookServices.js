@@ -25,7 +25,7 @@ class BookServices {
     async createBook(data) {
         try {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
-            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica);
+            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica, data.imgCopertina);
             const cleanBook = book.clean();
             const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
             if (isDuplicate instanceof Error) {
@@ -47,6 +47,21 @@ class BookServices {
             throw new Error("errore nel servizio Book Services");
         }
         //logica per la creazione di un book
+    }
+    async handleGetAllBooks() {
+        try {
+            const books = await this.bookRepository.getAllBooks();
+            if (books instanceof Error) {
+                throw books;
+            }
+            return books;
+        }
+        catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore nel servizio getAllBooks" + err);
+        }
     }
 }
 exports.default = BookServices;

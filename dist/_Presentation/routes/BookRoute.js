@@ -8,6 +8,7 @@ const BookController_1 = __importDefault(require("../controllers/BookController"
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express_1.default.Router();
+router.route("/").get(BookController_1.default.getAllBooks);
 router.route("/").post(BookController_1.default.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")

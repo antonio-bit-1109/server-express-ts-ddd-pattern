@@ -29,6 +29,11 @@ const bookSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
+    ImgCopertina: {
+        type: String,
+        required: true,
+        default: "default.gif",
+    },
 });
 const BookModel = mongoose_1.default.model("BookModel", bookSchema);
 exports.default = BookModel;

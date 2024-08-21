@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const AutoreBook_1 = __importDefault(require("../ValueObjects/BookObjs/AutoreBook"));
 const CopertinaRiginaBook_1 = __importDefault(require("../ValueObjects/BookObjs/CopertinaRiginaBook"));
+const ImmagineCopertinaBook_1 = __importDefault(require("../ValueObjects/BookObjs/ImmagineCopertinaBook"));
 const NomeBook_1 = __importDefault(require("../ValueObjects/BookObjs/NomeBook"));
 const PagineBook_1 = __importDefault(require("../ValueObjects/BookObjs/PagineBook"));
 const PrezzoBook_1 = __importDefault(require("../ValueObjects/BookObjs/PrezzoBook"));
@@ -17,13 +18,15 @@ class Book {
     pagineBook;
     copertinaRigida;
     tematicaBook;
-    constructor(nome, prezzo, autore, pagine, copertinaRigida, tematica) {
+    imgCopertina;
+    constructor(nome, prezzo, autore, pagine, copertinaRigida, tematica, imgCopertina) {
         this.nomeBook = new NomeBook_1.default(nome);
         this.prezzoBook = new PrezzoBook_1.default(prezzo);
         this.autoreBook = new AutoreBook_1.default(autore);
         this.pagineBook = new PagineBook_1.default(pagine);
         this.copertinaRigida = new CopertinaRiginaBook_1.default(copertinaRigida);
         this.tematicaBook = new TematicaBook_1.default(tematica);
+        this.imgCopertina = new ImmagineCopertinaBook_1.default(imgCopertina);
     }
     clean() {
         return {
@@ -33,6 +36,7 @@ class Book {
             pagineBook: this.pagineBook.getValue(),
             isCopertinaRigida: this.copertinaRigida.getValue(),
             tematica: this.tematicaBook.getValue(),
+            imgCopertina: this.imgCopertina.getValue(),
         };
     }
 }
