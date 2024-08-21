@@ -12,10 +12,22 @@ import BookServices from "../../_Domain/Services/BookServices";
 const bookRepository = new BookRepository(BookModel);
 const bookServices = new BookServices(bookRepository);
 
+const getAllBooks = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const Books = await bookServices.handleGetAllBooks();
+        if (Books instanceof Error) {
+            throw Books;
+        }
+        return res.status(200).json({ Books });
+    } catch (err) {
+        next(err);
+    }
+};
+
 const createBook = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // attendo i valori del body dal client
-        const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica } = req.body;
+        const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica, imgCopertina } = req.body;
 
         // se il body rispecchia il formato atteso
         const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
@@ -25,6 +37,7 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
             pagine,
             isCopertinaRigida,
             tematica,
+            imgCopertina,
         });
 
         if (!BodyasExpected) {
@@ -34,6 +47,7 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
         //imposto una variabile per racchiudere il body inviato dal client
         const dataCreateBook: DTO_BOOK = req.body;
         const esito = await bookServices.createBook(dataCreateBook);
+        // await bookServices.SaveImgOn_Server()
         return res.status(200).json({ message: esito });
     } catch (err) {
         next(err);
@@ -57,4 +71,4 @@ const createBook = async (req: Request, res: Response, next: NextFunction) => {
 //     await bookServices.editBookServ(dataEditBook, idBook);
 // };
 
-export default { createBook /* EditBook */ };
+export default { createBook, getAllBooks /* EditBook */ };

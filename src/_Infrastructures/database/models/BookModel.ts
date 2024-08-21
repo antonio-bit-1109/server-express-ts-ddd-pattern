@@ -31,6 +31,12 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+
+    ImgCopertina: {
+        type: String,
+        required: true,
+        default: "default.gif",
+    },
 });
 
 const BookModel = mongoose.model<IMoongooseBook>("BookModel", bookSchema);

@@ -1,5 +1,6 @@
 import AutoreBook from "../ValueObjects/BookObjs/AutoreBook";
 import CopertinaRigida from "../ValueObjects/BookObjs/CopertinaRiginaBook";
+import ImmagineCopertinaBook from "../ValueObjects/BookObjs/ImmagineCopertinaBook";
 import NomeBook from "../ValueObjects/BookObjs/NomeBook";
 import PagineBook from "../ValueObjects/BookObjs/PagineBook";
 import PrezzoBook from "../ValueObjects/BookObjs/PrezzoBook";
@@ -13,13 +14,15 @@ class Book {
     private pagineBook: PagineBook;
     private copertinaRigida: CopertinaRigida;
     private tematicaBook: TematicaBook;
+    private imgCopertina: ImmagineCopertinaBook;
     constructor(
         nome: string,
         prezzo: number,
         autore: string,
         pagine: number,
         copertinaRigida: boolean,
-        tematica: string
+        tematica: string,
+        imgCopertina: string
     ) {
         this.nomeBook = new NomeBook(nome);
         this.prezzoBook = new PrezzoBook(prezzo);
@@ -27,6 +30,7 @@ class Book {
         this.pagineBook = new PagineBook(pagine);
         this.copertinaRigida = new CopertinaRigida(copertinaRigida);
         this.tematicaBook = new TematicaBook(tematica);
+        this.imgCopertina = new ImmagineCopertinaBook(imgCopertina);
     }
 
     clean() {
@@ -37,6 +41,7 @@ class Book {
             pagineBook: this.pagineBook.getValue(),
             isCopertinaRigida: this.copertinaRigida.getValue(),
             tematica: this.tematicaBook.getValue(),
+            imgCopertina: this.imgCopertina.getValue(),
         };
     }
 }

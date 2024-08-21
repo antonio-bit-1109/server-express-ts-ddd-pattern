@@ -46,6 +46,17 @@ class BookRepository {
             throw new Error("errore durante il controllo del duplicato nel db. Book Repository");
         }
     }
+
+    async getAllBooks(): Promise<IMoongooseBook[] | Error> {
+        try {
+            const books = await this.BookModel.find().exec();
+            return books;
+        } catch (err) {
+            throw new Error(
+                ` ERRORE : ${err} - durante il reperimetno di tutti i libri dal repository - bookRepository.ts`
+            );
+        }
+    }
 }
 
 export default BookRepository;

@@ -91,6 +91,7 @@ export interface IMoongooseBook extends Document {
     PagineLibro: number;
     CopertinaRigida: boolean;
     TematicaLibro: string;
+    ImgCopertina: string;
 }
 
 export interface DTO_BOOK {
@@ -100,11 +101,13 @@ export interface DTO_BOOK {
     pagine: number;
     isCopertinaRigida: boolean;
     tematica: string;
+    imgCopertina: string;
 }
 
 export interface IBookRepository {
     save(data: IcleanBook): Promise<Error | IMoongooseBook>;
     checkForDuplicate(titoloLibro: string, autore: string): Promise<Error | void>;
+    getAllBooks(): Promise<Error | IMoongooseBook[]>;
 }
 
 export interface IcleanBook {
@@ -114,12 +117,15 @@ export interface IcleanBook {
     pagineBook: number;
     isCopertinaRigida: boolean;
     tematica: string;
+    imgCopertina: string;
 }
 
 export interface IObjTokens {
     token: string;
     refreshToken: string;
 }
+
+// ------------------------------TOKEN----------------------------------------
 
 export interface IDecodedToken extends JwtPayload {
     UserInfo: {

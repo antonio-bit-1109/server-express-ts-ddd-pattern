@@ -4,6 +4,7 @@ import BookController from "../controllers/BookController";
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express.Router();
 
+router.route("/").get(BookController.getAllBooks);
 router.route("/").post(BookController.createBook);
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
