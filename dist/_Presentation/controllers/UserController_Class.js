@@ -26,8 +26,14 @@ let UserController_Class = class UserController_Class {
     async createUser(req, res, next) {
         try {
             //BODY : // {nome, cognome,email ,password}
-            const { nome, cognome, email, password } = req.body;
-            const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, { nome, cognome, email, password });
+            const { nome, cognome, email, password, ruoli } = req.body;
+            const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
+                nome,
+                cognome,
+                email,
+                password,
+                ruoli,
+            });
             if (!BodyasExpected) {
                 return res.status(400).json({ message: `body fornito non corretto.` });
             }

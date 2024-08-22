@@ -64,6 +64,7 @@ async function startServer() {
         await Migrations_1.default.Add_CampoPassword_to_User();
         await Migrations_1.default.addCampoIsActive_To__User();
         await Migrations_1.default.addCampo_ImgCopertina_to_book_model();
+        await Migrations_1.default.add_Ruoli_to_userModel();
         (0, serverIsListening_1.serverIsListening)(app, porta);
     }
     mongoose_1.default.connection.on("error", (err) => {

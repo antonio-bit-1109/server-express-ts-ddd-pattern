@@ -11,19 +11,22 @@ const EmailUser_1 = __importDefault(require("../ValueObjects/UserObjs/EmailUser"
 const PasswordUser_1 = __importDefault(require("../ValueObjects/UserObjs/PasswordUser"));
 const mongodb_1 = require("mongodb");
 const StatusUser_1 = __importDefault(require("../ValueObjects/UserObjs/StatusUser"));
+const Ruoliuser_1 = require("../ValueObjects/UserObjs/Ruoliuser");
 class User {
     nome;
     cognome;
     email;
     password;
     status;
-    constructor(nome, cognome, email, password, method, status = true) {
+    ruoli;
+    constructor(nome, cognome, email, password, method, status = true, ruoli) {
         try {
             this.nome = new NomeUser_1.default(nome, method);
             this.cognome = new CognomeUser_1.default(cognome, method);
             this.email = new EmailUser_1.default(email, method);
             this.password = new PasswordUser_1.default(password, method);
             this.status = new StatusUser_1.default(status);
+            this.ruoli = new Ruoliuser_1.RuoliUser(ruoli);
         }
         catch (err) {
             if (err instanceof Error) {
@@ -41,6 +44,7 @@ class User {
             email: this.email.getValue(),
             password: this.password.getValue(),
             status: this.status.getValue(),
+            ruoli: this.ruoli.getValue(),
         };
     }
     CleanWithId(id) {
@@ -51,6 +55,7 @@ class User {
             email: this.email.getValue(),
             password: this.password.getValue(),
             isActive: this.status.getValue(),
+            Ruoli: this.ruoli.getValue(),
         };
     }
 }

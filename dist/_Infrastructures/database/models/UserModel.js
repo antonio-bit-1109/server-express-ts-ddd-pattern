@@ -25,6 +25,10 @@ const userSchema = new mongoose_1.default.Schema({
         type: Boolean,
         default: true,
     },
+    Ruoli: {
+        type: [String],
+        default: ["utente"],
+    },
 });
 const UserModel = mongoose_1.default.model("UserModel", userSchema);
 exports.default = UserModel;

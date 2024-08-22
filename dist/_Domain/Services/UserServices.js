@@ -32,7 +32,7 @@ let UserServices = class UserServices {
     async createUser(data) {
         try {
             //logica di creazione dell'utente
-            const user = new User_1.default(data.nome, data.cognome, data.email, data.password, "CREATE");
+            const user = new User_1.default(data.nome, data.cognome, data.email, data.password, "CREATE", true, data.ruoli);
             const cleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {
@@ -66,7 +66,7 @@ let UserServices = class UserServices {
     async EditUser(data) {
         try {
             // passo il body ricevuto dal client alla classe User + valueObject dello user per la validazione dei dati
-            const editedUser = new User_1.default(data.nome, data.cognome, data.email, data.password, "EDIT");
+            const editedUser = new User_1.default(data.nome, data.cognome, data.email, data.password, "EDIT", true, data.ruoli);
             console.log(editedUser);
             const cleanObj = editedUser.CleanWithId(data._id);
             console.log(cleanObj);
@@ -96,7 +96,7 @@ let UserServices = class UserServices {
             if (userFromDb.IsActive === status) {
                 throw new Error("lo status fornito è uguale a quello corrente.");
             }
-            const user = new User_1.default(userFromDb.Nome, userFromDb.Cognome, userFromDb.Email, userFromDb.Password, "STATUS", status);
+            const user = new User_1.default(userFromDb.Nome, userFromDb.Cognome, userFromDb.Email, userFromDb.Password, "STATUS", status, userFromDb.Ruoli);
             const cleanedUser = user.CleanWithId(id);
             console.log(cleanedUser);
             const changeStatusDb = await this.userRepository.changeStatus(cleanedUser);
