@@ -1,12 +1,19 @@
 import { IDecodedToken, IMongooseUser, IMongooseUserId, IUserRepository } from "../../interfaces/interfaces";
 import bcrypt from "bcrypt";
+import { injectable, inject } from "inversify";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
+import { TYPES } from "../../_dependency_inject/types";
 // import { takeSecretKey } from "../../utils/utilityFunctions";
 
+@injectable()
 class AuthServices {
     private userRepository: IUserRepository;
-    constructor(userRepository: IUserRepository) {
-        this.userRepository = userRepository;
+
+    // constructor(userRepository: IUserRepository) {
+    //     this.userRepository = userRepository;
+    // }
+    constructor(@inject(TYPES.USER_REPOSITORY) userRepository_DEPEND: IUserRepository) {
+        this.userRepository = userRepository_DEPEND;
     }
 
     public async autenticateHandler(email: string, password: string) {
@@ -107,4 +114,4 @@ class AuthServices {
     }
 }
 
-export default AuthServices;
+export { AuthServices };

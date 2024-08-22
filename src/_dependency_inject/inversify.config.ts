@@ -5,7 +5,13 @@ import { UserController_Class } from "../_Presentation/controllers/UserControlle
 import { UserRepository } from "../_Domain/Repositories/UserRepository";
 import UserModel from "../_Infrastructures/database/models/UserModel";
 import { Model } from "mongoose";
-import { IMongooseUser } from "../interfaces/interfaces";
+import { IMongooseUser, IMoongooseBook } from "../interfaces/interfaces";
+import { BookController_class } from "../_Presentation/controllers/BookController_Class";
+import { BookServices } from "../_Domain/Services/BookServices";
+import { BookRepository } from "../_Domain/Repositories/BookRepository";
+import BookModel from "../_Infrastructures/database/models/BookModel";
+import { AuthController_Class } from "../_Presentation/controllers/AuthController_Class";
+import { AuthServices } from "../_Domain/Services/AuthServices";
 const container = new Container();
 
 // ----------------------------------   LEGGI BENE!!!!
@@ -14,6 +20,8 @@ const container = new Container();
 // -------------------------------------
 //
 // sto legando la classe concreta userController per essere di tipo USER_CONTROLLER , il quale tipo è specificato nell oggetto TYPES che verrò poi passato al costruttore della classe che ne ha bisogno
+
+// ---------------------INSTANZE USER------------------------
 
 // Questo lega l'implementazione concreta di UserController al simbolo TYPES.USER_CONTROLLER. Quando viene richiesto TYPES.USER_CONTROLLER, Inversify restituirà un'istanza di UserController.
 container.bind<UserController_Class>(TYPES.USER_CONTROLLER).to(UserController_Class).inSingletonScope();
@@ -25,4 +33,15 @@ container.bind<UserServices>(TYPES.USER_SERVICES).to(UserServices).inSingletonSc
 container.bind<UserRepository>(TYPES.USER_REPOSITORY).to(UserRepository).inSingletonScope();
 
 container.bind<Model<IMongooseUser>>(TYPES.USER_MODEL).toConstantValue(UserModel);
+
+// ---------------------INSTANZE BOOK------------------------
+
+container.bind<BookController_class>(TYPES.BOOK_CONTROLLER).to(BookController_class).inSingletonScope();
+container.bind<BookServices>(TYPES.BOOK_SERVICES).to(BookServices).inSingletonScope();
+container.bind<BookRepository>(TYPES.BOOK_REPOSITORY).to(BookRepository).inSingletonScope();
+container.bind<Model<IMoongooseBook>>(TYPES.BOOK_MODEL).toConstantValue(BookModel);
+
+// ---------------------INSTANZE AUTH------------------------
+container.bind<AuthController_Class>(TYPES.AUTH_CONTROLLER).to(AuthController_Class).inSingletonScope();
+container.bind<AuthServices>(TYPES.AUTH_SERVICES).to(AuthServices).inSingletonScope();
 export { container };

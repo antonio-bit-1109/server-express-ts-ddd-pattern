@@ -10,8 +10,8 @@ import { DataCreateUser, DTO_Data_User_Edit, DTO_user_change_status } from "../.
 class UserController_Class {
     private userServices: UserServices;
 
-    constructor(@inject(TYPES.USER_SERVICES) userServices: UserServices) {
-        this.userServices = userServices;
+    constructor(@inject(TYPES.USER_SERVICES) userServices_DEPEND: UserServices) {
+        this.userServices = userServices_DEPEND;
     }
 
     public async createUser(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {

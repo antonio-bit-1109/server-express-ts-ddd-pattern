@@ -1,22 +1,17 @@
 import express from "express";
-import AuthController from "../controllers/AuthController";
-// const authController = require("../controllers/authController");
-// const loginLimiter = require("../middleware/loginLimiter");
+import { container } from "../../_dependency_inject/inversify.config";
+import { AuthController_Class } from "../controllers/AuthController_Class";
+import { TYPES } from "../../_dependency_inject/types";
+import { Request, Response, NextFunction } from "express";
+
+const AuthController = container.get<AuthController_Class>(TYPES.AUTH_CONTROLLER);
+
 const router = express.Router();
 
-router.route("/").post(AuthController.autenticate);
-router.route("/").get(AuthController.refresh);
-router.route("/logout").post(AuthController.logout);
-// router.route("/").post(BookController.createBook);
-// router.route("/edit/:id").post(BookController.EditBook);
-// router.route("/")
-// router.route("/").get(userController.GetAllUsers);
-// router.route("/").post(userController.CreateNewUser);
-// router.route("/editUsername").patch(verifyJWT, userController.editUserName);
-// router.route("/editDataNascita").patch(verifyJWT, userController.editDataNascita);
-// //prettier-ignore
-// router.route("/editImgProfile")
-//     .patch( verifyJWT,  fileUpload({ createParentPath: true }), fileSizeLimiter, userController.editImgProfile);
+router.route("/").post((req: Request, res: Response, next: NextFunction) => AuthController.autenticate(req, res, next));
+router.route("/").get((req: Request, res: Response, next: NextFunction) => AuthController.refresh(req, res, next));
+//prettier-ignore
+router.route("/logout").post( (req:Request,res:Response,next:NextFunction) => AuthController.logout(req,res,next));
 
 // router.route("/sendEmailChangeStatusAccount").post(userController.sendEmailtoConfirmChangeStatusAccount);
 // router.route("/editStatusAccount/:token").get(userController.editStatusAccount);

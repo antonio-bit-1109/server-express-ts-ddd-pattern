@@ -10,15 +10,21 @@
 // import User from "../Entities/User";
 // import UserRepository from "../Repositories/UserRepository";
 
+import { inject, injectable } from "inversify";
 import { DTO_BOOK, IBookRepository, IcleanBook, IMoongooseBook } from "../../interfaces/interfaces";
 import Book from "../Entities/Book";
+import { TYPES } from "../../_dependency_inject/types";
 
+@injectable()
 class BookServices {
     private bookRepository: IBookRepository; // Attributo della classe
 
-    constructor(bookRepository: IBookRepository) {
-        // Costruttore
-        this.bookRepository = bookRepository; // Iniezione della dipendenza
+    // constructor(bookRepository: IBookRepository) {
+    //     // Costruttore
+    //     this.bookRepository = bookRepository; // Iniezione della dipendenza
+    // }
+    constructor(@inject(TYPES.BOOK_REPOSITORY) bookRepository_DEPEND: IBookRepository) {
+        this.bookRepository = bookRepository_DEPEND;
     }
 
     // tutta la logica di business scritta qui dentro
@@ -74,4 +80,4 @@ class BookServices {
     // async editBookServ(data: DTO_BOOK, idBook: string) {}
 }
 
-export default BookServices;
+export { BookServices };

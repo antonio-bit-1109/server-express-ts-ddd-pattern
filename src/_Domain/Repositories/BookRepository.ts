@@ -1,12 +1,19 @@
 import { Model } from "mongoose";
 import { IcleanBook, IMoongooseBook } from "../../interfaces/interfaces";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../../_dependency_inject/types";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
 
+@injectable()
 class BookRepository {
     private BookModel: Model<IMoongooseBook>;
 
-    constructor(BookModel: Model<IMoongooseBook>) {
-        this.BookModel = BookModel;
+    // constructor(BookModel: Model<IMoongooseBook>) {
+    //     this.BookModel = BookModel;
+    // }
+
+    constructor(@inject(TYPES.BOOK_MODEL) bookModel: Model<IMoongooseBook>) {
+        this.BookModel = bookModel;
     }
 
     //prettier-ignore
@@ -59,4 +66,4 @@ class BookRepository {
     }
 }
 
-export default BookRepository;
+export { BookRepository };

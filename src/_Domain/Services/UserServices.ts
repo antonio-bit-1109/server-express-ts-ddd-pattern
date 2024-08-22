@@ -24,8 +24,8 @@ class UserServices {
     //     this.userRepository = userRepository; // Iniezione della dipendenza
     // }
 
-    constructor(@inject(TYPES.USER_REPOSITORY) userRepository: IUserRepository) {
-        this.userRepository = userRepository;
+    constructor(@inject(TYPES.USER_REPOSITORY) userRepository_DEPEND: IUserRepository) {
+        this.userRepository = userRepository_DEPEND;
     }
 
     public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {

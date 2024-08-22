@@ -1,79 +1,79 @@
-import { Request, Response, NextFunction } from "express";
-import AuthServices from "../../_Domain/Services/AuthServices";
-import { UserRepository } from "../../_Domain/Repositories/UserRepository";
-import UserModel from "../../_Infrastructures/database/models/UserModel";
-import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
-// import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";
+// import { Request, Response, NextFunction } from "express";
+// import AuthServices from "../../_Domain/Services/AuthServices";
+// import { UserRepository } from "../../_Domain/Repositories/UserRepository";
+// import UserModel from "../../_Infrastructures/database/models/UserModel";
+// import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
+// // import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";
 
-const userRepository = new UserRepository(UserModel);
-const authServices = new AuthServices(userRepository);
+// const userRepository = new UserRepository(UserModel);
+// const authServices = new AuthServices(userRepository);
 
-const autenticate = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { email, password } = req.body;
+// const autenticate = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ message: "email o password mancante." });
-        }
+//         if (!email || !password) {
+//             return res.status(400).json({ message: "email o password mancante." });
+//         }
 
-        const tokensObj = await authServices.autenticateHandler(email, password);
-        if (tokensObj instanceof Error) {
-            throw tokensObj;
-        }
+//         const tokensObj = await authServices.autenticateHandler(email, password);
+//         if (tokensObj instanceof Error) {
+//             throw tokensObj;
+//         }
 
-        const { token, refreshToken }: any = tokensObj;
+//         const { token, refreshToken }: any = tokensObj;
 
-        res.cookie(
-            "jwt",
-            { refreshToken },
-            {
-                httpOnly: true,
-                // secure: true,
-                // sameSite: "none",
-                maxAge: 7 * 24 * 60 * 60 * 1000,
-            }
-        );
-        return res.status(200).json({ accessToken: { token } });
-    } catch (err) {
-        next(err);
-    }
-};
+//         res.cookie(
+//             "jwt",
+//             { refreshToken },
+//             {
+//                 httpOnly: true,
+//                 // secure: true,
+//                 // sameSite: "none",
+//                 maxAge: 7 * 24 * 60 * 60 * 1000,
+//             }
+//         );
+//         return res.status(200).json({ accessToken: { token } });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
 
-const refresh = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const cookie = req.cookies;
+// const refresh = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const cookie = req.cookies;
 
-        if (!cookie?.jwt)
-            return res.status(401).json({ message: "Unauthorized. non stai fornendo il cookie per il refresh ? " });
+//         if (!cookie?.jwt)
+//             return res.status(401).json({ message: "Unauthorized. non stai fornendo il cookie per il refresh ? " });
 
-        const refreshToken: string = cookie.jwt;
+//         const refreshToken: string = cookie.jwt;
 
-        const resultRefreshAction = await authServices.refreshTokenHandler(refreshToken);
+//         const resultRefreshAction = await authServices.refreshTokenHandler(refreshToken);
 
-        if (typeof resultRefreshAction !== "string") {
-            throw resultRefreshAction;
-        }
+//         if (typeof resultRefreshAction !== "string") {
+//             throw resultRefreshAction;
+//         }
 
-        return res.json({ accessToken: resultRefreshAction });
-    } catch (err) {
-        next(err);
-    }
-};
+//         return res.json({ accessToken: resultRefreshAction });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
 
-const logout = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const cookie = req.cookies;
+// const logout = async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//         const cookie = req.cookies;
 
-        if (!cookie.jwt) {
-            return res.sendStatus(204); // no content
-        }
+//         if (!cookie.jwt) {
+//             return res.sendStatus(204); // no content
+//         }
 
-        res.clearCookie("jwt", { httpOnly: true /*sameSite: "none", secure: true*/ });
+//         res.clearCookie("jwt", { httpOnly: true /*sameSite: "none", secure: true*/ });
 
-        return res.status(200).json({ message: "cookie cleared" });
-    } catch (err) {
-        next(err);
-    }
-};
+//         return res.status(200).json({ message: "cookie cleared" });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
 
-export default { autenticate, refresh, logout };
+// export default { autenticate, refresh, logout };
