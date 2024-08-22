@@ -4,23 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const AuthController_1 = __importDefault(require("../controllers/AuthController"));
-// const authController = require("../controllers/authController");
-// const loginLimiter = require("../middleware/loginLimiter");
+const inversify_config_1 = require("../../_dependency_inject/inversify.config");
+const types_1 = require("../../_dependency_inject/types");
+const AuthController = inversify_config_1.container.get(types_1.TYPES.AUTH_CONTROLLER);
 const router = express_1.default.Router();
-router.route("/").post(AuthController_1.default.autenticate);
-router.route("/").get(AuthController_1.default.refresh);
-router.route("/logout").post(AuthController_1.default.logout);
-// router.route("/").post(BookController.createBook);
-// router.route("/edit/:id").post(BookController.EditBook);
-// router.route("/")
-// router.route("/").get(userController.GetAllUsers);
-// router.route("/").post(userController.CreateNewUser);
-// router.route("/editUsername").patch(verifyJWT, userController.editUserName);
-// router.route("/editDataNascita").patch(verifyJWT, userController.editDataNascita);
-// //prettier-ignore
-// router.route("/editImgProfile")
-//     .patch( verifyJWT,  fileUpload({ createParentPath: true }), fileSizeLimiter, userController.editImgProfile);
+router.route("/").post((req, res, next) => AuthController.autenticate(req, res, next));
+router.route("/").get((req, res, next) => AuthController.refresh(req, res, next));
+//prettier-ignore
+router.route("/logout").post((req, res, next) => AuthController.logout(req, res, next));
 // router.route("/sendEmailChangeStatusAccount").post(userController.sendEmailtoConfirmChangeStatusAccount);
 // router.route("/editStatusAccount/:token").get(userController.editStatusAccount);
 // router.route("/editEmailUser").patch(verifyJWT, userController.editEmailUser);

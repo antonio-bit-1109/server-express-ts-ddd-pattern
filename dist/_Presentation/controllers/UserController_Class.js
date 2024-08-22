@@ -20,8 +20,8 @@ const UserServices_1 = require("../../_Domain/Services/UserServices");
 const utilityFunctions_1 = require("../../utils/utilityFunctions");
 let UserController_Class = class UserController_Class {
     userServices;
-    constructor(userServices) {
-        this.userServices = userServices;
+    constructor(userServices_DEPEND) {
+        this.userServices = userServices_DEPEND;
     }
     async createUser(req, res, next) {
         try {
@@ -42,6 +42,62 @@ let UserController_Class = class UserController_Class {
         }
         catch (err) {
             next(err); // Passa l'errore al middleware di gestione degli errori
+        }
+    }
+    async getAllUsers(req, res, next) {
+        try {
+            // chiama il servizio per recuperare tutti gli utenti.
+            const allUsers = await this.userServices.takeAllUsers();
+            return res.status(200).json(allUsers);
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async editUser(req, res, next) {
+        try {
+            // dati dal body per l'edit I CAMPI DA NON MODIFICARE DEVONO ESSERE STRINGHE VUOTE ("")
+            const { nome, cognome, email, password } = req.body;
+            // funzione per controllare che la struttura del body in arrivo dal client sia come si aspetta il controller.
+            const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, { nome, cognome, email, password });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+            const editData = req.body;
+            const esitoEdit = await this.userServices.EditUser(editData);
+            console.log(esitoEdit);
+            if (typeof esitoEdit === "string") {
+                return res.status(200).json({ message: "mofiche salvate correttamente." });
+            }
+            if (esitoEdit instanceof Error) {
+                return res.status(400).json({ message: esitoEdit });
+            }
+            return res.status(500).json({ message: "errore durante la modifica." });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async changeStatus(req, res, next) {
+        try {
+            const { status, idUser } = req.body;
+            //controllo che il body inviato del client abbia la struttura che si aspetta il controller
+            const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, { status, idUser });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+            const result = await this.userServices.changeStatus(status, idUser);
+            if (result instanceof Error) {
+                // throw new Error(result.message)
+                return res.status(400).json({ message: result });
+            }
+            if (typeof result === "string") {
+                return res.status(200).json({ message: result });
+            }
+            return res.status(500).json({ message: "errore durante la modifica dello status account." });
+        }
+        catch (err) {
+            next(err);
         }
     }
 };

@@ -26,8 +26,8 @@ let UserServices = class UserServices {
     //     // Costruttore
     //     this.userRepository = userRepository; // Iniezione della dipendenza
     // }
-    constructor(userRepository) {
-        this.userRepository = userRepository;
+    constructor(userRepository_DEPEND) {
+        this.userRepository = userRepository_DEPEND;
     }
     async createUser(data) {
         try {

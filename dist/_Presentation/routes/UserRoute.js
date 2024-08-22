@@ -12,7 +12,13 @@ const UserController = inversify_config_1.container.get(types_1.TYPES.USER_CONTR
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express_1.default.Router();
+//prettier-ignore
 router.route("/").post((req, res, next) => UserController.createUser(req, res, next));
+router.route("/").get((req, res, next) => UserController.getAllUsers(req, res, next));
+//prettier-ignore
+router.route("/edit").post((req, res, next) => UserController.editUser(req, res, next));
+//prettier-ignore
+router.route("/status").post((req, res, next) => UserController.changeStatus(req, res, next));
 // router.route("/").post(UserController.createUser);
 // router.route("/").get(UserController.getAllUsers);
 // router.route("/edit").post(UserController.editUser);
