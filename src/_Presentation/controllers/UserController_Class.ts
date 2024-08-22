@@ -4,7 +4,7 @@ import { TYPES } from "../../_dependency_inject/types";
 import { UserServices } from "../../_Domain/Services/UserServices";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
 import { Request, Response, NextFunction } from "express";
-import { DataCreateUser } from "../../interfaces/interfaces";
+import { DataCreateUser, DTO_Data_User_Edit, DTO_user_change_status } from "../../interfaces/interfaces";
 
 @injectable()
 class UserController_Class {
@@ -31,6 +31,68 @@ class UserController_Class {
             }
         } catch (err) {
             next(err); // Passa l'errore al middleware di gestione degli errori
+        }
+    }
+
+    public async getAllUsers(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+        try {
+            // chiama il servizio per recuperare tutti gli utenti.
+            const allUsers = await this.userServices.takeAllUsers();
+            return res.status(200).json(allUsers);
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    public async editUser(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+        try {
+            // dati dal body per l'edit I CAMPI DA NON MODIFICARE DEVONO ESSERE STRINGHE VUOTE ("")
+            const { nome, cognome, email, password } = req.body;
+
+            // funzione per controllare che la struttura del body in arrivo dal client sia come si aspetta il controller.
+
+            const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, { nome, cognome, email, password });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+
+            const editData: DTO_Data_User_Edit = req.body;
+
+            const esitoEdit = await this.userServices.EditUser(editData);
+            console.log(esitoEdit);
+            if (typeof esitoEdit === "string") {
+                return res.status(200).json({ message: "mofiche salvate correttamente." });
+            }
+            if (esitoEdit instanceof Error) {
+                return res.status(400).json({ message: esitoEdit });
+            }
+            return res.status(500).json({ message: "errore durante la modifica." });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    public async changeStatus(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+        try {
+            const { status, idUser }: DTO_user_change_status = req.body;
+            //controllo che il body inviato del client abbia la struttura che si aspetta il controller
+
+            const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, { status, idUser });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+
+            const result = await this.userServices.changeStatus(status, idUser);
+            if (result instanceof Error) {
+                // throw new Error(result.message)
+                return res.status(400).json({ message: result });
+            }
+            if (typeof result === "string") {
+                return res.status(200).json({ message: result });
+            }
+            return res.status(500).json({ message: "errore durante la modifica dello status account." });
+        } catch (err) {
+            next(err);
         }
     }
 }

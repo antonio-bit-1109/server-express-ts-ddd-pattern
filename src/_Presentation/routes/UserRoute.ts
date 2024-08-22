@@ -4,14 +4,21 @@ import { container } from "../../_dependency_inject/inversify.config";
 import { TYPES } from "../../_dependency_inject/types";
 import { UserController_Class } from "../controllers/UserController_Class";
 import { Request, Response, NextFunction } from "express";
+
 const UserController = container.get<UserController_Class>(TYPES.USER_CONTROLLER);
 // import UserController from "../controllers/UserController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express.Router();
 
+//prettier-ignore
 router.route("/").post((req: Request, res: Response, next: NextFunction) => UserController.createUser(req, res, next));
+router.route("/").get((req: Request, res: Response, next: NextFunction) => UserController.getAllUsers(req, res, next));
+//prettier-ignore
+router.route("/edit").post((req: Request, res: Response, next: NextFunction) => UserController.editUser(req, res, next));
+//prettier-ignore
 
+router.route("/status").post((req: Request, res: Response, next: NextFunction) => UserController.changeStatus(req, res, next));
 // router.route("/").post(UserController.createUser);
 // router.route("/").get(UserController.getAllUsers);
 // router.route("/edit").post(UserController.editUser);
