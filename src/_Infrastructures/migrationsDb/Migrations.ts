@@ -47,4 +47,22 @@ async function addCampo_ImgCopertina_to_book_model() {
     }
 }
 
-export default { Add_CampoPassword_to_User, addCampoIsActive_To__User, addCampo_ImgCopertina_to_book_model };
+async function add_Ruoli_to_userModel() {
+    try {
+        console.log("migrazione in corso...");
+        console.log("aggiunta campo ruoli al user model...");
+        const result = await UserModel.updateMany({ Ruoli: { $exists: false } }, { $set: { Ruoli: ["utente"] } });
+        if (result) {
+            console.log("migrazione eseguita.");
+        }
+    } catch (err) {
+        console.log(`errore durante la migrazione: ${err}`);
+    }
+}
+
+export default {
+    Add_CampoPassword_to_User,
+    addCampoIsActive_To__User,
+    addCampo_ImgCopertina_to_book_model,
+    add_Ruoli_to_userModel,
+};

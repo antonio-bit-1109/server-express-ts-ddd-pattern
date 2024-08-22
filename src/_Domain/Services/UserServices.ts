@@ -31,7 +31,7 @@ class UserServices {
     public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {
         try {
             //logica di creazione dell'utente
-            const user = new User(data.nome, data.cognome, data.email, data.password, "CREATE");
+            const user = new User(data.nome, data.cognome, data.email, data.password, "CREATE", true, data.ruoli);
             const cleanUser: ICleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {
@@ -65,7 +65,7 @@ class UserServices {
     public async EditUser(data: DTO_Data_User_Edit) {
         try {
             // passo il body ricevuto dal client alla classe User + valueObject dello user per la validazione dei dati
-            const editedUser = new User(data.nome, data.cognome, data.email, data.password, "EDIT");
+            const editedUser = new User(data.nome, data.cognome, data.email, data.password, "EDIT", true, data.ruoli);
             console.log(editedUser);
             const cleanObj: IUser = editedUser.CleanWithId(data._id);
             console.log(cleanObj);
@@ -106,7 +106,8 @@ class UserServices {
                 userFromDb.Email,
                 userFromDb.Password,
                 "STATUS",
-                status
+                status,
+                userFromDb.Ruoli
             );
             const cleanedUser: IUser = user.CleanWithId(id);
             console.log(cleanedUser);

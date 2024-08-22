@@ -65,6 +65,7 @@ async function startServer() {
         await MigrationFunction.Add_CampoPassword_to_User();
         await MigrationFunction.addCampoIsActive_To__User();
         await MigrationFunction.addCampo_ImgCopertina_to_book_model();
+        await MigrationFunction.add_Ruoli_to_userModel();
 
         serverIsListening(app, porta);
     }

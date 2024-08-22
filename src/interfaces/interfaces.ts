@@ -12,6 +12,7 @@ export interface IUser {
     email: string;
     password: string;
     isActive: boolean;
+    Ruoli: string[];
 }
 
 // Definisci l'interfaccia IMongooseUser peril modello che si interfaccia con mongoose
@@ -22,6 +23,7 @@ export interface IMongooseUser extends Document {
     Email: string;
     Password: string;
     IsActive: boolean;
+    Ruoli: string[];
 }
 export interface IMongooseUserId {
     _id: ObjectId;
@@ -30,6 +32,7 @@ export interface IMongooseUserId {
     Email: string;
     Password: string;
     IsActive: boolean;
+    Ruoli: string[];
 }
 
 // tipo dati ricevuti al controller User per la creazione
@@ -38,6 +41,7 @@ export interface DataCreateUser {
     cognome: string;
     email: string;
     password: string;
+    ruoli: string[];
 }
 
 // Tipo di dati derivati da un'entità User per la persistenza
@@ -47,6 +51,7 @@ export interface ICleanUser {
     email: string;
     password: string;
     status: boolean;
+    ruoli: string[];
 }
 
 // interfaccia in entrata su server per EDIT user
@@ -67,6 +72,7 @@ export interface DTO_Data_User_Edit {
     cognome: string;
     email: string;
     password: string;
+    ruoli: string[];
 }
 
 // // lo UserAppService riceve una user repository tipizzare in questo modo, ovvero contenente uesti metodi :

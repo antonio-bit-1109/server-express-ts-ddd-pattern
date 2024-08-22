@@ -24,6 +24,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+
+    Ruoli: {
+        type: [String],
+        default: ["utente"],
+    },
 });
 
 const UserModel = mongoose.model<IMongooseUser>("UserModel", userSchema);

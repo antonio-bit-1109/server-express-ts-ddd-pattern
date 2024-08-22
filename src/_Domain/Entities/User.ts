@@ -8,6 +8,7 @@ import PasswordUser from "../ValueObjects/UserObjs/PasswordUser";
 import { ICleanUser, IUser } from "../../interfaces/interfaces";
 import { ObjectId } from "mongodb";
 import StatusUser from "../ValueObjects/UserObjs/StatusUser";
+import { RuoliUser } from "../ValueObjects/UserObjs/Ruoliuser";
 
 class User {
     private nome: NomeUser;
@@ -15,14 +16,15 @@ class User {
     private email: EmailUser;
     private password: PasswordUser;
     private status: StatusUser;
-
+    private ruoli: RuoliUser;
     constructor(
         nome: string,
         cognome: string,
         email: string,
         password: string,
         method: string,
-        status: boolean = true
+        status: boolean = true,
+        ruoli: string[]
     ) {
         try {
             this.nome = new NomeUser(nome, method);
@@ -30,6 +32,7 @@ class User {
             this.email = new EmailUser(email, method);
             this.password = new PasswordUser(password, method);
             this.status = new StatusUser(status);
+            this.ruoli = new RuoliUser(ruoli);
         } catch (err) {
             if (err instanceof Error) {
                 throw new Error(err.message);
@@ -46,6 +49,7 @@ class User {
             email: this.email.getValue(),
             password: this.password.getValue(),
             status: this.status.getValue(),
+            ruoli: this.ruoli.getValue(),
         };
     }
 
@@ -57,6 +61,7 @@ class User {
             email: this.email.getValue(),
             password: this.password.getValue(),
             isActive: this.status.getValue(),
+            Ruoli: this.ruoli.getValue(),
         };
     }
 }
