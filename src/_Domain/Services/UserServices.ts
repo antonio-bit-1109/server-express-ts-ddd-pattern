@@ -9,14 +9,23 @@ import {
     IUserRepository,
 } from "../../interfaces/interfaces";
 import User from "../Entities/User";
+import { TYPES } from "../../_dependency_inject/types";
+import { injectable, inject } from "inversify";
+import { UserRepository } from "../Repositories/UserRepository";
+
 // import UserRepository from "../Repositories/UserRepository";
 
+@injectable()
 class UserServices {
     private userRepository: IUserRepository; // Attributo della classe
 
-    constructor(userRepository: IUserRepository) {
-        // Costruttore
-        this.userRepository = userRepository; // Iniezione della dipendenza
+    // constructor(userRepository: IUserRepository) {
+    //     // Costruttore
+    //     this.userRepository = userRepository; // Iniezione della dipendenza
+    // }
+
+    constructor(@inject(TYPES.USER_REPOSITORY) userRepository: IUserRepository) {
+        this.userRepository = userRepository;
     }
 
     public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {

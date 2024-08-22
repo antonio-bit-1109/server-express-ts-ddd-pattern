@@ -1,11 +1,18 @@
 import { Model } from "mongoose";
 import { ICleanUser, IMongooseUser, IMongooseUserId, IUser } from "../../interfaces/interfaces";
+import { inject, injectable } from "inversify";
+import { TYPES } from "../../_dependency_inject/types";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
 
+@injectable()
 class UserRepository {
     private UserModel: Model<IMongooseUser>;
 
-    constructor(UserModel: Model<IMongooseUser>) {
+    // constructor(UserModel: Model<IMongooseUser>) {
+    //     this.UserModel = UserModel;
+    // }
+
+    constructor(@inject(TYPES.USER_MODEL) UserModel: Model<IMongooseUser>) {
         this.UserModel = UserModel;
     }
 

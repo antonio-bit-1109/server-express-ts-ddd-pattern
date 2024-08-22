@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import AuthServices from "../../_Domain/Services/AuthServices";
-import UserRepository from "../../_Domain/Repositories/UserRepository";
+import { UserRepository } from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
 import jwt, { VerifyErrors, JwtPayload } from "jsonwebtoken";
 // import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";

@@ -3,15 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const UserServices_1 = __importDefault(require("../../_Domain/Services/UserServices"));
-const UserRepository_1 = __importDefault(require("../../_Domain/Repositories/UserRepository"));
+const UserServices_1 = require("../../_Domain/Services/UserServices");
+const UserRepository_1 = require("../../_Domain/Repositories/UserRepository");
 const UserModel_1 = __importDefault(require("../../_Infrastructures/database/models/UserModel"));
 // import User from "../../_Domain/Entities/User";
 const utilityFunctions_1 = require("../../utils/utilityFunctions");
 // import { checkBodyStructure } from "../../utils/utilityFunctions";
 // Instanza i servizi e repository
-const userRepository = new UserRepository_1.default(UserModel_1.default);
-const userServices = new UserServices_1.default(userRepository);
+const userRepository = new UserRepository_1.UserRepository(UserModel_1.default);
+const userServices = new UserServices_1.UserServices(userRepository);
 // const createUser = asyncHandler(async (req, res) => {
 //     // {nome, cognome,email ,password}
 //     const userData = req.body;

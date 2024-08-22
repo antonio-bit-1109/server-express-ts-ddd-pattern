@@ -4,14 +4,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const UserController_1 = __importDefault(require("../controllers/UserController"));
+require("reflect-metadata");
+const inversify_config_1 = require("../../_dependency_inject/inversify.config");
+const types_1 = require("../../_dependency_inject/types");
+const UserController = inversify_config_1.container.get(types_1.TYPES.USER_CONTROLLER);
+// import UserController from "../controllers/UserController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const router = express_1.default.Router();
-router.route("/").post(UserController_1.default.createUser);
-router.route("/").get(UserController_1.default.getAllUsers);
-router.route("/edit").post(UserController_1.default.editUser);
-router.route("/status").post(UserController_1.default.changeStatus);
+router.route("/").post((req, res, next) => UserController.createUser(req, res, next));
+// router.route("/").post(UserController.createUser);
+// router.route("/").get(UserController.getAllUsers);
+// router.route("/edit").post(UserController.editUser);
+// router.route("/status").post(UserController.changeStatus);
 //
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);

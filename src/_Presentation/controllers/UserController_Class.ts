@@ -5,6 +5,7 @@ import { UserServices } from "../../_Domain/Services/UserServices";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
 import { Request, Response, NextFunction } from "express";
 import { DataCreateUser } from "../../interfaces/interfaces";
+
 @injectable()
 class UserController_Class {
     private userServices: UserServices;

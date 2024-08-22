@@ -4,10 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const AuthServices_1 = __importDefault(require("../../_Domain/Services/AuthServices"));
-const UserRepository_1 = __importDefault(require("../../_Domain/Repositories/UserRepository"));
+const UserRepository_1 = require("../../_Domain/Repositories/UserRepository");
 const UserModel_1 = __importDefault(require("../../_Infrastructures/database/models/UserModel"));
 // import { IDecodedToken, IMongooseUser, IMongooseUserId } from "../../interfaces/interfaces";
-const userRepository = new UserRepository_1.default(UserModel_1.default);
+const userRepository = new UserRepository_1.UserRepository(UserModel_1.default);
 const authServices = new AuthServices_1.default(userRepository);
 const autenticate = async (req, res, next) => {
     try {
