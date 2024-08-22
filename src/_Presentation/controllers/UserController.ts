@@ -8,8 +8,8 @@ import {
     EditUserData,
     IUser,
 } from "../../interfaces/interfaces";
-import UserServices from "../../_Domain/Services/UserServices";
-import UserRepository from "../../_Domain/Repositories/UserRepository";
+import { UserServices } from "../../_Domain/Services/UserServices";
+import { UserRepository } from "../../_Domain/Repositories/UserRepository";
 import UserModel from "../../_Infrastructures/database/models/UserModel";
 // import User from "../../_Domain/Entities/User";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";

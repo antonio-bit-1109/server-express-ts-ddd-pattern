@@ -1,6 +1,6 @@
 // import { IUser } from "../_Infrastructures/database/models/UserModel";
 import { JwtPayload } from "jsonwebtoken";
-import { NumericType, ObjectId } from "mongodb";
+import { Document, NumericType, ObjectId } from "mongodb";
 
 //----------------------------------------------USER INTERFACES--------------------------------------------------------------------------------------------------------------------------
 
