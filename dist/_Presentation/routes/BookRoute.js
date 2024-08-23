@@ -6,13 +6,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const inversify_config_1 = require("../../_dependency_inject/inversify.config");
 const types_1 = require("../../_dependency_inject/types");
+const verify_JWT_1 = require("../middleware/verify_JWT");
 // import BookController from "../controllers/BookController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
 const BookController = inversify_config_1.container.get(types_1.TYPES.BOOK_CONTROLLER);
 // const UserController = container.get<UserController_Class>(TYPES.USER_CONTROLLER);
 const router = express_1.default.Router();
-router.route("/").get((req, res, next) => BookController.getAllBooks(req, res, next));
+//prettier-ignore
+router.route("/").get(verify_JWT_1.verify_Jwt, (req, res, next) => BookController.getAllBooks(req, res, next));
 router.route("/").post((req, res, next) => BookController.createBook(req, res, next));
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")

@@ -56,7 +56,7 @@ class AuthController_Class {
                 throw resultRefreshAction;
             }
 
-            return res.json({ accessToken: resultRefreshAction });
+            return res.json({ token: resultRefreshAction });
         } catch (err) {
             next(err);
         }

@@ -54,7 +54,7 @@ let AuthController_Class = class AuthController_Class {
             if (typeof resultRefreshAction !== "string") {
                 throw resultRefreshAction;
             }
-            return res.json({ accessToken: resultRefreshAction });
+            return res.json({ token: resultRefreshAction });
         }
         catch (err) {
             next(err);

@@ -48,8 +48,9 @@ let AuthServices = class AuthServices {
                     userId: user._id,
                     nomeUser: user.Nome,
                     isActive: user.IsActive,
+                    roles: user.Ruoli,
                 },
-            }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "10m" });
+            }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "5s" });
             const refreshToken = jsonwebtoken_1.default.sign({ username: user.Nome }, process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret", {
                 expiresIn: "7d",
             });
@@ -82,8 +83,9 @@ let AuthServices = class AuthServices {
                                 userId: user._id,
                                 nomeUser: user.Nome,
                                 isActive: user.IsActive,
+                                roles: user.Ruoli,
                             },
-                        }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "10m" });
+                        }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "5s" });
                         return newAccessToken;
                     }
                 }

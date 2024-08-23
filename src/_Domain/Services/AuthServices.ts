@@ -38,10 +38,11 @@ class AuthServices {
                         userId: user._id,
                         nomeUser: user.Nome,
                         isActive: user.IsActive,
+                        roles: user.Ruoli,
                     },
                 },
                 process.env.SECRET_FIRMA_TOKEN || "default_secret",
-                { expiresIn: "10m" }
+                { expiresIn: "5s" }
             );
 
             const refreshToken = jwt.sign(
@@ -89,10 +90,11 @@ class AuthServices {
                                         userId: user._id,
                                         nomeUser: user.Nome,
                                         isActive: user.IsActive,
+                                        roles: user.Ruoli,
                                     },
                                 },
                                 process.env.SECRET_FIRMA_TOKEN || "default_secret",
-                                { expiresIn: "10m" }
+                                { expiresIn: "5s" }
                             );
 
                             return newAccessToken;

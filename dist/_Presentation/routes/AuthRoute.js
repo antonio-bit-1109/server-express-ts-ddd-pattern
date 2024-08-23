@@ -6,10 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const inversify_config_1 = require("../../_dependency_inject/inversify.config");
 const types_1 = require("../../_dependency_inject/types");
+// import { verify_Jwt } from "../middleware/verify_JWT";
 const AuthController = inversify_config_1.container.get(types_1.TYPES.AUTH_CONTROLLER);
 const router = express_1.default.Router();
+//prettier-ignore
 router.route("/").post((req, res, next) => AuthController.autenticate(req, res, next));
-router.route("/").get((req, res, next) => AuthController.refresh(req, res, next));
+//prettier-ignore
+router.route("/refresh").get((req, res, next) => AuthController.refresh(req, res, next));
 //prettier-ignore
 router.route("/logout").post((req, res, next) => AuthController.logout(req, res, next));
 // router.route("/sendEmailChangeStatusAccount").post(userController.sendEmailtoConfirmChangeStatusAccount);

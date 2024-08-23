@@ -3,7 +3,7 @@ import { container } from "../../_dependency_inject/inversify.config";
 import { BookController_class } from "../controllers/BookController_Class";
 import { TYPES } from "../../_dependency_inject/types";
 import { Request, Response, NextFunction } from "express";
-
+import { verify_Jwt } from "../middleware/verify_JWT";
 // import BookController from "../controllers/BookController";
 // const authController = require("../controllers/authController");
 // const loginLimiter = require("../middleware/loginLimiter");
@@ -13,7 +13,8 @@ const BookController = container.get<BookController_class>(TYPES.BOOK_CONTROLLER
 
 const router = express.Router();
 
-router.route("/").get((req: Request, res: Response, next: NextFunction) => BookController.getAllBooks(req, res, next));
+//prettier-ignore
+router.route("/").get(verify_Jwt, (req: Request, res: Response, next: NextFunction) => BookController.getAllBooks(req, res, next));
 router.route("/").post((req: Request, res: Response, next: NextFunction) => BookController.createBook(req, res, next));
 
 // router.route("/edit/:id").post(BookController.EditBook);

@@ -1,7 +1,7 @@
 // import { IUser } from "../_Infrastructures/database/models/UserModel";
 import { JwtPayload } from "jsonwebtoken";
 import { Document, NumericType, ObjectId } from "mongodb";
-
+import { Request } from "express";
 //----------------------------------------------USER INTERFACES--------------------------------------------------------------------------------------------------------------------------
 
 // Interfaccia per rappresentare un utente nel database
@@ -138,7 +138,20 @@ export interface IDecodedToken extends JwtPayload {
         userId: string;
         nomeUser: string;
         isActive: boolean;
+        roles: string[];
     };
     iat: number;
     exp: number;
+}
+
+// ------------------- extend express request interface per accettare delle nuove proprietà facenti parte della request, quindi che saranno sempre disponibili qualora si decriptasse il token e il risultato del token decriptato sia passato al controller successivo.
+
+// sto aggiungendo un interfaccia a request e sto specificando che potrebbero esserci delle proprietà con questi nomi nella request che arriva dal client.
+declare module "express-serve-static-core" {
+    interface Request {
+        userId?: string;
+        nomeutente?: string;
+        IsActive?: boolean;
+        roles?: string[];
+    }
 }
