@@ -4,6 +4,7 @@ import {
     DTO_Data_User_Edit,
     ICleanUser,
     IMongooseUser,
+    IMongooseUser_no_psw,
     IMongooseUserId,
     IUser,
     IUserRepository,
@@ -47,7 +48,7 @@ class UserServices {
         }
     }
 
-    public async takeAllUsers(): Promise<IMongooseUser[] | Error> {
+    public async takeAllUsers(): Promise<IMongooseUser_no_psw[] | Error> {
         try {
             const allUsers = await this.userRepository.getAllUsers();
             if (allUsers) {

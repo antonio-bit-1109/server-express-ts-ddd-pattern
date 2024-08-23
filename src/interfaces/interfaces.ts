@@ -25,6 +25,13 @@ export interface IMongooseUser extends Document {
     IsActive: boolean;
     Ruoli: string[];
 }
+export interface IMongooseUser_no_psw extends Document {
+    Nome: string;
+    Cognome: string;
+    Email: string;
+    IsActive: boolean;
+    Ruoli: string[];
+}
 export interface IMongooseUserId {
     _id: ObjectId;
     Nome: string;

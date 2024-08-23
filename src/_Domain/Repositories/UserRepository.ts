@@ -1,5 +1,5 @@
 import { Model } from "mongoose";
-import { ICleanUser, IMongooseUser, IMongooseUserId, IUser } from "../../interfaces/interfaces";
+import { ICleanUser, IMongooseUser, IMongooseUser_no_psw, IMongooseUserId, IUser } from "../../interfaces/interfaces";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../_dependency_inject/types";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
@@ -52,9 +52,11 @@ class UserRepository {
     }
 
     // get all users
-    async getAllUsers(): Promise<IMongooseUser[] | Error> {
+    async getAllUsers(): Promise<IMongooseUser_no_psw[] | Error> {
         try {
-            const allUsers = await this.UserModel.find().exec();
+            const allUsers = await this.UserModel.find({ Ruoli: { $ne: "admin" } })
+                .select("-Password")
+                .exec();
             if (allUsers.length <= 0) {
                 throw new Error("nessun utente presente del database.");
             }
