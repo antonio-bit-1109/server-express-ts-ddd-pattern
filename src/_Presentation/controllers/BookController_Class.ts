@@ -3,7 +3,7 @@ import { BookServices } from "../../_Domain/Services/BookServices";
 import { TYPES } from "../../_dependency_inject/types";
 import { Request, Response, NextFunction } from "express";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
-import { DTO_BOOK } from "../../interfaces/interfaces";
+import { DTO_BOOK, IDataEditBook } from "../../interfaces/interfaces";
 
 @injectable()
 class BookController_class {
@@ -52,6 +52,27 @@ class BookController_class {
         } catch (err) {
             next(err);
         }
+    }
+
+    public async editBook(req: Request, res: Response, next: NextFunction) {
+        const { titolo, prezzo, autore, tema, copertinaRigida, numPagine } = req.body;
+        // se il body rispecchia il formato atteso
+        const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
+            titolo,
+            prezzo,
+            autore,
+            tema,
+            copertinaRigida,
+            numPagine,
+        });
+
+        if (!BodyasExpected) {
+            return res.status(400).json({ message: `body fornito non corretto.` });
+        }
+
+        const dataEditBook: IDataEditBook = req.body;
+
+        await this.bookServices.handleEditBook(dataEditBook);
     }
 }
 

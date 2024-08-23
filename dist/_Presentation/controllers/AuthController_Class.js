@@ -50,11 +50,13 @@ let AuthController_Class = class AuthController_Class {
             if (!cookie?.jwt)
                 return res.status(401).json({ message: "Unauthorized. non stai fornendo il cookie per il refresh ? " });
             const refreshToken = cookie.jwt;
-            const resultRefreshAction = await this.authServices.refreshTokenHandler(refreshToken);
+            const resultRefreshAction = await this.authServices.refreshTokenHandler(refreshToken.refreshToken);
+            console.log(resultRefreshAction);
             if (typeof resultRefreshAction !== "string") {
                 throw resultRefreshAction;
             }
-            return res.json({ token: resultRefreshAction });
+            // console.log(res.json({ token: resultRefreshAction }));
+            return res.status(200).json({ token: resultRefreshAction });
         }
         catch (err) {
             next(err);

@@ -9,7 +9,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const verify_Jwt = async (req, res, next) => {
     try {
-        console.log(req.headers);
+        // console.log(req.headers);
         const authHeader = req.headers.authorization || req.headers.Authorization;
         if (typeof authHeader !== "string") {
             return res.status(401).json({ message: "Bearer Token non in formato stringa. Ricontrolla" });
@@ -18,6 +18,9 @@ const verify_Jwt = async (req, res, next) => {
             return res.status(401).json({ message: "controlla il Bearer token. Unautorized." });
         }
         const token = authHeader.split(" ")[1];
+        //
+        // console.log(token);
+        //
         jsonwebtoken_1.default.verify(token, process.env.SECRET_FIRMA_TOKEN || "default_secret_token", async (err, decoded) => {
             if (err)
                 return res.status(403).json({ message: "Forbidden. errore. Token scaduto." });

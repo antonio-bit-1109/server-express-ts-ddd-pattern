@@ -11,7 +11,7 @@
 // import UserRepository from "../Repositories/UserRepository";
 
 import { inject, injectable } from "inversify";
-import { DTO_BOOK, IBookRepository, IcleanBook, IMoongooseBook } from "../../interfaces/interfaces";
+import { DTO_BOOK, IBookRepository, IcleanBook, IDataEditBook, IMoongooseBook } from "../../interfaces/interfaces";
 import Book from "../Entities/Book";
 import { TYPES } from "../../_dependency_inject/types";
 
@@ -76,8 +76,8 @@ class BookServices {
             throw new Error("errore nel servizio getAllBooks" + err);
         }
     }
-    // public SaveImgOn_Server(){}
-    // async editBookServ(data: DTO_BOOK, idBook: string) {}
+
+    public async handleEditBook(data: IDataEditBook) {}
 }
 
 export { BookServices };

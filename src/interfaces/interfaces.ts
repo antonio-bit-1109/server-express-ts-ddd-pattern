@@ -138,6 +138,15 @@ export interface IObjTokens {
     refreshToken: string;
 }
 
+export interface IDataEditBook {
+    titolo: string;
+    prezzo: number;
+    autore: string;
+    tema: string;
+    copertinaRigida: boolean;
+    numPagine: number;
+}
+
 // ------------------------------TOKEN----------------------------------------
 
 export interface IDecodedToken extends JwtPayload {

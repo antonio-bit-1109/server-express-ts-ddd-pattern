@@ -31,7 +31,7 @@ let AuthServices = class AuthServices {
     }
     async autenticateHandler(email, password) {
         try {
-            console.log(email, password);
+            // console.log(email, password);
             // trovo lo ser a partire dalla mail
             const user = await this.userRepository.findByEmail(email);
             if (user instanceof Error) {
@@ -51,7 +51,7 @@ let AuthServices = class AuthServices {
                     roles: user.Ruoli,
                 },
             }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "5s" });
-            const refreshToken = jsonwebtoken_1.default.sign({ username: user.Nome }, process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret", {
+            const refreshToken = jsonwebtoken_1.default.sign({ userId: user._id, username: user.Nome }, process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret", {
                 expiresIn: "7d",
             });
             return { token, refreshToken };
@@ -63,39 +63,40 @@ let AuthServices = class AuthServices {
     }
     async refreshTokenHandler(refreshToken) {
         try {
-            jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET || "default_secret", async (err, decoded) => {
-                try {
+            // console.log(refreshToken);
+            if (typeof refreshToken !== "string") {
+                throw new Error("Il token di refresh non è una stringa valida");
+            }
+            // la decodifica del token è asincrona quniid va aspettata con una promise.
+            const decoded = await new Promise((resolve, reject) => {
+                jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET || "default_secret", (err, decoded) => {
                     if (err) {
-                        console.log("si è verificato un errore...");
-                        throw err;
+                        return reject(err);
                     }
-                    if (decoded) {
-                        console.log("token decodificato...");
-                        const user = await this.userRepository.findById(decoded.UserInfo.userId);
-                        if (!user) {
-                            throw new Error("utente non trovato al momento della verifica del token di refresh");
-                        }
-                        if (user instanceof Error) {
-                            throw user;
-                        }
-                        const newAccessToken = jsonwebtoken_1.default.sign({
-                            UserInfo: {
-                                userId: user._id,
-                                nomeUser: user.Nome,
-                                isActive: user.IsActive,
-                                roles: user.Ruoli,
-                            },
-                        }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "5s" });
-                        return newAccessToken;
-                    }
-                }
-                catch (err) {
-                    if (err instanceof Error) {
-                        throw err;
-                    }
-                    throw new Error("errore durante la verifica del token - Auth Services");
-                }
+                    resolve(decoded);
+                });
             });
+            if (!decoded || !decoded.userId) {
+                throw new Error("Token decodificato non valido");
+            }
+            console.log("token decodificato...");
+            const user = await this.userRepository.findById(decoded.userId);
+            // console.log(user);
+            if (!user) {
+                throw new Error("utente non trovato al momento della verifica del token di refresh");
+            }
+            if (user instanceof Error) {
+                throw user;
+            }
+            const newAccessToken = jsonwebtoken_1.default.sign({
+                UserInfo: {
+                    userId: user._id.toString(),
+                    nomeUser: user.Nome,
+                    isActive: user.IsActive,
+                    roles: user.Ruoli,
+                },
+            }, process.env.SECRET_FIRMA_TOKEN || "default_secret", { expiresIn: "5s" });
+            return newAccessToken;
         }
         catch (err) {
             if (err instanceof Error) {

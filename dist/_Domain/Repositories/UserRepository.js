@@ -62,7 +62,9 @@ let UserRepository = class UserRepository {
     // get all users
     async getAllUsers() {
         try {
-            const allUsers = await this.UserModel.find().exec();
+            const allUsers = await this.UserModel.find({ Ruoli: { $ne: "admin" } })
+                .select("-Password")
+                .exec();
             if (allUsers.length <= 0) {
                 throw new Error("nessun utente presente del database.");
             }

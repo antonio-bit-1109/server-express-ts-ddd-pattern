@@ -15,8 +15,10 @@ const router = express.Router();
 
 //prettier-ignore
 router.route("/").get(verify_Jwt, (req: Request, res: Response, next: NextFunction) => BookController.getAllBooks(req, res, next));
+//prettier-ignore
 router.route("/").post((req: Request, res: Response, next: NextFunction) => BookController.createBook(req, res, next));
-
+//prettier-ignore
+router.route("/edit").post(verify_Jwt ,(req: Request, res: Response, next: NextFunction) => BookController.editBook(req,res,next) )
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);
