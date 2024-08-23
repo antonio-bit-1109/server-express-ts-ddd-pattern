@@ -7,7 +7,8 @@ dotenv.config();
 
 const verify_Jwt = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        console.log(req.headers);
+        // console.log(req.headers);
+
         const authHeader = req.headers.authorization || req.headers.Authorization;
 
         if (typeof authHeader !== "string") {
@@ -19,7 +20,9 @@ const verify_Jwt = async (req: Request, res: Response, next: NextFunction) => {
         }
 
         const token = authHeader.split(" ")[1];
-
+        //
+        // console.log(token);
+        //
         jwt.verify(token, process.env.SECRET_FIRMA_TOKEN || "default_secret_token", async (err, decoded) => {
             if (err) return res.status(403).json({ message: "Forbidden. errore. Token scaduto." });
 

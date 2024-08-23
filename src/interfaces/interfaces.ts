@@ -144,6 +144,13 @@ export interface IDecodedToken extends JwtPayload {
     exp: number;
 }
 
+export interface IdecodedRefreshToken {
+    userId: string;
+    username: string;
+    iat: number;
+    exp: number;
+}
+
 // ------------------- extend express request interface per accettare delle nuove proprietà facenti parte della request, quindi che saranno sempre disponibili qualora si decriptasse il token e il risultato del token decriptato sia passato al controller successivo.
 
 // sto aggiungendo un interfaccia a request e sto specificando che potrebbero esserci delle proprietà con questi nomi nella request che arriva dal client.
