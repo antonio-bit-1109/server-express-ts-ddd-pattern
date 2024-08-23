@@ -1,7 +1,7 @@
 import { injectable, inject } from "inversify";
 import { BookServices } from "../../_Domain/Services/BookServices";
 import { TYPES } from "../../_dependency_inject/types";
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, response } from "express";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
 import { DTO_BOOK, IDataEditBook } from "../../interfaces/interfaces";
 
@@ -55,24 +55,30 @@ class BookController_class {
     }
 
     public async editBook(req: Request, res: Response, next: NextFunction) {
-        const { titolo, prezzo, autore, tema, copertinaRigida, numPagine } = req.body;
-        // se il body rispecchia il formato atteso
-        const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
-            titolo,
-            prezzo,
-            autore,
-            tema,
-            copertinaRigida,
-            numPagine,
-        });
+        try {
+            const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
+            // se il body rispecchia il formato atteso
+            const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
+                titolo,
+                prezzo,
+                autore,
+                tema,
+                copertinaRigida,
+                numPagine,
+                id,
+            });
 
-        if (!BodyasExpected) {
-            return res.status(400).json({ message: `body fornito non corretto.` });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+
+            const dataEditBook: IDataEditBook = req.body;
+
+            const result = await this.bookServices.handleEditBook(dataEditBook);
+            return res.status(200).json({ message: result });
+        } catch (err) {
+            next(err);
         }
-
-        const dataEditBook: IDataEditBook = req.body;
-
-        await this.bookServices.handleEditBook(dataEditBook);
     }
 }
 

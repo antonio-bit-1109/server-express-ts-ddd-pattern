@@ -1,7 +1,8 @@
 import { Model } from "mongoose";
-import { IcleanBook, IMoongooseBook } from "../../interfaces/interfaces";
+import { IcleanBook, IModifiedBook, IMoongooseBook } from "../../interfaces/interfaces";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../_dependency_inject/types";
+import Book from "../Entities/Book";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
 
 @injectable()
@@ -61,6 +62,46 @@ class BookRepository {
         } catch (err) {
             throw new Error(
                 ` ERRORE : ${err} - durante il reperimetno di tutti i libri dal repository - bookRepository.ts`
+            );
+        }
+    }
+
+    async saveEditedBook(bookPARAM: IModifiedBook): Promise<Error | string> {
+        try {
+            const book = await this.BookModel.findOne({ _id: bookPARAM._id }).exec();
+            if (!book) {
+                throw new Error("errore durante il reperimento del libro nel db");
+            }
+            if (bookPARAM.autoreBook !== "") {
+                book.Autore = bookPARAM.autoreBook;
+            }
+            if (bookPARAM.imgCopertina !== "") {
+                book.ImgCopertina = bookPARAM.imgCopertina;
+            }
+            if (typeof bookPARAM.isCopertinaRigida === "boolean") {
+                book.CopertinaRigida = bookPARAM.isCopertinaRigida;
+            }
+            if (bookPARAM.nomeBook !== "") {
+                book.NomeLibro = bookPARAM.nomeBook;
+            }
+            if (!isNaN(bookPARAM.pagineBook)) {
+                book.PagineLibro = bookPARAM.pagineBook;
+            }
+            if (!isNaN(bookPARAM.prezzoBook)) {
+                book.PrezzoLibro = bookPARAM.prezzoBook;
+            }
+            if (bookPARAM.tematica !== "") {
+                book.TematicaLibro = bookPARAM.tematica;
+            }
+            await book.save();
+            let msg = "modifiche al libro salvate con successo!";
+            return msg;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error(
+                "errore durante il salvataggio delle modifiche al libro selezionato. - Book Repository - saveEditBook"
             );
         }
     }

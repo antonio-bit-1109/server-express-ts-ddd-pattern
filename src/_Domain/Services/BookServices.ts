@@ -11,7 +11,14 @@
 // import UserRepository from "../Repositories/UserRepository";
 
 import { inject, injectable } from "inversify";
-import { DTO_BOOK, IBookRepository, IcleanBook, IDataEditBook, IMoongooseBook } from "../../interfaces/interfaces";
+import {
+    DTO_BOOK,
+    IBookRepository,
+    IcleanBook,
+    IDataEditBook,
+    IModifiedBook,
+    IMoongooseBook,
+} from "../../interfaces/interfaces";
 import Book from "../Entities/Book";
 import { TYPES } from "../../_dependency_inject/types";
 
@@ -77,7 +84,38 @@ class BookServices {
         }
     }
 
-    public async handleEditBook(data: IDataEditBook) {}
+    public async handleEditBook(data: IDataEditBook) {
+        try {
+            if (data.titolo !== "" || data.autore !== "") {
+                const resultDuplicate = await this.bookRepository.checkForDuplicate(data.titolo, data.autore);
+                if (resultDuplicate instanceof Error) {
+                    throw resultDuplicate;
+                }
+            }
+
+            const book = new Book(
+                data.titolo,
+                data.prezzo,
+                data.autore,
+                data.numPagine,
+                data.copertinaRigida,
+                data.tema,
+                "default.gif"
+            );
+
+            const modifiedBook: IModifiedBook = book.cleanWithId(data.id);
+            const result = await this.bookRepository.saveEditedBook(modifiedBook);
+            if (result instanceof Error) {
+                throw result;
+            }
+            return result;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
+        }
+    }
 }
 
 export { BookServices };

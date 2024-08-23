@@ -121,6 +121,7 @@ export interface IBookRepository {
     save(data: IcleanBook): Promise<Error | IMoongooseBook>;
     checkForDuplicate(titoloLibro: string, autore: string): Promise<Error | void>;
     getAllBooks(): Promise<Error | IMoongooseBook[]>;
+    saveEditedBook(bookPARAM: IModifiedBook): Promise<Error | string>;
 }
 
 export interface IcleanBook {
@@ -139,12 +140,24 @@ export interface IObjTokens {
 }
 
 export interface IDataEditBook {
+    id: string;
     titolo: string;
     prezzo: number;
     autore: string;
     tema: string;
     copertinaRigida: boolean;
     numPagine: number;
+}
+
+export interface IModifiedBook {
+    _id: ObjectId;
+    nomeBook: string;
+    prezzoBook: number;
+    autoreBook: string;
+    pagineBook: number;
+    isCopertinaRigida: boolean;
+    tematica: string;
+    imgCopertina: string;
 }
 
 // ------------------------------TOKEN----------------------------------------

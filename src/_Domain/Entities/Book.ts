@@ -5,6 +5,7 @@ import NomeBook from "../ValueObjects/BookObjs/NomeBook";
 import PagineBook from "../ValueObjects/BookObjs/PagineBook";
 import PrezzoBook from "../ValueObjects/BookObjs/PrezzoBook";
 import TematicaBook from "../ValueObjects/BookObjs/TematicaBook";
+import { ObjectId } from "mongodb";
 
 class Book {
     // private autore : AutoreBook
@@ -35,6 +36,19 @@ class Book {
 
     clean() {
         return {
+            nomeBook: this.nomeBook.getValue(),
+            prezzoBook: this.prezzoBook.getValue(),
+            autoreBook: this.autoreBook.getValue(),
+            pagineBook: this.pagineBook.getValue(),
+            isCopertinaRigida: this.copertinaRigida.getValue(),
+            tematica: this.tematicaBook.getValue(),
+            imgCopertina: this.imgCopertina.getValue(),
+        };
+    }
+
+    cleanWithId(id: string) {
+        return {
+            _id: new ObjectId(id),
             nomeBook: this.nomeBook.getValue(),
             prezzoBook: this.prezzoBook.getValue(),
             autoreBook: this.autoreBook.getValue(),
