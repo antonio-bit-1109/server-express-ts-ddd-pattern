@@ -65,7 +65,7 @@ let BookRepository = class BookRepository {
             return books;
         }
         catch (err) {
-            throw new Error(` ERRORE : ${err} - durante il reperimetno di tutti i libri dal repository - bookRepository.ts`);
+            throw new Error(` ERRORE : ${err} - durante il reperimento di tutti i libri dal repository - bookRepository.ts`);
         }
     }
     async saveEditedBook(bookPARAM) {

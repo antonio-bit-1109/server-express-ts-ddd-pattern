@@ -4,7 +4,7 @@ class NomeBook {
     nomeBook;
     constructor(nomeBook, method) {
         if (this.validate(nomeBook, method)) {
-            if (method === "EDIT") {
+            if (method === "EDIT" && nomeBook === "") {
                 this.nomeBook = null;
             }
             else {
@@ -16,10 +16,8 @@ class NomeBook {
         }
     }
     validate(nomeBook, method) {
-        if (method === "EDIT") {
-            if (nomeBook === "") {
-                return true; /* (this.nomeBook = null); */
-            }
+        if (method === "EDIT" && nomeBook === "") {
+            return true; /* (this.nomeBook = null); */
         }
         return /^[A-Za-z0-9.,! ?;:()\-]+$/.test(nomeBook);
     }

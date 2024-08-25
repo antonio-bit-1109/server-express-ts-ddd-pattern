@@ -4,7 +4,7 @@ class AutoreBook {
     autore;
     constructor(autore, method) {
         if (this.OnlyLetter(autore, method)) {
-            if (method === "EDIT") {
+            if (method === "EDIT" && autore === "") {
                 this.autore = null;
             }
             else {
@@ -16,10 +16,8 @@ class AutoreBook {
         }
     }
     OnlyLetter(autore, method) {
-        if (method === "EDIT") {
-            if (autore === "") {
-                return true;
-            }
+        if (method === "EDIT" && autore === "") {
+            return true;
         }
         // controllo che stringa in input contenga solo "parola" + spazio + "parola"
         return /^[A-Za-z]+\s[A-Za-z]+$/.test(autore);
