@@ -61,7 +61,7 @@ class BookRepository {
             return books;
         } catch (err) {
             throw new Error(
-                ` ERRORE : ${err} - durante il reperimetno di tutti i libri dal repository - bookRepository.ts`
+                ` ERRORE : ${err} - durante il reperimento di tutti i libri dal repository - bookRepository.ts`
             );
         }
     }
