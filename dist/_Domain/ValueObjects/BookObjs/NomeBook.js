@@ -4,7 +4,12 @@ class NomeBook {
     nomeBook;
     constructor(nomeBook, method) {
         if (this.validate(nomeBook, method)) {
-            this.nomeBook = nomeBook;
+            if (method === "EDIT") {
+                this.nomeBook = null;
+            }
+            else {
+                this.nomeBook = nomeBook;
+            }
         }
         else {
             throw new Error("il titolo contiene caratteri non supportati. usare solo lettere, numeri e i seguenti caratteri speciali: '.,!?;:()-]\\' ");
@@ -13,7 +18,7 @@ class NomeBook {
     validate(nomeBook, method) {
         if (method === "EDIT") {
             if (nomeBook === "") {
-                return (this.nomeBook = null);
+                return true; /* (this.nomeBook = null); */
             }
         }
         return /^[A-Za-z0-9.,! ?;:()\-]+$/.test(nomeBook);

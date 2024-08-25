@@ -64,7 +64,6 @@ let BookController_class = class BookController_class {
     async editBook(req, res, next) {
         try {
             console.log(req.body);
-            // return;
             const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
             // se il body rispecchia il formato atteso
             const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
@@ -80,6 +79,7 @@ let BookController_class = class BookController_class {
                 return res.status(400).json({ message: `body fornito non corretto.` });
             }
             const dataEditBook = req.body;
+            console.log(dataEditBook);
             const result = await this.bookServices.handleEditBook(dataEditBook);
             return res.status(200).json({ message: result });
         }

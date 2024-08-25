@@ -8,7 +8,7 @@ class PagineBook {
     checkIsNumber(pagine, method) {
         if (method === "EDIT") {
             if (pagine === 0) {
-                this.pagine = null;
+                return (this.pagine = null);
             }
         }
         if (Number.isFinite(pagine)) {

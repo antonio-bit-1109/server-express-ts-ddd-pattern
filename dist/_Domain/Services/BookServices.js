@@ -96,7 +96,9 @@ let BookServices = class BookServices {
             const book = new Book_1.default(data.titolo, data.prezzo, data.autore, data.numPagine, data.copertinaRigida, data.tema, "EDIT"
             // ""
             );
+            console.log(book);
             const modifiedBook = book.cleanWithId(data.id);
+            console.log(modifiedBook);
             const result = await this.bookRepository.saveEditedBook(modifiedBook);
             if (result instanceof Error) {
                 throw result;
