@@ -1,10 +1,16 @@
 class PagineBook {
-    private pagine: number;
-    constructor(pagine: number) {
-        this.pagine = this.checkIsNumber(pagine);
+    private pagine: number | null;
+    constructor(pagine: number, method: string) {
+        this.pagine = this.checkIsNumber(pagine, method);
     }
 
-    private checkIsNumber(pagine: number) {
+    private checkIsNumber(pagine: number, method: string) {
+        if (method === "EDIT") {
+            if (pagine === 0) {
+                this.pagine = null;
+            }
+        }
+
         if (Number.isFinite(pagine)) {
             return pagine;
         } else {

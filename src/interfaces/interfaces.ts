@@ -125,12 +125,12 @@ export interface IBookRepository {
 }
 
 export interface IcleanBook {
-    nomeBook: string;
-    prezzoBook: number;
-    autoreBook: string;
-    pagineBook: number;
-    isCopertinaRigida: boolean;
-    tematica: string;
+    nomeBook: string | null;
+    prezzoBook: number | null;
+    autoreBook: string | null;
+    pagineBook: number | null;
+    isCopertinaRigida: boolean | null;
+    tematica: string | null;
     // imgCopertina: string;
 }
 
@@ -151,12 +151,12 @@ export interface IDataEditBook {
 
 export interface IModifiedBook {
     _id: ObjectId;
-    nomeBook: string;
-    prezzoBook: number;
-    autoreBook: string;
-    pagineBook: number;
-    isCopertinaRigida: boolean;
-    tematica: string;
+    nomeBook: string | null;
+    prezzoBook: number | null;
+    autoreBook: string | null;
+    pagineBook: number | null;
+    isCopertinaRigida: boolean | null;
+    tematica: string | null;
     // imgCopertina: string;
 }
 

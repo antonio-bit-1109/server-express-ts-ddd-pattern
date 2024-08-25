@@ -1,10 +1,16 @@
 class TematicaBook {
-    private tematica: string;
-    constructor(tematica: string) {
-        this.tematica = this.checkIsOnlyString(tematica);
+    private tematica: string | null;
+    constructor(tematica: string, method: string) {
+        this.tematica = this.checkIsOnlyString(tematica, method);
     }
 
-    private checkIsOnlyString(value: string) {
+    private checkIsOnlyString(value: string, method: string) {
+        if (method === "EDIT") {
+            if (value === "") {
+                return null;
+            }
+        }
+
         if (typeof value !== "string") {
             throw new Error("Il valore deve essere una stringa.");
         }

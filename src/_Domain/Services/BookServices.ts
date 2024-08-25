@@ -45,13 +45,19 @@ class BookServices {
                 data.autoreLibro,
                 data.pagine,
                 data.isCopertinaRigida,
-                data.tematica
+                data.tematica,
+                "CREATE"
                 // data.imgCopertina
             );
             const cleanBook: IcleanBook = book.clean();
-            const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
-            if (isDuplicate instanceof Error) {
-                throw isDuplicate;
+            if (cleanBook.nomeBook !== null && cleanBook.autoreBook !== null) {
+                const isDuplicate = await this.bookRepository.checkForDuplicate(
+                    cleanBook.nomeBook,
+                    cleanBook.autoreBook
+                );
+                if (isDuplicate instanceof Error) {
+                    throw isDuplicate;
+                }
             }
             const esito = await this.bookRepository.save(cleanBook);
             if (esito instanceof Error) {
@@ -99,7 +105,8 @@ class BookServices {
                 data.autore,
                 data.numPagine,
                 data.copertinaRigida,
-                data.tema
+                data.tema,
+                "EDIT"
                 // ""
             );
 

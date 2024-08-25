@@ -1,7 +1,7 @@
 class NomeBook {
-    private nomeBook: string;
-    constructor(nomeBook: string) {
-        if (this.validate(nomeBook)) {
+    private nomeBook: string | null;
+    constructor(nomeBook: string, method: string) {
+        if (this.validate(nomeBook, method)) {
             this.nomeBook = nomeBook;
         } else {
             throw new Error(
@@ -10,7 +10,13 @@ class NomeBook {
         }
     }
 
-    private validate(nomeBook: string): boolean {
+    private validate(nomeBook: string, method: string): boolean | null {
+        if (method === "EDIT") {
+            if (nomeBook === "") {
+                return (this.nomeBook = null);
+            }
+        }
+
         return /^[A-Za-z0-9.,! ?;:()\-]+$/.test(nomeBook);
     }
 

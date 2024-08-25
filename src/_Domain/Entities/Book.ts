@@ -22,15 +22,16 @@ class Book {
         autore: string,
         pagine: number,
         copertinaRigida: boolean,
-        tematica: string
+        tematica: string,
+        method: string
         // imgCopertina: string
     ) {
-        this.nomeBook = new NomeBook(nome);
-        this.prezzoBook = new PrezzoBook(prezzo);
-        this.autoreBook = new AutoreBook(autore);
-        this.pagineBook = new PagineBook(pagine);
-        this.copertinaRigida = new CopertinaRigida(copertinaRigida);
-        this.tematicaBook = new TematicaBook(tematica);
+        this.nomeBook = new NomeBook(nome, method);
+        this.prezzoBook = new PrezzoBook(prezzo, method);
+        this.autoreBook = new AutoreBook(autore, method);
+        this.pagineBook = new PagineBook(pagine, method);
+        this.copertinaRigida = new CopertinaRigida(copertinaRigida, method);
+        this.tematicaBook = new TematicaBook(tematica, method);
         /*         this.imgCopertina = imgCopertina; /* new ImmagineCopertinaBook(imgCopertina); */
     }
 
