@@ -19,15 +19,15 @@ class Book {
     copertinaRigida;
     tematicaBook;
     /*    private imgCopertina: string; */
-    constructor(nome, prezzo, autore, pagine, copertinaRigida, tematica
+    constructor(nome, prezzo, autore, pagine, copertinaRigida, tematica, method
     // imgCopertina: string
     ) {
-        this.nomeBook = new NomeBook_1.default(nome);
-        this.prezzoBook = new PrezzoBook_1.default(prezzo);
-        this.autoreBook = new AutoreBook_1.default(autore);
-        this.pagineBook = new PagineBook_1.default(pagine);
-        this.copertinaRigida = new CopertinaRiginaBook_1.default(copertinaRigida);
-        this.tematicaBook = new TematicaBook_1.default(tematica);
+        this.nomeBook = new NomeBook_1.default(nome, method);
+        this.prezzoBook = new PrezzoBook_1.default(prezzo, method);
+        this.autoreBook = new AutoreBook_1.default(autore, method);
+        this.pagineBook = new PagineBook_1.default(pagine, method);
+        this.copertinaRigida = new CopertinaRiginaBook_1.default(copertinaRigida, method);
+        this.tematicaBook = new TematicaBook_1.default(tematica, method);
         /*         this.imgCopertina = imgCopertina; /* new ImmagineCopertinaBook(imgCopertina); */
     }
     clean() {

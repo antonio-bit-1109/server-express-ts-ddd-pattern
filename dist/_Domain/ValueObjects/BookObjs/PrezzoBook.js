@@ -2,10 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class PrezzoBook {
     prezzo;
-    constructor(prezzo) {
-        this.prezzo = this.IsNumber(prezzo);
+    constructor(prezzo, method) {
+        this.prezzo = this.IsNumber(prezzo, method);
     }
-    IsNumber(prezzo) {
+    IsNumber(prezzo, method) {
+        if (method === "EDIT") {
+            if (prezzo === 0) {
+                return null;
+            }
+        }
         if (Number.isFinite(prezzo)) {
             return prezzo;
         }

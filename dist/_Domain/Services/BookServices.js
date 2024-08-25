@@ -43,13 +43,15 @@ let BookServices = class BookServices {
     async createBook(data) {
         try {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
-            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica
+            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica, "CREATE"
             // data.imgCopertina
             );
             const cleanBook = book.clean();
-            const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
-            if (isDuplicate instanceof Error) {
-                throw isDuplicate;
+            if (cleanBook.nomeBook !== null && cleanBook.autoreBook !== null) {
+                const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
+                if (isDuplicate instanceof Error) {
+                    throw isDuplicate;
+                }
             }
             const esito = await this.bookRepository.save(cleanBook);
             if (esito instanceof Error) {
@@ -91,7 +93,7 @@ let BookServices = class BookServices {
                     throw resultDuplicate;
                 }
             }
-            const book = new Book_1.default(data.titolo, data.prezzo, data.autore, data.numPagine, data.copertinaRigida, data.tema
+            const book = new Book_1.default(data.titolo, data.prezzo, data.autore, data.numPagine, data.copertinaRigida, data.tema, "EDIT"
             // ""
             );
             const modifiedBook = book.cleanWithId(data.id);

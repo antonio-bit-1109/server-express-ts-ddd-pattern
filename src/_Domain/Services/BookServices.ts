@@ -110,7 +110,12 @@ class BookServices {
                 // ""
             );
 
+            console.log(book);
+
             const modifiedBook: IModifiedBook = book.cleanWithId(data.id);
+
+            console.log(modifiedBook);
+
             const result = await this.bookRepository.saveEditedBook(modifiedBook);
             if (result instanceof Error) {
                 throw result;

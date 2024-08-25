@@ -2,7 +2,11 @@ class AutoreBook {
     private autore: string | null;
     constructor(autore: string, method: string) {
         if (this.OnlyLetter(autore, method)) {
-            this.autore = autore;
+            if (method === "EDIT") {
+                this.autore = null;
+            } else {
+                this.autore = autore;
+            }
         } else {
             throw new Error("l'autore fornito non è nel formato corretto: 'nome cognome' ");
         }
@@ -11,7 +15,7 @@ class AutoreBook {
     private OnlyLetter(autore: string, method: string): boolean | null {
         if (method === "EDIT") {
             if (autore === "") {
-                return (this.autore = null);
+                return true;
             }
         }
 

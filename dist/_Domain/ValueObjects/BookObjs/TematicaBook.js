@@ -2,10 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class TematicaBook {
     tematica;
-    constructor(tematica) {
-        this.tematica = this.checkIsOnlyString(tematica);
+    constructor(tematica, method) {
+        this.tematica = this.checkIsOnlyString(tematica, method);
     }
-    checkIsOnlyString(value) {
+    checkIsOnlyString(value, method) {
+        if (method === "EDIT") {
+            if (value === "") {
+                return null;
+            }
+        }
         if (typeof value !== "string") {
             throw new Error("Il valore deve essere una stringa.");
         }

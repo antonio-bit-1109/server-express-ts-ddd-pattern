@@ -72,7 +72,7 @@ class BookRepository {
             if (!book) {
                 throw new Error("errore durante il reperimento del libro nel db");
             }
-            if (bookPARAM.autoreBook !== "") {
+            if (bookPARAM.autoreBook !== null) {
                 book.Autore = bookPARAM.autoreBook;
             }
             // if (bookPARAM.imgCopertina !== "") {
@@ -81,19 +81,20 @@ class BookRepository {
             if (typeof bookPARAM.isCopertinaRigida === "boolean") {
                 book.CopertinaRigida = bookPARAM.isCopertinaRigida;
             }
-            if (bookPARAM.nomeBook !== "") {
+            if (bookPARAM.nomeBook !== null) {
                 book.NomeLibro = bookPARAM.nomeBook;
             }
-            if (!isNaN(bookPARAM.pagineBook)) {
+            if (bookPARAM.pagineBook !== null) {
                 book.PagineLibro = bookPARAM.pagineBook;
             }
-            if (!isNaN(bookPARAM.prezzoBook)) {
+            if (bookPARAM.prezzoBook !== null) {
                 book.PrezzoLibro = bookPARAM.prezzoBook;
             }
-            if (bookPARAM.tematica !== "") {
+            if (bookPARAM.tematica !== null) {
                 book.TematicaLibro = bookPARAM.tematica;
             }
             await book.save();
+
             let msg = "modifiche al libro salvate con successo!";
             return msg;
         } catch (err) {

@@ -58,7 +58,7 @@ class BookController_class {
     public async editBook(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
             console.log(req.body);
-            // return;
+
             const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
             // se il body rispecchia il formato atteso
             const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
@@ -76,7 +76,7 @@ class BookController_class {
             }
 
             const dataEditBook: IDataEditBook = req.body;
-
+            console.log(dataEditBook);
             const result = await this.bookServices.handleEditBook(dataEditBook);
             return res.status(200).json({ message: result });
         } catch (err) {

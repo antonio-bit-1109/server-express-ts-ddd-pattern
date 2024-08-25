@@ -2,7 +2,11 @@ class NomeBook {
     private nomeBook: string | null;
     constructor(nomeBook: string, method: string) {
         if (this.validate(nomeBook, method)) {
-            this.nomeBook = nomeBook;
+            if (method === "EDIT") {
+                this.nomeBook = null;
+            } else {
+                this.nomeBook = nomeBook;
+            }
         } else {
             throw new Error(
                 "il titolo contiene caratteri non supportati. usare solo lettere, numeri e i seguenti caratteri speciali: '.,!?;:()-]\\' "
@@ -13,7 +17,7 @@ class NomeBook {
     private validate(nomeBook: string, method: string): boolean | null {
         if (method === "EDIT") {
             if (nomeBook === "") {
-                return (this.nomeBook = null);
+                return true; /* (this.nomeBook = null); */
             }
         }
 

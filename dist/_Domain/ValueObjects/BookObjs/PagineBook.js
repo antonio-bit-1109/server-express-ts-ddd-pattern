@@ -2,10 +2,15 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class PagineBook {
     pagine;
-    constructor(pagine) {
-        this.pagine = this.checkIsNumber(pagine);
+    constructor(pagine, method) {
+        this.pagine = this.checkIsNumber(pagine, method);
     }
-    checkIsNumber(pagine) {
+    checkIsNumber(pagine, method) {
+        if (method === "EDIT") {
+            if (pagine === 0) {
+                this.pagine = null;
+            }
+        }
         if (Number.isFinite(pagine)) {
             return pagine;
         }
