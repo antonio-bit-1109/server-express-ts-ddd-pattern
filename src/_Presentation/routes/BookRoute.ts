@@ -4,9 +4,6 @@ import { BookController_class } from "../controllers/BookController_Class";
 import { TYPES } from "../../_dependency_inject/types";
 import { Request, Response, NextFunction } from "express";
 import { verify_Jwt } from "../middleware/verify_JWT";
-// import BookController from "../controllers/BookController";
-// const authController = require("../controllers/authController");
-// const loginLimiter = require("../middleware/loginLimiter");
 
 const BookController = container.get<BookController_class>(TYPES.BOOK_CONTROLLER);
 // const UserController = container.get<UserController_Class>(TYPES.USER_CONTROLLER);
@@ -18,7 +15,8 @@ router.route("/").get(verify_Jwt, (req: Request, res: Response, next: NextFuncti
 //prettier-ignore
 router.route("/").post((req: Request, res: Response, next: NextFunction) => BookController.createBook(req, res, next));
 //prettier-ignore
-router.route("/edit").post(verify_Jwt ,(req: Request, res: Response, next: NextFunction) => BookController.editBook(req,res,next) )
+// edit dei dati del book escluso il caricamento/modifica dell immagine di copertina
+router.route("/edit").post(/* verify_Jwt , */(req: Request, res: Response, next: NextFunction) => BookController.editBook(req,res,next) )
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);

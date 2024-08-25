@@ -43,7 +43,9 @@ let BookServices = class BookServices {
     async createBook(data) {
         try {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
-            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica, data.imgCopertina);
+            const book = new Book_1.default(data.nomeLibro, data.prezzoLibro, data.autoreLibro, data.pagine, data.isCopertinaRigida, data.tematica
+            // data.imgCopertina
+            );
             const cleanBook = book.clean();
             const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
             if (isDuplicate instanceof Error) {
@@ -79,6 +81,31 @@ let BookServices = class BookServices {
                 throw err;
             }
             throw new Error("errore nel servizio getAllBooks" + err);
+        }
+    }
+    async handleEditBook(data) {
+        try {
+            if (data.titolo !== "" || data.autore !== "") {
+                const resultDuplicate = await this.bookRepository.checkForDuplicate(data.titolo, data.autore);
+                if (resultDuplicate instanceof Error) {
+                    throw resultDuplicate;
+                }
+            }
+            const book = new Book_1.default(data.titolo, data.prezzo, data.autore, data.numPagine, data.copertinaRigida, data.tema
+            // ""
+            );
+            const modifiedBook = book.cleanWithId(data.id);
+            const result = await this.bookRepository.saveEditedBook(modifiedBook);
+            if (result instanceof Error) {
+                throw result;
+            }
+            return result;
+        }
+        catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
         }
     }
 };

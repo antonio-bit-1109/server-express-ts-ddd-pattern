@@ -114,7 +114,7 @@ export interface DTO_BOOK {
     pagine: number;
     isCopertinaRigida: boolean;
     tematica: string;
-    imgCopertina: string;
+    /*   imgCopertina: string; */
 }
 
 export interface IBookRepository {
@@ -131,7 +131,7 @@ export interface IcleanBook {
     pagineBook: number;
     isCopertinaRigida: boolean;
     tematica: string;
-    imgCopertina: string;
+    // imgCopertina: string;
 }
 
 export interface IObjTokens {
@@ -157,7 +157,7 @@ export interface IModifiedBook {
     pagineBook: number;
     isCopertinaRigida: boolean;
     tematica: string;
-    imgCopertina: string;
+    // imgCopertina: string;
 }
 
 // ------------------------------TOKEN----------------------------------------

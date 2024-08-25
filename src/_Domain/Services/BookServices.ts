@@ -45,8 +45,8 @@ class BookServices {
                 data.autoreLibro,
                 data.pagine,
                 data.isCopertinaRigida,
-                data.tematica,
-                data.imgCopertina
+                data.tematica
+                // data.imgCopertina
             );
             const cleanBook: IcleanBook = book.clean();
             const isDuplicate = await this.bookRepository.checkForDuplicate(cleanBook.nomeBook, cleanBook.autoreBook);
@@ -99,8 +99,8 @@ class BookServices {
                 data.autore,
                 data.numPagine,
                 data.copertinaRigida,
-                data.tema,
-                "default.gif"
+                data.tema
+                // ""
             );
 
             const modifiedBook: IModifiedBook = book.cleanWithId(data.id);

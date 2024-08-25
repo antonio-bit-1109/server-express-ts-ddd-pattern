@@ -15,15 +15,15 @@ class Book {
     private pagineBook: PagineBook;
     private copertinaRigida: CopertinaRigida;
     private tematicaBook: TematicaBook;
-    private imgCopertina: ImmagineCopertinaBook;
+    /*    private imgCopertina: string; */
     constructor(
         nome: string,
         prezzo: number,
         autore: string,
         pagine: number,
         copertinaRigida: boolean,
-        tematica: string,
-        imgCopertina: string
+        tematica: string
+        // imgCopertina: string
     ) {
         this.nomeBook = new NomeBook(nome);
         this.prezzoBook = new PrezzoBook(prezzo);
@@ -31,7 +31,7 @@ class Book {
         this.pagineBook = new PagineBook(pagine);
         this.copertinaRigida = new CopertinaRigida(copertinaRigida);
         this.tematicaBook = new TematicaBook(tematica);
-        this.imgCopertina = new ImmagineCopertinaBook(imgCopertina);
+        /*         this.imgCopertina = imgCopertina; /* new ImmagineCopertinaBook(imgCopertina); */
     }
 
     clean() {
@@ -42,7 +42,7 @@ class Book {
             pagineBook: this.pagineBook.getValue(),
             isCopertinaRigida: this.copertinaRigida.getValue(),
             tematica: this.tematicaBook.getValue(),
-            imgCopertina: this.imgCopertina.getValue(),
+            // imgCopertina: this.imgCopertina.toString(),
         };
     }
 
@@ -55,7 +55,7 @@ class Book {
             pagineBook: this.pagineBook.getValue(),
             isCopertinaRigida: this.copertinaRigida.getValue(),
             tematica: this.tematicaBook.getValue(),
-            imgCopertina: this.imgCopertina.getValue(),
+            // imgCopertina: this.imgCopertina.toString(),
         };
     }
 }

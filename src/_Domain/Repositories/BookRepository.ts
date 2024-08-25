@@ -75,9 +75,9 @@ class BookRepository {
             if (bookPARAM.autoreBook !== "") {
                 book.Autore = bookPARAM.autoreBook;
             }
-            if (bookPARAM.imgCopertina !== "") {
-                book.ImgCopertina = bookPARAM.imgCopertina;
-            }
+            // if (bookPARAM.imgCopertina !== "") {
+            //     book.ImgCopertina = bookPARAM.imgCopertina;
+            // }
             if (typeof bookPARAM.isCopertinaRigida === "boolean") {
                 book.CopertinaRigida = bookPARAM.isCopertinaRigida;
             }

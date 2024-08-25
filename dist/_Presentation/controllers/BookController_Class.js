@@ -37,7 +37,7 @@ let BookController_class = class BookController_class {
     async createBook(req, res, next) {
         try {
             // attendo i valori del body dal client
-            const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica, imgCopertina } = req.body;
+            const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica /* , imgCopertina */ } = req.body;
             // se il body rispecchia il formato atteso
             const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
                 nomeLibro,
@@ -46,7 +46,7 @@ let BookController_class = class BookController_class {
                 pagine,
                 isCopertinaRigida,
                 tematica,
-                imgCopertina,
+                /*    imgCopertina, */
             });
             if (!BodyasExpected) {
                 return res.status(400).json({ message: `body fornito non corretto.` });
@@ -56,6 +56,30 @@ let BookController_class = class BookController_class {
             const esito = await this.bookServices.createBook(dataCreateBook);
             // await bookServices.SaveImgOn_Server()
             return res.status(200).json({ message: esito });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async editBook(req, res, next) {
+        try {
+            const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
+            // se il body rispecchia il formato atteso
+            const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
+                titolo,
+                prezzo,
+                autore,
+                tema,
+                copertinaRigida,
+                numPagine,
+                id,
+            });
+            if (!BodyasExpected) {
+                return res.status(400).json({ message: `body fornito non corretto.` });
+            }
+            const dataEditBook = req.body;
+            const result = await this.bookServices.handleEditBook(dataEditBook);
+            return res.status(200).json({ message: result });
         }
         catch (err) {
             next(err);

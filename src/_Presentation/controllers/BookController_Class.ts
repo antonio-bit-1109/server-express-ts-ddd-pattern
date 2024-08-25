@@ -24,10 +24,11 @@ class BookController_class {
         }
     }
 
-    public async createBook(req: Request, res: Response, next: NextFunction) {
+    public async createBook(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
             // attendo i valori del body dal client
-            const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica, imgCopertina } = req.body;
+            const { nomeLibro, prezzoLibro, autoreLibro, pagine, isCopertinaRigida, tematica /* , imgCopertina */ } =
+                req.body;
 
             // se il body rispecchia il formato atteso
             const BodyasExpected = isBodyAsExpected(checkBodyStructure, req.body, {
@@ -37,7 +38,7 @@ class BookController_class {
                 pagine,
                 isCopertinaRigida,
                 tematica,
-                imgCopertina,
+                /*    imgCopertina, */
             });
 
             if (!BodyasExpected) {
@@ -54,7 +55,7 @@ class BookController_class {
         }
     }
 
-    public async editBook(req: Request, res: Response, next: NextFunction) {
+    public async editBook(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
             const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
             // se il body rispecchia il formato atteso
