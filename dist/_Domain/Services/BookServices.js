@@ -112,6 +112,7 @@ let BookServices = class BookServices {
             throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
         }
     }
+    async handleEditBookImg() { }
 };
 exports.BookServices = BookServices;
 exports.BookServices = BookServices = __decorate([

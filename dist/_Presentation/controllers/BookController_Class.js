@@ -63,7 +63,7 @@ let BookController_class = class BookController_class {
     }
     async editBook(req, res, next) {
         try {
-            console.log(req.body);
+            // console.log(req.body);
             const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
             // se il body rispecchia il formato atteso
             const BodyasExpected = (0, utilityFunctions_1.isBodyAsExpected)(utilityFunctions_1.checkBodyStructure, req.body, {
@@ -82,6 +82,20 @@ let BookController_class = class BookController_class {
             console.log(dataEditBook);
             const result = await this.bookServices.handleEditBook(dataEditBook);
             return res.status(200).json({ message: result });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+    async editImgBook(req, res, next) {
+        try {
+            // console.log(req);
+            // console.log(req.file);
+            const bookImage = req.file;
+            if (!bookImage) {
+                return res.status(400).json({ message: "nessuna immagine fornita." });
+            }
+            // return res.status(200).json({ message: "la fetch è arrivata " });
         }
         catch (err) {
             next(err);
