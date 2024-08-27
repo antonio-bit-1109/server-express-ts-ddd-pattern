@@ -122,6 +122,7 @@ export interface IBookRepository {
     checkForDuplicate(titoloLibro: string, autore: string): Promise<Error | void>;
     getAllBooks(): Promise<Error | IMoongooseBook[]>;
     saveEditedBook(bookPARAM: IModifiedBook): Promise<Error | string>;
+    findById(id: string): Promise<IMoongooseBook | Error>;
 }
 
 export interface IcleanBook {

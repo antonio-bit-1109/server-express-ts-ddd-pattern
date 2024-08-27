@@ -4,6 +4,8 @@ import { TYPES } from "../../_dependency_inject/types";
 import { Request, Response, NextFunction, response } from "express";
 import { checkBodyStructure, isBodyAsExpected } from "../../utils/utilityFunctions";
 import { DTO_BOOK, IDataEditBook } from "../../interfaces/interfaces";
+import fs from "fs";
+import path from "path";
 
 @injectable()
 class BookController_class {
@@ -87,14 +89,36 @@ class BookController_class {
     public async editImgBook(req: Request, res: Response, next: NextFunction) /* : Promise<Response | undefined> */ {
         try {
             // console.log(req);
-            // console.log(req.file);
+            console.log(req.file);
+            console.log(req.body);
             const bookImage = req.file;
+            const { bookId } = req.body;
 
-            if (!bookImage) {
-                return res.status(400).json({ message: "nessuna immagine fornita." });
+            if (!bookImage || !bookId) {
+                return res.status(400).json({ message: "dati necessari non forniti." });
             }
 
-            // return res.status(200).json({ message: "la fetch è arrivata " });
+            const result = await this.bookServices.handleEditBookImg(bookImage, bookId);
+            if (result instanceof Error) {
+                throw result;
+            }
+            const tempPath = bookImage.path;
+            const newPath = path.join(__dirname, "../../public/imgs/" + bookImage.filename);
+            fs.rename(tempPath, newPath, (err) => {
+                if (err) {
+                    throw err;
+                }
+                console.log("File spostato con successo");
+                // elimino il file salvato in temp
+                fs.unlink(tempPath, (Err) => {
+                    if (err) {
+                        throw err;
+                    }
+                    console.log("immagine cancellata con successo dalla cartella temporanea.");
+                });
+            });
+
+            return res.status(200).json({ message: result });
         } catch (err) {
             next(err);
         }

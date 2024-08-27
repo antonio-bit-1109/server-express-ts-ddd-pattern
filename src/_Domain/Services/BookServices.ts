@@ -129,7 +129,26 @@ class BookServices {
         }
     }
 
-    public async handleEditBookImg() {}
+    public async handleEditBookImg(imgFile: Express.Multer.File, id: string): Promise<string | Error> {
+        try {
+            const book = await this.bookRepository.findById(id);
+            if (book instanceof Error) {
+                throw book;
+            }
+            book.ImgCopertina = imgFile.filename;
+            const result = await book.save();
+            if (result instanceof Error) {
+                throw result;
+            }
+            let msg = "immagine aggiornata con successo.";
+            return msg;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
+        }
+    }
 }
 
 export { BookServices };

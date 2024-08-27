@@ -3,6 +3,7 @@ import { IcleanBook, IModifiedBook, IMoongooseBook } from "../../interfaces/inte
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../_dependency_inject/types";
 import Book from "../Entities/Book";
+import BookModel from "../../_Infrastructures/database/models/BookModel";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
 
 @injectable()
@@ -104,6 +105,21 @@ class BookRepository {
             throw new Error(
                 "errore durante il salvataggio delle modifiche al libro selezionato. - Book Repository - saveEditBook"
             );
+        }
+    }
+
+    async findById(id: string): Promise<IMoongooseBook | Error> {
+        try {
+            const book = await BookModel.findOne({ _id: id }).exec();
+            if (!book) {
+                throw new Error("libro non trovato nel database.");
+            }
+            return book;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante il reperimento del libro. - Book Repository - findById");
         }
     }
 }
