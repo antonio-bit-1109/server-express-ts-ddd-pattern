@@ -128,6 +128,8 @@ class BookServices {
             throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
         }
     }
+
+    public async handleEditBookImg() {}
 }
 
 export { BookServices };

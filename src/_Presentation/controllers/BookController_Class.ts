@@ -57,7 +57,7 @@ class BookController_class {
 
     public async editBook(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
-            console.log(req.body);
+            // console.log(req.body);
 
             const { titolo, prezzo, autore, tema, copertinaRigida, numPagine, id } = req.body;
             // se il body rispecchia il formato atteso
@@ -79,6 +79,22 @@ class BookController_class {
             console.log(dataEditBook);
             const result = await this.bookServices.handleEditBook(dataEditBook);
             return res.status(200).json({ message: result });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    public async editImgBook(req: Request, res: Response, next: NextFunction) /* : Promise<Response | undefined> */ {
+        try {
+            // console.log(req);
+            // console.log(req.file);
+            const bookImage = req.file;
+
+            if (!bookImage) {
+                return res.status(400).json({ message: "nessuna immagine fornita." });
+            }
+
+            // return res.status(200).json({ message: "la fetch è arrivata " });
         } catch (err) {
             next(err);
         }
