@@ -21,6 +21,8 @@ import {
 } from "../../interfaces/interfaces";
 import Book from "../Entities/Book";
 import { TYPES } from "../../_dependency_inject/types";
+import * as cheerio from "cheerio";
+import axios from "axios";
 
 @injectable()
 class BookServices {
@@ -147,6 +149,25 @@ class BookServices {
                 throw err;
             }
             throw new Error("errore durante la modifica del libro HandleEdit book - BookServices");
+        }
+    }
+
+    public async handleWebScrapingSite(): Promise<string[] | Error> {
+        try {
+            const URL = "https://it.wikipedia.org/wiki/I_Gatti_di_Vicolo_Miracoli";
+
+            const response = await axios.get(URL);
+            const cssTag = cheerio.load(response.data);
+            const textInTag: string[] = cssTag("p")
+                .map((i, el) => cssTag(el).text())
+                .get();
+            console.log(textInTag);
+            return textInTag;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante il web scraping - BookServices --- handleWebScrapingSite");
         }
     }
 }

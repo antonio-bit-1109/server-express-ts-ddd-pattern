@@ -34,6 +34,12 @@ router.route("/").post((req: Request, res: Response, next: NextFunction) => Book
 router.route("/edit").post(verify_Jwt , (req: Request, res: Response, next: NextFunction) => BookController.editBook(req,res,next))
 //prettier-ignore
 router.route("/uploadBookImg").post(verify_Jwt, upload.single("imageFile") ,(req: Request, res: Response, next: NextFunction) => BookController.editImgBook(req, res, next));
+//prettier-ignore
+router.route("/scrapingRandomInfo").get(
+        /* verify_Jwt, */ (req: Request, res: Response, next: NextFunction) =>
+            BookController.doingWebScraping(req, res, next)
+    );
+
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);

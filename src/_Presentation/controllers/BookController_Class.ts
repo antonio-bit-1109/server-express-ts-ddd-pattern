@@ -123,6 +123,19 @@ class BookController_class {
             next(err);
         }
     }
+
+    public async doingWebScraping(req: Request, res: Response, next: NextFunction) {
+        try {
+            const result: string[] | Error = await this.bookServices.handleWebScrapingSite();
+
+            if (!Array.isArray(result)) {
+                throw result;
+            }
+            return res.status(200).json(result);
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export { BookController_class };
