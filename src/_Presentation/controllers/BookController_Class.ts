@@ -126,12 +126,12 @@ class BookController_class {
 
     public async doingWebScraping(req: Request, res: Response, next: NextFunction) {
         try {
-            const result: string[] | Error = await this.bookServices.handleWebScrapingSite();
+            const result: (string | number | boolean)[] | Error = await this.bookServices.handleWebScrapingSite();
 
             if (!Array.isArray(result)) {
                 throw result;
             }
-            return res.status(200).json(result);
+            return res.status(200).json({ array: result });
         } catch (err) {
             next(err);
         }

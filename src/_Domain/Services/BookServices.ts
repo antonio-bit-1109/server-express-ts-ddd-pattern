@@ -23,6 +23,7 @@ import Book from "../Entities/Book";
 import { TYPES } from "../../_dependency_inject/types";
 import * as cheerio from "cheerio";
 import axios from "axios";
+import { handleStringInArray } from "../../utils/utilityFunctions";
 
 @injectable()
 class BookServices {
@@ -152,7 +153,7 @@ class BookServices {
         }
     }
 
-    public async handleWebScrapingSite(): Promise<string[] | Error> {
+    public async handleWebScrapingSite(): Promise<(string | number | boolean)[] | Error> {
         try {
             const URL = "https://it.wikipedia.org/wiki/I_Gatti_di_Vicolo_Miracoli";
 
@@ -161,8 +162,10 @@ class BookServices {
             const textInTag: string[] = cssTag("p")
                 .map((i, el) => cssTag(el).text())
                 .get();
-            console.log(textInTag);
-            return textInTag;
+            // console.log(textInTag);
+            const result: (string | number | boolean)[] = handleStringInArray(textInTag);
+
+            return result;
         } catch (err) {
             if (err instanceof Error) {
                 throw err;
