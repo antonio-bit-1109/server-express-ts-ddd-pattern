@@ -32,7 +32,7 @@ class UserServices {
     public async createUser(data: DataCreateUser): Promise<IMongooseUser | Error | null> {
         try {
             //logica di creazione dell'utente
-            const user = new User(data.nome, data.cognome, data.email, data.password, "CREATE", true, data.ruoli);
+            const user = new User(data.nome, data.cognome, data.email, data.password, "CREATE", true, ["utente"]);
             const cleanUser: ICleanUser = user.Clean();
             const duplicateFound = await this.userRepository.checkForDuplicate(cleanUser.nome, cleanUser.email);
             if (!duplicateFound) {

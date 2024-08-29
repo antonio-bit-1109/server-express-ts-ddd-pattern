@@ -48,7 +48,7 @@ export interface DataCreateUser {
     cognome: string;
     email: string;
     password: string;
-    ruoli: string[];
+    // ruoli: string[];
 }
 
 // Tipo di dati derivati da un'entità User per la persistenza
