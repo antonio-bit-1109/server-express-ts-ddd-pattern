@@ -15,6 +15,13 @@ COPY package*.json ./
 # Installa le dipendenze
 RUN npm install
 
+
+# # uninstall the current bcrypt modules
+# RUN npm uninstall bcrypt
+
+# # install the bcrypt modules for the machine
+# RUN npm install bcrypt
+
 #copia il resto del codice 
 # COPY . /usr/src/app/
 COPY . .
