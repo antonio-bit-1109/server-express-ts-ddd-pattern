@@ -28,6 +28,11 @@ class UserController_Class {
             if (!BodyasExpected) {
                 return res.status(400).json({ message: `body fornito non corretto.` });
             }
+
+            if (!nome || !cognome || !email || !password) {
+                return res.status(400).json({ message: "non hai fornito tutti i dati richiesti." });
+            }
+
             const userData: DataCreateUser = req.body;
             const newUser = await this.userServices.createUser(userData);
             if (newUser) {
@@ -101,6 +106,24 @@ class UserController_Class {
             next(err);
         }
     }
+
+    // public async rediscoverPassword(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+    //     try {
+    //         const { email } = req.body;
+
+    //         if (!email) {
+    //             return res.status(400).json({ message: "nessuna email fornita." });
+    //         }
+
+    //         const userFoundByEmail = await this.userServices.handleResetPsw(email);
+    //         if (!userFoundByEmail) {
+    //             return res.status(400).json({ message: "nessun utente trovato per l'email fornita." });
+    //         }
+    //     } catch (err) {
+    //         next(err);
+    //     }
+    //     // return res.status(200).json({ message: "arrivata la request con successo." });
+    // }
 }
 
 export { UserController_Class };

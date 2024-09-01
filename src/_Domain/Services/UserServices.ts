@@ -119,9 +119,37 @@ class UserServices {
                 throw new Error(err.message);
             }
 
-            throw new Error("errore sconosciuto");
+            throw new Error("errore durante il cambiamento di stato dello user -- userservices , change status");
         }
     }
+
+    // public async handleResetPsw(email: string) {
+    //     try {
+    //         const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //         const result = regexValidForm.test(email);
+    //         if (!result) {
+    //             throw new Error("email fornita non nel formato valido. aaa@aaa.it/com - Errore nello user services");
+    //         }
+
+    //         const user = await this.userRepository.findByEmail(email);
+    //         if (user instanceof Error) {
+    //             throw user;
+    //         }
+
+    //         if (user.Email === email) {
+    //             return true;
+    //         }
+    //         return false;
+    //     } catch (err) {
+    //         if (err instanceof Error) {
+    //             throw new Error(err.message);
+    //         }
+
+    //         throw new Error(
+    //             "errore durante il reperimento dell utente per il cambio password -- userservices , handleResetPsw"
+    //         );
+    //     }
+    // }
 }
 
 export { UserServices };

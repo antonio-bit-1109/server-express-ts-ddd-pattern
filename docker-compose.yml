@@ -1,0 +1,30 @@
+# version: "3.8"
+
+services: #specifica dei servizi da utilizzare
+  app:  #app sarebbe l'applicazione web API
+    build: .
+    ports:
+        - "3500:3500"
+    depends_on:
+    - mongodb
+    # environments:
+    #     - PORT_DEV:"3500"
+    #     - CONNECTION_STRING_DEV_DB="mongodb+srv://antonio:Ar11091995@cluster0.3rcs75v.mongodb.net/DDD_Db_test?retryWrites=true&w=majority&appName=Cluster0"
+    #     - SECRET_FIRMA_TOKEN = "d2bf49e69534b733f48db2d05f5ad1543784fb8cc38404b11ad880b3aa1a9be5"
+    #     - REFRESH_TOKEN_SECRET = "d2bf49e69534b733f48db2dsadasdasdaskdas0dasj09dshaj8011ad880b3aa1a9be5"
+    env_file:
+    - .env
+
+
+  # servizio di mongodb
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      
+volumes:
+  mongo-data:
+
+#volumi: file che devono persistere indipendentemente dal ciclo di vita del container
