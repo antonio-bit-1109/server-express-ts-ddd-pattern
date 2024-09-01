@@ -1,21 +1,23 @@
-import bcrypt from "bcryptjs";
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const bcrypt_1 = __importDefault(require("bcrypt"));
 class PasswordUser {
     // tipizzazione della proprietà della classe
-    private password: string;
-
+    password;
     // tipizzazione del parametro passato al costruttore
-    constructor(password: string, method: string) {
+    constructor(password, method) {
         const hashedPassword = this.validate(password, method);
-
         if (!hashedPassword && hashedPassword !== "") {
             throw new Error("errore durante la validazione della password.");
-        } else {
+        }
+        else {
             this.password = hashedPassword;
         }
     }
-
-    private validate(password: string, method: string) {
+    validate(password, method) {
         if (method === "EDIT" && password === "") {
             return "";
         }
@@ -23,35 +25,30 @@ class PasswordUser {
         // if (this.IsHashed(password)) {
         //     return password;
         // }
-
         if (this.minLength(password)) {
             const lowerChar = this.makeLower(password);
             return this.hashPassword(lowerChar);
         }
     }
-
-    private minLength(password: string) {
+    minLength(password) {
         if (password.length >= 10) {
             return true;
         }
         throw new Error("password troppo corta. deve essere lunga almeno 10 caratteri");
     }
-
-    private hashPassword(password: string) {
+    hashPassword(password) {
         try {
-            return bcrypt.hashSync(password, 10);
-        } catch (err) {
+            return bcrypt_1.default.hashSync(password, 10);
+        }
+        catch (err) {
             throw new Error("Errore durante l'hashing della password.");
         }
     }
-
-    private makeLower(password: string) {
+    makeLower(password) {
         return password.toLowerCase();
     }
-
-    public getValue(): string {
+    getValue() {
         return this.password;
     }
 }
-
-export default PasswordUser;
+exports.default = PasswordUser;

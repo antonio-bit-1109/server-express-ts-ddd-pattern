@@ -1,5 +1,5 @@
 import { IDecodedToken, IMongooseUser, IMongooseUserId, IUserRepository } from "../../interfaces/interfaces";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { injectable, inject } from "inversify";
 import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 import { TYPES } from "../../_dependency_inject/types";
