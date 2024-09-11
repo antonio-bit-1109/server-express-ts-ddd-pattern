@@ -107,23 +107,23 @@ class UserController_Class {
         }
     }
 
-    // public async rediscoverPassword(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
-    //     try {
-    //         const { email } = req.body;
+    public async rediscoverPassword(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
+        try {
+            const { email } = req.body;
 
-    //         if (!email) {
-    //             return res.status(400).json({ message: "nessuna email fornita." });
-    //         }
+            if (!email) {
+                return res.status(400).json({ message: "nessuna email fornita." });
+            }
 
-    //         const userFoundByEmail = await this.userServices.handleResetPsw(email);
-    //         if (!userFoundByEmail) {
-    //             return res.status(400).json({ message: "nessun utente trovato per l'email fornita." });
-    //         }
-    //     } catch (err) {
-    //         next(err);
-    //     }
-    //     // return res.status(200).json({ message: "arrivata la request con successo." });
-    // }
+            const userFoundByEmail = await this.userServices.handleResetPsw(email);
+            // if (!userFoundByEmail) {
+            //     return res.status(400).json({ message: "nessun utente trovato per l'email fornita." });
+            // }
+        } catch (err) {
+            next(err);
+        }
+        // return res.status(200).json({ message: "arrivata la request con successo." });
+    }
 }
 
 export { UserController_Class };

@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+import nodemailer from "nodemailer";
+import SMTPTransport from "nodemailer/lib/smtp-transport";
 
 export function checkBodyStructure(bodyFromRequest: object, expectedBody: object): boolean {
     const receivedKeys = Object.keys(bodyFromRequest);
@@ -91,4 +93,16 @@ function findNumberMaskedAsString(array: string, i: number, randomNum: number) {
         return randomNum;
     }
     return numberWord;
+}
+
+function creaTrasporter(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
+    let transporter = nodemailer.createTransport({
+        service: "gmail", // Può essere un altro servizio come 'yahoo', 'outlook', ecc.
+        auth: {
+            user: "tuoindirizzo@gmail.com", // Il tuo indirizzo email
+            pass: "tuapassword", // La tua password
+        },
+    });
+
+    return transporter;
 }

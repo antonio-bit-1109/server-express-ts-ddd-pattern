@@ -113,7 +113,7 @@ class UserRepository {
             if (err instanceof Error) {
                 throw new Error(err.message);
             }
-            throw new Error("errore imprevisto.");
+            throw new Error("errore durante la ricerca tramite id dello user.  userRepository - find by Id");
         }
     }
 
@@ -134,7 +134,7 @@ class UserRepository {
         try {
             const user = await this.UserModel.findOne({ Email: email.trim() });
             if (!user) {
-                throw new Error("nessun utente trovato.");
+                throw new Error("nessun utente trovato associato alla mail fornita.");
             }
             return user;
         } catch (err) {

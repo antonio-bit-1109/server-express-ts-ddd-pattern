@@ -13,7 +13,10 @@ import User from "../Entities/User";
 import { TYPES } from "../../_dependency_inject/types";
 import { injectable, inject } from "inversify";
 import { UserRepository } from "../Repositories/UserRepository";
+import { createTransport } from "nodemailer";
+import { ErrorDescription } from "mongodb";
 
+//  import {} from "nodemailer"
 // import UserRepository from "../Repositories/UserRepository";
 
 @injectable()
@@ -123,33 +126,61 @@ class UserServices {
         }
     }
 
-    // public async handleResetPsw(email: string) {
-    //     try {
-    //         const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    //         const result = regexValidForm.test(email);
-    //         if (!result) {
-    //             throw new Error("email fornita non nel formato valido. aaa@aaa.it/com - Errore nello user services");
-    //         }
+    public async handleResetPsw(email: string) {
+        try {
+            //email in formato valido?
+            const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const result = regexValidForm.test(email);
+            if (!result) {
+                throw new Error("email fornita non nel formato valido. aaa@aaa.it/com - Errore nello user services");
+            }
 
-    //         const user = await this.userRepository.findByEmail(email);
-    //         if (user instanceof Error) {
-    //             throw user;
-    //         }
+            // trovo utente associato alla mail
+            const user = await this.userRepository.findByEmail(email);
+            if (user instanceof Error) {
+                throw user;
+            }
 
-    //         if (user.Email === email) {
-    //             return true;
-    //         }
-    //         return false;
-    //     } catch (err) {
-    //         if (err instanceof Error) {
-    //             throw new Error(err.message);
-    //         }
+            const esito = await this.SendEmail(email);
+            if (esito instanceof Error){
+                throw esito
+            }
+            return esito
+            //se i controlli vengono superati provvedo a creare un metodo per l'invio della mail all email specificata.
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
 
-    //         throw new Error(
-    //             "errore durante il reperimento dell utente per il cambio password -- userservices , handleResetPsw"
-    //         );
-    //     }
-    // }
+            throw new Error(
+                "errore durante il reperimento dell utente per il cambio password -- userservices , handleResetPsw"
+            );
+        }
+    }
+
+    private async SendEmail(email: string): Promise<Error | string> {
+        const transporter = createTransport();
+
+        let mailOptions = {
+            from: "tuoindirizzo@gmail.com", // L'indirizzo del mittente
+            to: `${email}`, // L'indirizzo del destinatario
+            subject: "Reimpostazione della password", // Oggetto dell'email
+            text: "clicca il link sottostante per essere reindirizzato alla pagina di reipostazione della password.", // Corpo dell'email in testo
+            // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
+            html: "<a>http://localhost:3500</a>",
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(`Errore durante l'invio dell'email: ${error}`);
+                throw new Error("Errore durante l'invio dell'email");
+            }
+            // const msg = "Email inviata con successo"
+            console.log(`Email inviata con successo: ${info.response}`);
+        });
+        const msg = "email inviata con successo";
+        return msg;
+    }
 }
 
 export { UserServices };

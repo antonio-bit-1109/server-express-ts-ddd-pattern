@@ -20,9 +20,8 @@ router.route("/").post((req: Request, res: Response, next: NextFunction) => User
 router.route("/edit").post((req: Request, res: Response, next: NextFunction) => UserController.editUser(req, res, next));
 //prettier-ignore
 router.route("/status").post((req: Request, res: Response, next: NextFunction) => UserController.changeStatus(req, res, next));
-// router
-//     .route("/forgottenPassword")
-//     .post((req: Request, res: Response, next: NextFunction) => UserController.rediscoverPassword(req, res, next));
+//prettier-ignore
+router.route("/forgottenPassword").post((req: Request, res: Response, next: NextFunction) => UserController.rediscoverPassword(req, res, next));
 // router.route("/").post(UserController.createUser);
 // router.route("/").get(UserController.getAllUsers);
 // router.route("/edit").post(UserController.editUser);
