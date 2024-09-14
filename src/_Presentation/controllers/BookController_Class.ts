@@ -140,8 +140,8 @@ class BookController_class {
     public async DummyFetch(req: Request, res: Response, next: NextFunction) {
         try {
             const queryParams = req.query;
-            console.log(queryParams);
-            // return res.status(200).json({ message: "fetch arrivata con successo." });
+            // console.log(queryParams);
+            return res.status(200).json({ message: "fetch arrivata con successo." });
         } catch (err) {
             next(err);
         }
