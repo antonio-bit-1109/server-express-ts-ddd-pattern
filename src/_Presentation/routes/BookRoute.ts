@@ -40,6 +40,12 @@ router.route("/scrapingRandomInfo").get(
             BookController.doingWebScraping(req, res, next)
     );
 
+// facciamo finta che url sia questo : /dummyFetch?dummyKey1=dummyValue1&dummyKey2=dummyValue2
+
+router
+    .route("/dummyFetch/dummy")
+    .get((req: Request, res: Response, next: NextFunction) => BookController.DummyFetch(req, res, next));
+
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);
