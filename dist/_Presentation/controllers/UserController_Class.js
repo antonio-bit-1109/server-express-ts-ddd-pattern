@@ -109,6 +109,22 @@ let UserController_Class = class UserController_Class {
             next(err);
         }
     }
+    async rediscoverPassword(req, res, next) {
+        try {
+            const { email } = req.body;
+            if (!email) {
+                return res.status(400).json({ message: "nessuna email fornita." });
+            }
+            const userFoundByEmail = await this.userServices.handleResetPsw(email);
+            // if (!userFoundByEmail) {
+            //     return res.status(400).json({ message: "nessun utente trovato per l'email fornita." });
+            // }
+        }
+        catch (err) {
+            next(err);
+        }
+        // return res.status(200).json({ message: "arrivata la request con successo." });
+    }
 };
 exports.UserController_Class = UserController_Class;
 exports.UserController_Class = UserController_Class = __decorate([

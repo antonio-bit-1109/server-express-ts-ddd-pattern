@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 class PasswordUser {
     // tipizzazione della proprietà della classe
     password;
@@ -38,7 +38,7 @@ class PasswordUser {
     }
     hashPassword(password) {
         try {
-            return bcrypt_1.default.hashSync(password, 10);
+            return bcryptjs_1.default.hashSync(password, 10);
         }
         catch (err) {
             throw new Error("Errore durante l'hashing della password.");

@@ -19,6 +19,8 @@ exports.UserServices = void 0;
 const User_1 = __importDefault(require("../Entities/User"));
 const types_1 = require("../../_dependency_inject/types");
 const inversify_1 = require("inversify");
+const nodemailer_1 = require("nodemailer");
+//  import {} from "nodemailer"
 // import UserRepository from "../Repositories/UserRepository";
 let UserServices = class UserServices {
     userRepository; // Attributo della classe
@@ -108,6 +110,54 @@ let UserServices = class UserServices {
             }
             throw new Error("errore durante il cambiamento di stato dello user -- userservices , change status");
         }
+    }
+    async handleResetPsw(email) {
+        try {
+            //email in formato valido?
+            const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const result = regexValidForm.test(email);
+            if (!result) {
+                throw new Error("email fornita non nel formato valido. aaa@aaa.it/com - Errore nello user services");
+            }
+            // trovo utente associato alla mail
+            const user = await this.userRepository.findByEmail(email);
+            if (user instanceof Error) {
+                throw user;
+            }
+            const esito = await this.SendEmail(email);
+            if (esito instanceof Error) {
+                throw esito;
+            }
+            return esito;
+            //se i controlli vengono superati provvedo a creare un metodo per l'invio della mail all email specificata.
+        }
+        catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante il reperimento dell utente per il cambio password -- userservices , handleResetPsw");
+        }
+    }
+    async SendEmail(email) {
+        const transporter = (0, nodemailer_1.createTransport)();
+        let mailOptions = {
+            from: "tuoindirizzo@gmail.com", // L'indirizzo del mittente
+            to: `${email}`, // L'indirizzo del destinatario
+            subject: "Reimpostazione della password", // Oggetto dell'email
+            text: "clicca il link sottostante per essere reindirizzato alla pagina di reipostazione della password.", // Corpo dell'email in testo
+            // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
+            html: "<a>http://localhost:3500</a>",
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log(`Errore durante l'invio dell'email: ${error}`);
+                throw new Error("Errore durante l'invio dell'email");
+            }
+            // const msg = "Email inviata con successo"
+            console.log(`Email inviata con successo: ${info.response}`);
+        });
+        const msg = "email inviata con successo";
+        return msg;
     }
 };
 exports.UserServices = UserServices;

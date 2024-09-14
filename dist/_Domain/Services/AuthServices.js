@@ -16,7 +16,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServices = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const inversify_1 = require("inversify");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const types_1 = require("../../_dependency_inject/types");
@@ -38,7 +38,7 @@ let AuthServices = class AuthServices {
                 throw user;
             }
             //confronto che la psw criptata e quella inviata dal client combacino
-            const isPswMatching = bcrypt_1.default.compareSync(password, user.Password);
+            const isPswMatching = bcryptjs_1.default.compareSync(password, user.Password);
             if (!isPswMatching) {
                 throw new Error("Errore : Le password non corrispondono AuthServices - autenticate");
             }

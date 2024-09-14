@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkBodyStructure = checkBodyStructure;
 exports.isBodyAsExpected = isBodyAsExpected;
 exports.handleStringInArray = handleStringInArray;
+const nodemailer_1 = __importDefault(require("nodemailer"));
 function checkBodyStructure(bodyFromRequest, expectedBody) {
     const receivedKeys = Object.keys(bodyFromRequest);
     console.log("OGGETTO RICEVUTO DAL CLIENT", receivedKeys);
@@ -82,4 +86,14 @@ function findNumberMaskedAsString(array, i, randomNum) {
         return randomNum;
     }
     return numberWord;
+}
+function creaTrasporter() {
+    let transporter = nodemailer_1.default.createTransport({
+        service: "gmail", // Può essere un altro servizio come 'yahoo', 'outlook', ecc.
+        auth: {
+            user: "tuoindirizzo@gmail.com", // Il tuo indirizzo email
+            pass: "tuapassword", // La tua password
+        },
+    });
+    return transporter;
 }
