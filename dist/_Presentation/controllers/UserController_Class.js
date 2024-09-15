@@ -111,6 +111,7 @@ let UserController_Class = class UserController_Class {
     }
     async rediscoverPassword(req, res, next) {
         try {
+            console.log(req);
             const { email } = req.body;
             if (!email) {
                 return res.status(400).json({ message: "nessuna email fornita." });

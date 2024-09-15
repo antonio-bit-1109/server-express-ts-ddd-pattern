@@ -139,6 +139,16 @@ let BookController_class = class BookController_class {
             next(err);
         }
     }
+    async DummyFetch(req, res, next) {
+        try {
+            const queryParams = req.query;
+            // console.log(queryParams);
+            return res.status(200).json({ message: "fetch arrivata con successo." });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
 };
 exports.BookController_class = BookController_class;
 exports.BookController_class = BookController_class = __decorate([

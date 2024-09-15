@@ -35,6 +35,10 @@ router.route("/uploadBookImg").post(verify_JWT_1.verify_Jwt, upload.single("imag
 //prettier-ignore
 router.route("/scrapingRandomInfo").get(
 /* verify_Jwt, */ (req, res, next) => BookController.doingWebScraping(req, res, next));
+// facciamo finta che url sia questo : /dummyFetch?dummyKey1=dummyValue1&dummyKey2=dummyValue2
+router
+    .route("/dummyFetch/dummy")
+    .get((req, res, next) => BookController.DummyFetch(req, res, next));
 // router.route("/edit/:id").post(BookController.EditBook);
 // router.route("/")
 // router.route("/").get(userController.GetAllUsers);
