@@ -109,6 +109,7 @@ class UserController_Class {
 
     public async rediscoverPassword(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
+            console.log(req);
             const { email } = req.body;
 
             if (!email) {
