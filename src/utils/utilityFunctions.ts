@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import SMTPTransport from "nodemailer/lib/smtp-transport";
+import bcrypt from "bcryptjs";
 
 export function checkBodyStructure(bodyFromRequest: object, expectedBody: object): boolean {
     const receivedKeys = Object.keys(bodyFromRequest);
@@ -95,14 +96,8 @@ function findNumberMaskedAsString(array: string, i: number, randomNum: number) {
     return numberWord;
 }
 
-//  function creaTrasporter(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
-//     let transporter = nodemailer.createTransport({
-//         service: "gmail", // Può essere un altro servizio come 'yahoo', 'outlook', ecc.
-//         auth: {
-//             user: "tuoindirizzo@gmail.com", // Il tuo indirizzo email
-//             pass: "tuapassword", // La tua password
-//         },
-//     });
-
-//     return transporter;
-// }
+export function criptID(id: string): string {
+    const salt = bcrypt.genSaltSync(10);
+    const hashedPsw = bcrypt.hashSync(id, salt);
+    return hashedPsw;
+}

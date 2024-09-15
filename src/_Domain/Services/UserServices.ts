@@ -15,7 +15,7 @@ import { injectable, inject } from "inversify";
 import { UserRepository } from "../Repositories/UserRepository";
 import nodemailer from "nodemailer";
 import { ErrorDescription } from "mongodb";
-
+import { criptID } from "../../utils/utilityFunctions";
 //  import {} from "nodemailer"
 // import UserRepository from "../Repositories/UserRepository";
 
@@ -126,7 +126,7 @@ class UserServices {
         }
     }
 
-    public async handleResetPsw(email: string) {
+    public async handleResetPsw(email: string, userid: string) {
         try {
             //email in formato valido?
             const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -141,7 +141,7 @@ class UserServices {
                 throw user;
             }
 
-            const esito = await this.SendEmail(email);
+            const esito = await this.SendEmail(email, userid);
             if (esito instanceof Error) {
                 throw esito;
             }
@@ -158,7 +158,8 @@ class UserServices {
         }
     }
 
-    private async SendEmail(email: string): Promise<Error | string> {
+    // mi serve inviare lo user id per poi poterlo ripescare sempre sul server quando mi arriva la richiesta dal client con la nuova password da impostare, (criptare id prima di inviarlo come email ??)
+    private async SendEmail(email: string, userid: string): Promise<Error | string> {
         try {
             console.log(email);
 
@@ -172,7 +173,7 @@ class UserServices {
                 },
             });
 
-            // const transporter = createTransport();
+            const criptedUserId = criptID(userid);
 
             let mailOptions = {
                 from: "antoniorizzuti767@gmail.com", // L'indirizzo del mittente
@@ -180,7 +181,7 @@ class UserServices {
                 subject: "Reimpostazione della password", // Oggetto dell'email
                 text: "clicca il link sottostante per essere reindirizzato alla pagina di reimpostazione della password.", // Corpo dell'email in testo
                 // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
-                html: "<a>http://localhost:3500</a>",
+                html: `<a>http://localhost:5173/resetPassword?idUser=${criptedUserId}</a>`,
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
