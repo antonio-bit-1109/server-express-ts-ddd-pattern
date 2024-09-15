@@ -116,10 +116,8 @@ class UserController_Class {
                 return res.status(400).json({ message: "nessuna email fornita." });
             }
 
-            const userFoundByEmail = await this.userServices.handleResetPsw(email);
-            // if (!userFoundByEmail) {
-            //     return res.status(400).json({ message: "nessun utente trovato per l'email fornita." });
-            // }
+            const resultSend = await this.userServices.handleResetPsw(email);
+            return res.status(200).json({ message: resultSend });
         } catch (err) {
             next(err);
         }

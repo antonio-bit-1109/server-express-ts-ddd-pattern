@@ -13,7 +13,7 @@ import User from "../Entities/User";
 import { TYPES } from "../../_dependency_inject/types";
 import { injectable, inject } from "inversify";
 import { UserRepository } from "../Repositories/UserRepository";
-import { createTransport } from "nodemailer";
+import nodemailer from "nodemailer";
 import { ErrorDescription } from "mongodb";
 
 //  import {} from "nodemailer"
@@ -142,10 +142,10 @@ class UserServices {
             }
 
             const esito = await this.SendEmail(email);
-            if (esito instanceof Error){
-                throw esito
+            if (esito instanceof Error) {
+                throw esito;
             }
-            return esito
+            return esito;
             //se i controlli vengono superati provvedo a creare un metodo per l'invio della mail all email specificata.
         } catch (err) {
             if (err instanceof Error) {
@@ -159,27 +159,47 @@ class UserServices {
     }
 
     private async SendEmail(email: string): Promise<Error | string> {
-        const transporter = createTransport();
+        try {
+            console.log(email);
 
-        let mailOptions = {
-            from: "tuoindirizzo@gmail.com", // L'indirizzo del mittente
-            to: `${email}`, // L'indirizzo del destinatario
-            subject: "Reimpostazione della password", // Oggetto dell'email
-            text: "clicca il link sottostante per essere reindirizzato alla pagina di reipostazione della password.", // Corpo dell'email in testo
-            // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
-            html: "<a>http://localhost:3500</a>",
-        };
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 587,
+                secure: false, // true for port 465, false for other ports
+                auth: {
+                    user: "antoniorizzuti767@gmail.com",
+                    pass: "hoyyhhftkzywdgsf",
+                },
+            });
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(`Errore durante l'invio dell'email: ${error}`);
-                throw new Error("Errore durante l'invio dell'email");
+            // const transporter = createTransport();
+
+            let mailOptions = {
+                from: "antoniorizzuti767@gmail.com", // L'indirizzo del mittente
+                to: `${email}`, // L'indirizzo del destinatario
+                subject: "Reimpostazione della password", // Oggetto dell'email
+                text: "clicca il link sottostante per essere reindirizzato alla pagina di reimpostazione della password.", // Corpo dell'email in testo
+                // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
+                html: "<a>http://localhost:3500</a>",
+            };
+
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(`Errore durante l'invio dell'email: ${error}`);
+                    throw new Error("Errore durante l'invio dell'email");
+                }
+                // const msg = "Email inviata con successo"
+                console.log(`Email inviata con successo: ${info.response}`);
+            });
+
+            const msg = "email inviata con successo";
+            return msg;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
             }
-            // const msg = "Email inviata con successo"
-            console.log(`Email inviata con successo: ${info.response}`);
-        });
-        const msg = "email inviata con successo";
-        return msg;
+            throw new Error("errore durante l'invio della mail. Errore nello User Services");
+        }
     }
 }
 

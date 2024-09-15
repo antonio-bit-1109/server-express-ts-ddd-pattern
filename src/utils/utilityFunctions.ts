@@ -95,14 +95,14 @@ function findNumberMaskedAsString(array: string, i: number, randomNum: number) {
     return numberWord;
 }
 
-function creaTrasporter(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
-    let transporter = nodemailer.createTransport({
-        service: "gmail", // Può essere un altro servizio come 'yahoo', 'outlook', ecc.
-        auth: {
-            user: "tuoindirizzo@gmail.com", // Il tuo indirizzo email
-            pass: "tuapassword", // La tua password
-        },
-    });
+//  function creaTrasporter(): nodemailer.Transporter<SMTPTransport.SentMessageInfo> {
+//     let transporter = nodemailer.createTransport({
+//         service: "gmail", // Può essere un altro servizio come 'yahoo', 'outlook', ecc.
+//         auth: {
+//             user: "tuoindirizzo@gmail.com", // Il tuo indirizzo email
+//             pass: "tuapassword", // La tua password
+//         },
+//     });
 
-    return transporter;
-}
+//     return transporter;
+// }
