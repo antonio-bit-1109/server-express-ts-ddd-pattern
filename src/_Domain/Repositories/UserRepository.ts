@@ -2,6 +2,7 @@ import { Model } from "mongoose";
 import { ICleanUser, IMongooseUser, IMongooseUser_no_psw, IMongooseUserId, IUser } from "../../interfaces/interfaces";
 import { inject, injectable } from "inversify";
 import { TYPES } from "../../_dependency_inject/types";
+import bcrypt from "bcryptjs";
 // import UserModel from "../../_Infrastructures/database/models/UserModel";
 
 @injectable()
@@ -142,6 +143,34 @@ class UserRepository {
                 throw err;
             }
             throw new Error("errore durante la ricerca dell utente tramite email.");
+        }
+    }
+
+    async change_User_Password(user: IMongooseUserId, newPassword: string): Promise<Error | IMongooseUserId> {
+        try {
+            const salt = bcrypt.genSaltSync(10);
+            const hashedPsw = bcrypt.hashSync(newPassword, salt);
+
+            // findOneAndUpdate(filter, update, options, callback) metodo findOneAndUpdate accetta un filtro per specficiare i criteri di ricerca, un valore con cui aggironare un campo e un options, non obbligatorio, coptions (opzionale): Un oggetto che specifica le opzioni per l'operazione di aggiornamento. Alcune opzioni comuni includono:
+            // new: Se impostato a true, restituisce il documento aggiornato. Il valore predefinito è false, il che significa che viene restituito il documento originale.
+            // upsert: Se impostato a true, crea un nuovo documento se non ne viene trovato uno che corrisponde ai criteri di ricerca.
+            // runValidators: Se impostato a true, esegue i validatori del modello durante l'aggiornamento.
+            // callback (opzionale): Una funzione di callback che viene eseguita al termine dell'operazione.
+            const modifiedUser = await this.UserModel.findOneAndUpdate(
+                { _id: user._id },
+                { Password: hashedPsw },
+                { new: true }
+            );
+
+            if (!modifiedUser) {
+                throw new Error("impossibile trovare utente per aggiornare la password.");
+            }
+            return modifiedUser;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw err;
+            }
+            throw new Error("errore durante l'aggiornamento della password dell'utente.");
         }
     }
 }

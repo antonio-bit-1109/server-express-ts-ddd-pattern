@@ -110,18 +110,43 @@ class UserController_Class {
     public async rediscoverPassword(req: Request, res: Response, next: NextFunction): Promise<Response | undefined> {
         try {
             console.log(req);
-            const { email, userId } = req.body;
+            const { email } = req.body;
 
             if (!email) {
                 return res.status(400).json({ message: "nessuna email fornita." });
             }
 
-            const resultSend = await this.userServices.handleResetPsw(email, userId);
+            const resultSend = await this.userServices.handleResetPsw(email);
             return res.status(200).json({ message: resultSend });
         } catch (err) {
             next(err);
         }
         // return res.status(200).json({ message: "arrivata la request con successo." });
+    }
+
+    // arriva id criptato e iv , decriptare id , trovarlo del db e modificare la password per quell utente.
+    public async ReimpostaPassword(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { checkPsw, idUser, password, iv } = req.body;
+
+            if (!checkPsw || !idUser || !password || !iv) {
+                return res.status(400).json({ message: "dati necessari non perventui." });
+            }
+
+            if (password !== checkPsw) {
+                return res.status(400).json({ message: "le due password non coincidono." });
+            }
+            // console.log(req.body);
+
+            const esito = await this.userServices.decriptUserId(req.body);
+            if (typeof esito === "string") {
+                return res.status(200).json({ message: esito });
+            }
+
+            throw esito;
+        } catch (err) {
+            next(err);
+        }
     }
 }
 

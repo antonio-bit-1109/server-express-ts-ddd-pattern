@@ -82,6 +82,12 @@ export interface DTO_Data_User_Edit {
     ruoli: string[];
 }
 
+export interface IChangeUserPassword {
+    password: string;
+    idUser: string;
+    checkPsw: string;
+    iv: string;
+}
 // // lo UserAppService riceve una user repository tipizzare in questo modo, ovvero contenente uesti metodi :
 //TIPIZZAZIONE DEI METODI DELLA USER REPOSITORY
 export interface IUserRepository {
@@ -93,6 +99,7 @@ export interface IUserRepository {
     changeStatus(user: IUser): Promise<Error | string>;
     // autenticateUser(username: string, password: string): Promise<Error | IMongooseUser>;
     findByEmail(email: string): Promise<Error | IMongooseUserId>;
+    change_User_Password(user: IMongooseUserId, newPassword: string): Promise<Error | IMongooseUserId>;
 }
 
 //----------------------------------------------BOOK INTERFACES--------------------------------------------------------------------------------------------------------------------------

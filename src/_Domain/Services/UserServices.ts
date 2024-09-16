@@ -2,6 +2,7 @@
 import {
     DataCreateUser,
     DTO_Data_User_Edit,
+    IChangeUserPassword,
     ICleanUser,
     IMongooseUser,
     IMongooseUser_no_psw,
@@ -15,7 +16,9 @@ import { injectable, inject } from "inversify";
 import { UserRepository } from "../Repositories/UserRepository";
 import nodemailer from "nodemailer";
 import { ErrorDescription } from "mongodb";
-import { criptID } from "../../utils/utilityFunctions";
+import { criptID, decriptID } from "../../utils/utilityFunctions";
+import { error } from "console";
+import PasswordUser from "../ValueObjects/UserObjs/PasswordUser";
 //  import {} from "nodemailer"
 // import UserRepository from "../Repositories/UserRepository";
 
@@ -126,7 +129,7 @@ class UserServices {
         }
     }
 
-    public async handleResetPsw(email: string, userid: string) {
+    public async handleResetPsw(email: string) {
         try {
             //email in formato valido?
             const regexValidForm = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -141,7 +144,7 @@ class UserServices {
                 throw user;
             }
 
-            const esito = await this.SendEmail(email, userid);
+            const esito = await this.SendEmail(email, user._id.toString());
             if (esito instanceof Error) {
                 throw esito;
             }
@@ -173,7 +176,7 @@ class UserServices {
                 },
             });
 
-            const criptedUserId = criptID(userid);
+            const criptedUserId: { iv: string; encryptedData: string } = criptID(userid);
 
             let mailOptions = {
                 from: "antoniorizzuti767@gmail.com", // L'indirizzo del mittente
@@ -181,7 +184,7 @@ class UserServices {
                 subject: "Reimpostazione della password", // Oggetto dell'email
                 text: "clicca il link sottostante per essere reindirizzato alla pagina di reimpostazione della password.", // Corpo dell'email in testo
                 // Se desideri inviare HTML, usa il campo 'html' invece di 'text'
-                html: `<a>http://localhost:5173/resetPassword?idUser=${criptedUserId}</a>`,
+                html: ` Clicca sul seguente link per essere Reindirizzato allla pagina di reimpostazione della password <a href="http://localhost:5173/resetPassword?idUser=${criptedUserId.encryptedData}&iv=${criptedUserId.iv}"> CLICCA QUI </a>`,
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -200,6 +203,35 @@ class UserServices {
                 throw new Error(err.message);
             }
             throw new Error("errore durante l'invio della mail. Errore nello User Services");
+        }
+    }
+
+    public async decriptUserId(body: IChangeUserPassword): Promise<Error | string> {
+        try {
+            const decriptedId: string | Error = decriptID(body.idUser, body.iv);
+
+            if (decriptedId instanceof Error) {
+                throw decriptedId;
+            }
+
+            const user = await this.userRepository.findById(decriptedId);
+            if (user instanceof Error) {
+                throw user;
+            }
+
+            // mi ritorna lo user trovato tramite id, modifica la password e salva user con il metodo save()
+            const updatedUser = await this.userRepository.change_User_Password(user, body.password);
+            if (updatedUser instanceof Error) {
+                throw updatedUser;
+            }
+
+            let msg = "password modificata con successo.";
+            return msg;
+        } catch (err) {
+            if (err instanceof Error) {
+                throw new Error(err.message);
+            }
+            throw new Error("errore durante la decriptazione dell idutente. Errore nello User Services");
         }
     }
 }

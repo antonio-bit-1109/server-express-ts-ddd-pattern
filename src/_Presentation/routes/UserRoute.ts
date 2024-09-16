@@ -23,6 +23,10 @@ router.route("/status").post((req: Request, res: Response, next: NextFunction) =
 //prettier-ignore
 router.route("/forgottenPassword").post((req: Request, res: Response, next: NextFunction) => UserController.rediscoverPassword
 (req, res, next));
+
+router
+    .route("/setNewPassword")
+    .post((req: Request, res: Response, next: NextFunction) => UserController.ReimpostaPassword(req, res, next));
 // router.route("/").post(UserController.createUser);
 // router.route("/").get(UserController.getAllUsers);
 // router.route("/edit").post(UserController.editUser);
