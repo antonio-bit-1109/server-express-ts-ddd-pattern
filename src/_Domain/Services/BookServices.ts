@@ -43,12 +43,12 @@ class BookServices {
             //1- valido i dati in entrata nel controller per garantire che rispecchinole validazioni inserite nel valueObject
 
             const book = new Book(
-                data.nomeLibro,
+                data.nomeLibro.trim(),
                 data.prezzoLibro,
-                data.autoreLibro,
+                data.autoreLibro.trim(),
                 data.pagine,
                 data.isCopertinaRigida,
-                data.tematica,
+                data.tematica.trim(),
                 "CREATE"
                 // data.imgCopertina
             );
